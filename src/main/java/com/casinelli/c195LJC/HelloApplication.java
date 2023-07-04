@@ -1,4 +1,4 @@
-package com.casinelli.c195;
+package com.casinelli.c195LJC;
 
 import Helper.JDBC;
 import javafx.application.Application;

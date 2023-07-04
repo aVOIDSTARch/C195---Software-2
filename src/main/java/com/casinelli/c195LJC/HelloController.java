@@ -1,4 +1,4 @@
-package com.casinelli.c195;
+package com.casinelli.c195LJC;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
