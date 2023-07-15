@@ -1,4 +1,4 @@
-package Helper;
+package com.casinelli.Appointments.DAO;
 
 import java.sql.*;
 
