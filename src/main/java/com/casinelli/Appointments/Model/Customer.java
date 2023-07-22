@@ -1,7 +1,7 @@
 package com.casinelli.Appointments.Model;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 public class Customer extends DBObject{
     private String address;
@@ -10,7 +10,7 @@ public class Customer extends DBObject{
     private int divisionId;
 
     public Customer(int id, String name, String address, String postalCode, String phone,
-                    LocalDate createDate, String createdBy, LocalTime lastUpdate,
+                    LocalDate createDate, String createdBy, LocalDateTime lastUpdate,
                     String lastUpdatedBy, int divisionId) {
         this.address = address;
         this.postalCode = postalCode;
@@ -22,6 +22,8 @@ public class Customer extends DBObject{
         this.createdBy = createdBy;
         this.lastUpdate = lastUpdate;
         this.lastUpdatedBy = lastUpdatedBy;
+
+
     }
 
     public String getAddress() {
@@ -61,7 +63,7 @@ public class Customer extends DBObject{
     }
 
     @Override
-    LocalTime getLastUpdate() {
+    LocalDateTime getLastUpdate() {
         return this.lastUpdate;
     }
 

@@ -14,6 +14,27 @@ public class Appointment extends DBObject{
     private int userId;
     private int contactId;
 
+    public Appointment(int id, String name, LocalDate createDate, String createdBy,
+                       LocalDateTime lastUpdate, String lastUpdatedBy, String description,
+                       String location, String type, LocalDateTime start, LocalDateTime end,
+                       int customerId, int userId, int contactId) {
+        this.id = id;
+        this.name = name;
+        this.createDate = createDate;
+        this.createdBy = createdBy;
+        this.lastUpdate = lastUpdate;
+        this.lastUpdatedBy = lastUpdatedBy;
+        this.description = description;
+        this.location = location;
+        this.type = type;
+        this.start = start;
+        this.end = end;
+        this.customerId = customerId;
+        this.userId = userId;
+        this.contactId = contactId;
+
+    }
+
     public String getDescription() {
         return description;
     }
@@ -67,7 +88,7 @@ public class Appointment extends DBObject{
     }
 
     @Override
-    LocalTime getLastUpdate() {
+    LocalDateTime getLastUpdate() {
         return this.lastUpdate;
     }
 

@@ -5,13 +5,14 @@ import java.time.*;
 public class Country extends DBObject{
 
 
-    public Country(int id, String name, LocalDate createDate, String createdBy, LocalTime lastUpdate, String lastUpdatedBy) {
+    public Country(int id, String name, LocalDate createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy) {
         this.id = id;
         this.name = name;
         this.createDate = createDate;
         this.createdBy = createdBy;
         this.lastUpdate = lastUpdate;
         this.lastUpdatedBy = lastUpdatedBy;
+
     }
 
     @Override
@@ -35,7 +36,7 @@ public class Country extends DBObject{
     }
 
     @Override
-    LocalTime getLastUpdate() {
+    LocalDateTime getLastUpdate() {
         return this.lastUpdate;
     }
 

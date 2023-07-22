@@ -1,15 +1,29 @@
 package com.casinelli.Appointments.Model;
 
+import com.casinelli.Appointments.DAO.JDBC;
+import com.casinelli.Appointments.DAO.RetrieveInterface;
+
+import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Vector;
+import java.time.LocalDateTime;
+
+
 
 public class User extends DBObject{
 
     private String password;
+    public static final String[] USER_COL_NAMES = {"User_ID", "User_Name", "PASSWORD", "Create_Date", "Created_By", "Last_Update",
+            "Last_Updated_By"};
+    public static final RetrieveInterface userPassword = (userName) -> {
+        String sql = "SELECT * FROM USERS WHERE PASSWORD = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, userName.getValue().toString());
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    };
 
     public User(int id, String name,String password, LocalDate createDate, String createdBy,
-                LocalTime lastUpdate, String lastUpdatedBy) {
+                LocalDateTime lastUpdate, String lastUpdatedBy) {
         this.password = password;
         this.id = id;
         this.name = name;
@@ -17,13 +31,6 @@ public class User extends DBObject{
         this.createdBy = createdBy;
         this.lastUpdate = lastUpdate;
         this.lastUpdatedBy = lastUpdatedBy;
-        this.columnNames.add("User_ID");
-        this.columnNames.add("User_Name");
-        this.columnNames.add("Password");
-        this.columnNames.add("Create_Date");
-        this.columnNames.add("Created_By");
-        this.columnNames.add("Last_Update");
-        this.columnNames.add("Last_Updated_By");
     }
 
     @Override
@@ -47,7 +54,7 @@ public class User extends DBObject{
     }
 
     @Override
-    LocalTime getLastUpdate() {
+    LocalDateTime getLastUpdate() {
         return this.lastUpdate;
     }
 
@@ -55,6 +62,8 @@ public class User extends DBObject{
     String getLastUpdatedBy() {
         return this.lastUpdatedBy;
     }
+
+
 
     public String getPassword() {
         return password;

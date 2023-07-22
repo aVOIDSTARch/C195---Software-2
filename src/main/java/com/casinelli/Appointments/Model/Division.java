@@ -1,13 +1,13 @@
 package com.casinelli.Appointments.Model;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 public class Division extends DBObject {
 
     private int countryId;
 
-    public Division(int id, String name, LocalDate createDate, String createdBy, LocalTime lastUpdate, String lastUpdatedBy, int countryId) {
+    public Division(int id, String name, LocalDate createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy, int countryId) {
         this.countryId = countryId;
         this.id = id;
         this.name = name;
@@ -15,6 +15,7 @@ public class Division extends DBObject {
         this.createdBy = createdBy;
         this.lastUpdate = lastUpdate;
         this.lastUpdatedBy = lastUpdatedBy;
+
     }
 
     public int getCountryId() {
@@ -42,7 +43,7 @@ public class Division extends DBObject {
     }
 
     @Override
-    LocalTime getLastUpdate() {
+    LocalDateTime getLastUpdate() {
         return this.lastUpdate;
     }
 

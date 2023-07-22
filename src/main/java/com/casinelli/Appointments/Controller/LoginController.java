@@ -1,7 +1,12 @@
 package com.casinelli.Appointments.Controller;
 
+import com.casinelli.Appointments.DAO.DBQuery;
+import com.casinelli.Appointments.DAO.RetrieveInterface;
+import com.casinelli.Appointments.DAO.Value;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
+import com.casinelli.Appointments.Model.DBObject;
+import com.casinelli.Appointments.Model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -10,6 +15,9 @@ import javafx.fxml.Initializable;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLOutput;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -42,7 +50,24 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    public void onLoginClick(ActionEvent actionEvent) {
-    }
+    public void onLoginClick(ActionEvent actionEvent) throws SQLException {
 
+        Value<String> username = new Value<String>(tfUsername.textProperty().getValue());
+        String userPass = tfPassword.textProperty().getValue();
+        String dbPassword = "";
+        String colName = User.USER_COL_NAMES[2];
+        ResultSet rs = DBQuery.retrieve(User.userPassword, colName, username);
+        if(rs.next()){
+            dbPassword = rs.getString(User.USER_COL_NAMES[2]);
+            if(userPass.equals(dbPassword)){
+                initializeLandingPage();
+            }
+        }else{
+            //showAlertDialog
+        }
+
+    }
+    private void initializeLandingPage(){
+
+    }
 }

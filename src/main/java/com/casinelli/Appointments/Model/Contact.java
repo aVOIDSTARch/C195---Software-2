@@ -1,7 +1,7 @@
 package com.casinelli.Appointments.Model;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 public class Contact extends DBObject{
     private int id;
@@ -12,6 +12,7 @@ public class Contact extends DBObject{
         this.id = id;
         this.name = name;
         this.email = email;
+
     }
 
     public int getId() {
@@ -33,10 +34,9 @@ public class Contact extends DBObject{
     }
 
     @Override
-    LocalTime getLastUpdate() {
+    LocalDateTime getLastUpdate() {
         return null;
     }
-
     @Override
     String getLastUpdatedBy() {
         return null;
@@ -45,4 +45,4 @@ public class Contact extends DBObject{
     public String getEmail() {
         return email;
     }
-}
+};
