@@ -1,6 +1,7 @@
 package com.casinelli.Appointments;
 
 import com.casinelli.Appointments.DAO.JDBC;
+import com.casinelli.Appointments.Helper.I18nMgmt;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,9 +20,13 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-
+        //Setup i18n
+        I18nMgmt.setup();
+        //open connection to db
         JDBC.openConnection();
+        //start JavaFX interface
         launch();
+        //disconnect from db
         JDBC.closeConnection();
 
 
