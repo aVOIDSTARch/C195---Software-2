@@ -10,7 +10,7 @@ public abstract class DBQuery {
     public static int create(CreateInterface ci, DBObject dbo){
         return ci.insertIntoDB(dbo);
     }
-    public static ResultSet retrieve(RetrieveInterface ri, String columnName, Value<?> matchValue) throws SQLException {
+    public static ResultSet retrieve(RetrieveInterface ri, Value<?> matchValue) throws SQLException {
         return ri.getRowsFromDB(matchValue);
     }
     public static ResultSet retrieveAll(RetrieveAllInterface rai){
