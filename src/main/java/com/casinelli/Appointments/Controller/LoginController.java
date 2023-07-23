@@ -1,24 +1,25 @@
 package com.casinelli.Appointments.Controller;
 
 import com.casinelli.Appointments.DAO.DBQuery;
-import com.casinelli.Appointments.DAO.RetrieveInterface;
 import com.casinelli.Appointments.DAO.Value;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
-import com.casinelli.Appointments.Model.DBObject;
 import com.casinelli.Appointments.Model.LogEvent;
 import com.casinelli.Appointments.Model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -59,11 +60,18 @@ public class LoginController implements Initializable {
         LogEvent loginAttempt = new LogEvent(username.getValue(), successfulLogin, LogEvent.EventType.LOGIN_ATTEMPT );
         //log event to file
         System.out.println(loginAttempt.toString());
-        //initializeLandingScene();
+        try {
+            initializeLandingScene(actionEvent);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
-    private void initializeLandingScene(){
-
+    private void initializeLandingScene(ActionEvent ae) throws IOException {
+        thisStage = (Stage) ((Button)ae.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("welcomehub-view.fxml")));
+        thisStage.setScene(new Scene(scene));
+        thisStage.show();
     }
 
     private boolean verifyPassword(Value<String> username, String userPass) {
