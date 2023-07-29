@@ -4,6 +4,7 @@ import com.casinelli.Appointments.DAO.DBQuery;
 import com.casinelli.Appointments.DAO.Value;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
+import com.casinelli.Appointments.Main;
 import com.casinelli.Appointments.Model.LogEvent;
 import com.casinelli.Appointments.Model.User;
 import javafx.event.ActionEvent;
@@ -21,6 +22,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
+
+
 
 public class LoginController implements Initializable {
     //Controller instance variables
@@ -58,7 +61,7 @@ public class LoginController implements Initializable {
         String userPass = tfPassword.textProperty().getValue();
         successfulLogin = verifyPassword(username, userPass);
         LogEvent loginAttempt = new LogEvent(username.getValue(), successfulLogin, LogEvent.EventType.LOGIN_ATTEMPT );
-        //log event to file
+        Main.logger.log(loginAttempt);
         System.out.println(loginAttempt.toString());
         try {
             initializeLandingScene(actionEvent);
@@ -69,7 +72,7 @@ public class LoginController implements Initializable {
     }
     private void initializeLandingScene(ActionEvent ae) throws IOException {
         thisStage = (Stage) ((Button)ae.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("welcomehub-view.fxml")));
+        scene   = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/welcomehub-view.fxml"));
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }

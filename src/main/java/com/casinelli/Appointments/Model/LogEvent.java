@@ -10,7 +10,7 @@ public class LogEvent {
     private LocalDate attemptDate;
     private LocalTime attemptTime;
     private ZoneId systemZoneId;
-    public EventType eventType;
+    private EventType eventType;
     public static enum EventType {LOGIN_ATTEMPT, DB_ACCESS, APPLICATION};
 
     public LogEvent(String userName, boolean successful, EventType eventType){
@@ -41,9 +41,15 @@ public class LogEvent {
     public ZoneId getSystemZoneId() {
         return systemZoneId;
     }
+
+    public EventType getEventType() {
+        return eventType;
+    }
+
     @Override
     public String toString(){
-        return eventType.toString() + " " +  userName + " " + attemptDate.toString() + " " + attemptTime.toString()
-                + " " + systemZoneId.toString() + " " + successful;
+
+        return eventType.toString() + " Username: " +  userName + " " + attemptDate.toString() + " " + attemptTime.toString()
+                + " " + systemZoneId.toString() + " Successful: " + successful;
     }
 }

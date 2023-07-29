@@ -6,13 +6,13 @@ import com.casinelli.Appointments.DAO.RetrieveInterface;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
+import java.util.Vector;
 
 
 public class User extends DBObject{
 
     private String password;
-    public static final String[] USER_COL_NAMES = {"User_ID", "User_Name", "PASSWORD", "Create_Date", "Created_By", "Last_Update",
+    public static final String[] USER_COL_NAMES = {"User_ID", "User_Name", "Password", "Create_Date", "Created_By", "Last_Update",
             "Last_Updated_By"};
     public static final RetrieveInterface userPassword = (userName) -> {
         String sql = "SELECT * FROM USERS WHERE PASSWORD = ?";
@@ -62,10 +62,8 @@ public class User extends DBObject{
     String getLastUpdatedBy() {
         return this.lastUpdatedBy;
     }
-
-
-
     public String getPassword() {
         return password;
     }
+
 }

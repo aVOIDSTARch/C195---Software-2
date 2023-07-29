@@ -1,6 +1,8 @@
 package com.casinelli.Appointments.Model;
 
+import java.sql.ResultSet;
 import java.time.*;
+import java.util.Vector;
 
 public abstract class DBObject {
     protected int id;

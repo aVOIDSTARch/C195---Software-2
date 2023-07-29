@@ -10,98 +10,114 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="619.0" prefWidth="1331.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.casinelli.Appointments.Controller.WelcomeHubController">
-   <children>
-      <VBox prefHeight="614.0" prefWidth="1339.0">
-         <children>
-            <AnchorPane prefHeight="79.0" prefWidth="1023.0">
-               <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fafafa00" height="60.0" layoutX="7.0" layoutY="7.0" stroke="BLACK" strokeType="INSIDE" width="1317.0" />
-                  <Label fx:id="lblWHAppName" layoutX="21.0" layoutY="11.0" prefHeight="53.0" prefWidth="276.0" text="APPOINTMENTS" textFill="#9e2e2e">
-                     <font>
-                        <Font name="System Italic" size="36.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lblWHSceneTitle" alignment="CENTER" layoutX="543.0" layoutY="11.0" prefHeight="45.0" prefWidth="254.0" text="Welcome Hub">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lblWHUsername" layoutX="1215.0" layoutY="11.0" prefHeight="29.0" prefWidth="95.0" text="Label">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="tfWHUsernameLabel" alignment="CENTER_RIGHT" layoutX="1120.0" layoutY="7.0" prefHeight="36.0" prefWidth="79.0" text="Username:">
-                     <font>
-                        <Font size="14.0" />
-                     </font></Label>
-                  <Label fx:id="lblWHZoneID" layoutX="1139.0" layoutY="36.0" prefHeight="29.0" prefWidth="164.0" text="Zone ID">
-                     <font>
-                        <Font size="16.0" />
-                     </font></Label>
-               </children>
-            </AnchorPane>
-            <HBox fx:id="tfWHSceneTitle" prefHeight="551.0" prefWidth="1023.0">
-               <children>
-                  <AnchorPane prefHeight="543.0" prefWidth="179.0">
-                     <children>
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="60.0" layoutX="17.0" layoutY="17.0" stroke="BLACK" strokeType="INSIDE" width="144.0" />
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="535.0" layoutX="7.0" layoutY="4.0" stroke="BLACK" strokeType="INSIDE" width="164.0" />
-                        <Label fx:id="lblWHNavTitle" alignment="CENTER" layoutX="16.0" layoutY="28.0" prefHeight="39.0" prefWidth="144.0" text="NAVIGATION">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <Button fx:id="btnWHNavCustScene" layoutX="18.0" layoutY="151.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#navToCustomerScene" prefHeight="39.0" prefWidth="144.0" text="Customers">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="btnWHNavWelcHub" layoutX="17.0" layoutY="86.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#navToWelcomeScene" prefHeight="39.0" prefWidth="144.0" text="Welcome Hub">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="btnWHNavReportsScene" layoutX="18.0" layoutY="279.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#navToReportsScene" prefHeight="39.0" prefWidth="144.0" text="Reports">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="btnWHNavScheduleScene" layoutX="18.0" layoutY="216.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#navToScheduleScene" prefHeight="39.0" prefWidth="144.0" text="Scheduling">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="btnWHNavLogout" layoutX="18.0" layoutY="484.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#appLogout" prefHeight="39.0" prefWidth="144.0" text="Log Out">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Button>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane prefHeight="543.0" prefWidth="1151.0">
-                     <children>
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff02" height="535.0" layoutX="4.0" layoutY="4.0" stroke="BLACK" strokeType="INSIDE" width="1142.0" />
-                        <TableView fx:id="tblVwWHUpcomingAppts" layoutX="14.0" layoutY="284.0" prefHeight="200.0" prefWidth="1124.0">
-                          <columns>
-                            <TableColumn id="tblColWHUpcomingApptID" editable="false" prefWidth="29.0" text="ID" />
-                            <TableColumn id="tblColWHUpcomingTitle" editable="false" prefWidth="105.0" text="Title" />
-                              <TableColumn id="tblColWHUpcomingDescription" editable="false" prefWidth="239.0" text="Description" />
-                              <TableColumn id="tblColWHUpcomingLocation" editable="false" minWidth="0.0" prefWidth="102.0" text="Location" />
-                              <TableColumn id="tblColWHUpcomingContact" editable="false" prefWidth="113.0" text="Contact" />
-                              <TableColumn id="tblColWHUpcomingType" editable="false" prefWidth="81.0" text="Type" />
-                              <TableColumn id="tblColWHUpcomingStart" editable="false" prefWidth="135.0" text="Start" />
-                              <TableColumn id="tblColWHUpcomingStop" editable="false" prefWidth="126.0" text="Stop" />
-                              <TableColumn id="tblColWHUpcomingCustID" editable="false" prefWidth="106.0" text="Customer ID" />
-                              <TableColumn id="tblColWHUpcomingUserID" editable="false" prefWidth="87.0" text="User ID" />
-                          </columns>
-                        </TableView>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="619.0"
+            prefWidth="1331.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.casinelli.Appointments.Controller.WelcomeHubController">
+   <VBox prefHeight="614.0" prefWidth="1339.0">
+      <AnchorPane prefHeight="79.0" prefWidth="1023.0">
+         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fafafa00" height="60.0" layoutX="7.0" layoutY="7.0"
+                    stroke="BLACK" strokeType="INSIDE" width="1317.0"/>
+         <Label fx:id="lblWHAppName" layoutX="21.0" layoutY="11.0" prefHeight="53.0" prefWidth="276.0"
+                text="APPOINTMENTS" textFill="#9e2e2e">
+            <font>
+               <Font name="System Italic" size="36.0"/>
+            </font>
+         </Label>
+         <Label fx:id="lblWHSceneTitle" alignment="CENTER" layoutX="543.0" layoutY="11.0" prefHeight="45.0"
+                prefWidth="254.0" text="Welcome Hub">
+            <font>
+               <Font size="36.0"/>
+            </font>
+         </Label>
+         <Label fx:id="lblWHUsername" layoutX="1215.0" layoutY="11.0" prefHeight="29.0" prefWidth="95.0"
+                text="Label">
+            <font>
+               <Font name="System Bold" size="18.0"/>
+            </font>
+         </Label>
+         <Label fx:id="tfWHUsernameLabel" alignment="CENTER_RIGHT" layoutX="1120.0" layoutY="7.0"
+                prefHeight="36.0" prefWidth="79.0" text="Username:">
+            <font>
+               <Font size="14.0"/>
+            </font>
+         </Label>
+         <Label fx:id="lblWHZoneID" layoutX="1139.0" layoutY="36.0" prefHeight="29.0" prefWidth="164.0"
+                text="Zone ID">
+            <font>
+               <Font size="16.0"/>
+            </font>
+         </Label>
+      </AnchorPane>
+      <HBox fx:id="tfWHSceneTitle" prefHeight="551.0" prefWidth="1023.0">
+         <AnchorPane prefHeight="543.0" prefWidth="179.0">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="60.0" layoutX="17.0"
+                       layoutY="17.0" stroke="BLACK" strokeType="INSIDE" width="144.0"/>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="535.0" layoutX="7.0"
+                       layoutY="4.0" stroke="BLACK" strokeType="INSIDE" width="164.0"/>
+            <Label fx:id="lblWHNavTitle" alignment="CENTER" layoutX="16.0" layoutY="28.0" prefHeight="39.0"
+                   prefWidth="144.0" text="NAVIGATION">
+               <font>
+                  <Font name="System Bold" size="18.0"/>
+               </font>
+            </Label>
+            <Button fx:id="btnWHNavCustScene" layoutX="18.0" layoutY="151.0" maxHeight="-Infinity"
+                    maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                    onAction="#navToCustomerScene" prefHeight="39.0" prefWidth="144.0" text="Customers">
+               <font>
+                  <Font name="System Bold" size="18.0"/>
+               </font>
+            </Button>
+            <Button fx:id="btnWHNavWelcHub" layoutX="17.0" layoutY="86.0" maxHeight="-Infinity"
+                    maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                    onAction="#navToWelcomeScene" prefHeight="39.0" prefWidth="144.0" text="Welcome Hub">
+               <font>
+                  <Font name="System Bold" size="18.0"/>
+               </font>
+            </Button>
+            <Button fx:id="btnWHNavReportsScene" layoutX="18.0" layoutY="279.0" maxHeight="-Infinity"
+                    maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                    onAction="#navToReportsScene" prefHeight="39.0" prefWidth="144.0" text="Reports">
+               <font>
+                  <Font name="System Bold" size="18.0"/>
+               </font>
+            </Button>
+            <Button fx:id="btnWHNavScheduleScene" layoutX="18.0" layoutY="216.0" maxHeight="-Infinity"
+                    maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                    onAction="#navToScheduleScene" prefHeight="39.0" prefWidth="144.0" text="Scheduling">
+               <font>
+                  <Font name="System Bold" size="18.0"/>
+               </font>
+            </Button>
+            <Button fx:id="btnWHNavLogout" layoutX="18.0" layoutY="484.0" maxHeight="-Infinity"
+                    maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                    onAction="#appLogout" prefHeight="39.0" prefWidth="144.0" text="Log Out">
+               <font>
+                  <Font name="System Bold" size="18.0"/>
+               </font>
+            </Button>
+         </AnchorPane>
+         <AnchorPane prefHeight="543.0" prefWidth="1151.0">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff02" height="535.0" layoutX="4.0"
+                       layoutY="4.0" stroke="BLACK" strokeType="INSIDE" width="1142.0"/>
+            <TableView fx:id="tblVwWHUpcomingAppts" layoutX="14.0" layoutY="284.0" prefHeight="200.0"
+                       prefWidth="1124.0">
+               <columns>
+                  <TableColumn id="tblColWHUpcomingApptID" editable="false" prefWidth="29.0" text="ID"/>
+                  <TableColumn id="tblColWHUpcomingTitle" editable="false" prefWidth="105.0" text="Title"/>
+                  <TableColumn id="tblColWHUpcomingDescription" editable="false" prefWidth="239.0"
+                               text="Description"/>
+                  <TableColumn id="tblColWHUpcomingLocation" editable="false" minWidth="0.0" prefWidth="102.0"
+                               text="Location"/>
+                  <TableColumn id="tblColWHUpcomingContact" editable="false" prefWidth="113.0" text="Contact"/>
+                  <TableColumn id="tblColWHUpcomingType" editable="false" prefWidth="81.0" text="Type"/>
+                  <TableColumn id="tblColWHUpcomingStart" editable="false" prefWidth="135.0" text="Start"/>
+                  <TableColumn id="tblColWHUpcomingStop" editable="false" prefWidth="126.0" text="Stop"/>
+                  <TableColumn id="tblColWHUpcomingCustID" editable="false" prefWidth="106.0"
+                               text="Customer ID"/>
+                  <TableColumn id="tblColWHUpcomingUserID" editable="false" prefWidth="87.0" text="User ID"/>
+               </columns>
+            </TableView>
+         </AnchorPane>
+      </HBox>
+   </VBox>
 </AnchorPane>

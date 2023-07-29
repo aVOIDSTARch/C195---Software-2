@@ -1,0 +1,2 @@
+LOGIN_ATTEMPT test 2023-07-23 15:37:11.102118900 America/New_York false
+LOGIN_ATTEMPT Username: test 2023-07-23 15:39:39.914774200 America/New_York Successful: true
