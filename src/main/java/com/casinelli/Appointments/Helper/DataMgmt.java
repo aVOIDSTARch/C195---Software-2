@@ -1,18 +1,14 @@
 package com.casinelli.Appointments.Helper;
 
 import com.casinelli.Appointments.DAO.DBQuery;
-import com.casinelli.Appointments.DAO.RetrieveAllInterface;
 import com.casinelli.Appointments.Model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
-import java.util.List;
-import java.util.Vector;
-
-import static com.casinelli.Appointments.DAO.DBQuery.retrieveAll;
+import java.time.LocalDate;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class DataMgmt {
     private static User currentUser;
@@ -23,7 +19,7 @@ public abstract class DataMgmt {
     private static ObservableList<Appointment> allAppts = FXCollections.observableArrayList();
     private static ObservableList<Division> allDivisions = FXCollections.observableArrayList();
 
-
+    /////Class Specific Functions/////
     public static void initializeApplicationData() {
         try{
             DataMgmt.populateAllAppts(DBQuery.retrieveAll(Appointment.allAppts));
@@ -37,14 +33,14 @@ public abstract class DataMgmt {
         }
 
     }
-
     public static User getCurrentUser() {
         return currentUser;
     }
-
     public static void setCurrentUser(User thisUser) {
         DataMgmt.currentUser = thisUser;
     }
+
+    /////List Insertion Functions/////
     private static void populateAllAppts(ResultSet rs) throws SQLException {
         allAppts.clear();
         while (rs.next()){
@@ -75,4 +71,38 @@ public abstract class DataMgmt {
             allCustomers.add(new Customer(rs));
         }
     }
+    /////APPOINTMENT FUNCTIONS/////
+    public static ObservableList<Appointment> getAllApptsList(){
+        return allAppts;
+    }
+    public static int getApptCountForToday(){
+        AtomicInteger apptCount = new AtomicInteger();
+        allAppts.forEach(appt -> {
+            if(appt.getStart().toLocalDate().equals(LocalDate.now())){
+                apptCount.getAndIncrement();
+            }
+        });
+        return apptCount.get();
+    }
+    public static int getAllApptCount(){
+        return allAppts.size();
+    }
+    /////COUNTRY FUNCTIONS/////
+
+    /////CONTACT FUNCTIONS/////
+    public static ObservableList<Contact> getAllContactsList(){
+        return allContacts;
+    }
+    public static int getApptCountByContactId(int contactId){
+        AtomicInteger apptCount = new AtomicInteger();
+        allAppts.forEach(appt ->  {
+            if (appt.getContactId() == contactId){
+                apptCount.getAndIncrement();
+            }
+        });
+        return apptCount.get();
+    }
+    /////CUSTOMER FUNCTIONS/////
+
+    /////DIVISION FUNCTIONS/////
 }

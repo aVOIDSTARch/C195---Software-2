@@ -35,8 +35,6 @@ public class WelcomeHubController implements Initializable{
     @javafx.fxml.FXML
     private Label lblWHUsername;
     @javafx.fxml.FXML
-    private Label tfWHUsernameLabel;
-    @javafx.fxml.FXML
     private Label lblWHZoneID;
     @javafx.fxml.FXML
     private HBox tfWHSceneTitle;
@@ -67,21 +65,25 @@ public class WelcomeHubController implements Initializable{
     @FXML
     private Label lblApptCountTextUser1;
     @FXML
-    private Label lblApptCountTextUser1lblApptCountNumUser1;
-    @FXML
     private Label lblApptCountTextUser2;
     @FXML
-    private Label lblApptCountTextUser1lblApptCountNumUser2;
-    @FXML
     private Label lblApptCountTextUser3;
-    @FXML
-    private Label lblApptCountTextUser1lblApptCountNumUser3;
     @FXML
     private Label lblNextApptUser1;
     @FXML
     private Label lblNextApptUser2;
     @FXML
     private Label lblNextApptUser3;
+    @FXML
+    private Label lblWHUsernameLabel;
+    @FXML
+    private Label lblApptCountNumForContact1;
+    @FXML
+    private Label lblApptCountNumForContact2;
+    @FXML
+    private Label lblApptCountNumForContact3;
+    @FXML
+    private Label lblWHApptCntToday;
 
     @javafx.fxml.FXML
     public void navToCustomerScene(ActionEvent actionEvent) {
@@ -115,5 +117,40 @@ public class WelcomeHubController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+    }
+    private void populateTextWelcomeHub(){
+        /////BUTTONS/////
+        btnWHNavWelcHub.textProperty().setValue(I18nMgmt.translate("welcomeHub"));
+        btnWHNavCustScene.textProperty().setValue(I18nMgmt.translate("WHNavCustBtn"));
+        btnWHNavScheduleScene.textProperty().setValue(I18nMgmt.translate("WHNavScheduleBtn"));
+        btnWHNavReportsScene.textProperty().setValue(I18nMgmt.translate("WHNavReportsBtn"));
+        btnWHNavLogout.textProperty().setValue(I18nMgmt.translate("WHNavLogOutBtn"));
+        /////LABELS/////
+        lblWHAppName.textProperty().setValue(I18nMgmt.translate("labelAppName"));
+        lblWHAppName.textProperty().setValue(I18nMgmt.translate("welcomeHub"));
+        lblWHNavTitle.textProperty().setValue(I18nMgmt.translate("WHNavTitle"));
+        lblWHUsernameLabel.textProperty().setValue(I18nMgmt.translate("WHUsernameLabel"));
+        lblWHUsername.textProperty().setValue(DataMgmt.getCurrentUser().getName());
+        lblWHZoneID.textProperty().setValue(DateTimeMgmt.ZONE_SYS.toString());
+        lblWHTotalApptsText.textProperty().setValue(I18nMgmt.translate("WHApptsForToday"));
+        String apptCountForToday = "Total   " + DataMgmt.getApptCountForToday();
+        lblWHApptCntToday.textProperty().setValue(apptCountForToday);
+    }
+    private void populateContactSquare(int contactId){
+        //Set Contact Names
+        lblWHContact1Name.textProperty().setValue(DataMgmt.getAllContactsList().get(0).getName());
+        lblWHContact2Name.textProperty().setValue(DataMgmt.getAllContactsList().get(1).getName());
+        lblWHContact3Name.textProperty().setValue(DataMgmt.getAllContactsList().get(2).getName());
+        //Set Static Text by Lang
+        lblApptCountTextUser1.textProperty().setValue(I18nMgmt.translate("WHUserApptCountText"));
+        lblApptCountTextUser2.textProperty().setValue(I18nMgmt.translate("WHUserApptCountText"));
+        lblApptCountTextUser3.textProperty().setValue(I18nMgmt.translate("WHUserApptCountText"));
+        lblNextApptUser1.textProperty().setValue(I18nMgmt.translate("WHNextUserApptStarts"));
+        lblNextApptUser2.textProperty().setValue(I18nMgmt.translate("WHNextUserApptStarts"));
+        lblNextApptUser3.textProperty().setValue(I18nMgmt.translate("WHNextUserApptStarts"));
+        //Set Variable Data by Contact
+        lblApptCountNumForContact1.textProperty().setValue(Integer.toString(DataMgmt.getApptCountByContactId(1)));
+        lblApptCountNumForContact2.textProperty().setValue(Integer.toString(DataMgmt.getApptCountByContactId(2)));
+        lblApptCountNumForContact3.textProperty().setValue(Integer.toString(DataMgmt.getApptCountByContactId(3)));
     }
 }

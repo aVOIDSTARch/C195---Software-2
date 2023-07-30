@@ -58,7 +58,7 @@ public class User extends DBObject{
     }
 
     @Override
-    String getName() {
+    public String getName() {
         return this.name;
     }
 
@@ -82,7 +82,7 @@ public class User extends DBObject{
         return this.lastUpdatedBy;
     }
     public String getPassword() {
-        return this.password;
+        return "";
     }
 
 }

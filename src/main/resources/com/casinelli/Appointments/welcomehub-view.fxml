@@ -29,7 +29,7 @@
                <Font name="System Bold" size="18.0" />
             </font>
          </Label>
-         <Label fx:id="tfWHUsernameLabel" alignment="CENTER_RIGHT" layoutX="1120.0" layoutY="7.0" prefHeight="36.0" prefWidth="79.0" text="Welcome">
+         <Label fx:id="lblWHUsernameLabel" alignment="CENTER_RIGHT" layoutX="1120.0" layoutY="7.0" prefHeight="36.0" prefWidth="79.0" text="Welcome">
             <font>
                <Font size="16.0" />
             </font>
@@ -124,7 +124,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label alignment="CENTER_RIGHT" layoutX="1007.0" layoutY="255.0" prefHeight="27.0" prefWidth="113.0" text="Total: 35">
+            <Label fx:id="lblWHApptCntToday" alignment="CENTER_RIGHT" layoutX="1007.0" layoutY="255.0" prefHeight="27.0" prefWidth="113.0" text="Total: 35">
                <font>
                   <Font size="18.0" />
                </font>
@@ -134,7 +134,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblApptCountTextUser1lblApptCountNumUser1" alignment="CENTER" layoutX="279.0" layoutY="118.0" prefHeight="27.0" prefWidth="73.0" text="35" textFill="RED">
+            <Label fx:id="lblApptCountNumForContact1" alignment="CENTER" layoutX="279.0" layoutY="118.0" prefHeight="27.0" prefWidth="73.0" text="35" textFill="RED">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -144,7 +144,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblApptCountTextUser1lblApptCountNumUser2" alignment="CENTER" layoutX="662.0" layoutY="116.0" prefHeight="27.0" prefWidth="73.0" text="35" textFill="RED">
+            <Label fx:id="lblApptCountNumForContact2" alignment="CENTER" layoutX="662.0" layoutY="116.0" prefHeight="27.0" prefWidth="73.0" text="35" textFill="RED">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -154,7 +154,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblApptCountTextUser1lblApptCountNumUser3" alignment="CENTER" layoutX="1046.0" layoutY="116.0" prefHeight="27.0" prefWidth="73.0" text="35" textFill="RED">
+            <Label fx:id="lblApptCountNumForContact3" alignment="CENTER" layoutX="1046.0" layoutY="116.0" prefHeight="27.0" prefWidth="73.0" text="35" textFill="RED">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>

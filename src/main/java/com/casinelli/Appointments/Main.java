@@ -31,7 +31,6 @@ public class Main extends Application {
         JDBC.openConnection();
         //Initialize Data Setup
         DataMgmt.initializeApplicationData();
-
         //start JavaFX interface
         launch();
         //disconnect from db
