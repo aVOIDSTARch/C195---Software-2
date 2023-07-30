@@ -6,6 +6,7 @@ import com.casinelli.Appointments.DAO.RetrieveInterface;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -22,35 +23,42 @@ public class Appointment extends DBObject{
     private int contactId;
     public static final String[] APPT_COL_NAMES = {"Appointment_ID", "Title", "Description", "Location", "Type", "Start", "End",
             "Create_Date", "Created_By", "Last_Update", "Last_Updated_By", "Customer_ID", "User_ID", "Contact_ID"};
+    /////QUERY LAMBDA FUNCTIONS/////
     public static final RetrieveAllInterface allAppts = () -> {
         String sql = "SELECT * FROM APPOINTMENTS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         return rs;
     };
-    public static final VectorOfDBObjectsInterface toVectorOfAppts = (rs) -> {
-        Vector<DBObject> appts = new Vector<DBObject>();
-        while (rs.next()){
-            int id = rs.getInt(APPT_COL_NAMES[0]);
-            String title = rs.getString(APPT_COL_NAMES[1]);
-            String description = rs.getString(APPT_COL_NAMES[2]);
-            String location = rs.getString(APPT_COL_NAMES[3]);
-            String type = rs.getString(APPT_COL_NAMES[4]);
-            LocalDateTime start = rs.getDate(APPT_COL_NAMES[5]).toLocalDate().atTime(rs.getTime(APPT_COL_NAMES[5]).toLocalTime());
-            LocalDateTime end = rs.getDate(APPT_COL_NAMES[6]).toLocalDate().atTime(rs.getTime(APPT_COL_NAMES[6]).toLocalTime());
-            LocalDate createDate = rs.getDate(APPT_COL_NAMES[7]).toLocalDate();
-            String createdBy = rs.getString(APPT_COL_NAMES[8]);
-            LocalDateTime lastUpdate = rs.getTimestamp(APPT_COL_NAMES[9]).toLocalDateTime();
-            String lastUpdatedBy = rs.getString(APPT_COL_NAMES[10]);
-            int custID = rs.getInt(APPT_COL_NAMES[11]);
-            int userID = rs.getInt(APPT_COL_NAMES[12]);
-            int contactID = rs.getInt(APPT_COL_NAMES[13]);
-            Appointment newAppt = new Appointment(id,title,createDate,createdBy, lastUpdate, lastUpdatedBy,description,
-                    location,type,start,end,custID, userID,contactID);
-            appts.add(newAppt);
-        }
-        return appts;
+    public static final RetrieveInterface getApptById = (apptId) -> {
+        String sql = "SELECT * FROM APPOINTMENTS WHERE APPOINTMENT_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, Integer.getInteger(apptId.getValue().toString()));
+        ResultSet rs = ps.executeQuery();
+        return rs;
     };
+    public static final RetrieveInterface getApptsByUserId = (userId) -> {
+        String sql = "SELECT * FROM APPOINTMENTS WHERE USER_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, Integer.getInteger(userId.getValue().toString()));
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    };
+    public static final RetrieveInterface getApptsByType = (type) -> {
+        String sql = "SELECT * FROM APPOINTMENTS WHERE TYPE = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, (type.getValue().toString()));
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    };
+    public static final RetrieveInterface getApptsByContactId = (contactId) -> {
+        String sql = "SELECT * FROM APPOINTMENTS WHERE CONTACT_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, Integer.getInteger(contactId.getValue().toString()));
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    };
+    /////CONSTRUCTORS/////
     public Appointment(int id, String title, LocalDate createDate, String createdBy,
                        LocalDateTime lastUpdate, String lastUpdatedBy, String description,
                        String location, String type, LocalDateTime start, LocalDateTime end,
@@ -70,6 +78,24 @@ public class Appointment extends DBObject{
         this.userId = userId;
         this.contactId = contactId;
 
+    }
+    public Appointment(ResultSet rs) throws SQLException {
+            if(rs.next()) {
+            this.id = rs.getInt(APPT_COL_NAMES[0]);
+            this.name = rs.getString(APPT_COL_NAMES[1]);
+            this.description = rs.getString(APPT_COL_NAMES[2]);
+            this.location = rs.getString(APPT_COL_NAMES[3]);
+            this.type = rs.getString(APPT_COL_NAMES[4]);
+            this.start = rs.getDate(APPT_COL_NAMES[5]).toLocalDate().atTime(rs.getTime(APPT_COL_NAMES[5]).toLocalTime());
+            this.end = rs.getDate(APPT_COL_NAMES[6]).toLocalDate().atTime(rs.getTime(APPT_COL_NAMES[6]).toLocalTime());
+            this.createDate = rs.getDate(APPT_COL_NAMES[7]).toLocalDate();
+            this.createdBy = rs.getString(APPT_COL_NAMES[8]);
+            this.lastUpdate = rs.getTimestamp(APPT_COL_NAMES[9]).toLocalDateTime();
+            this.lastUpdatedBy = rs.getString(APPT_COL_NAMES[10]);
+            this.customerId = rs.getInt(APPT_COL_NAMES[11]);
+            this.userId = rs.getInt(APPT_COL_NAMES[12]);
+            this.contactId = rs.getInt(APPT_COL_NAMES[13]);
+        }
     }
 
     public String getDescription() {
@@ -133,12 +159,5 @@ public class Appointment extends DBObject{
     String getLastUpdatedBy() {
         return this.lastUpdatedBy;
     }
-    public static Vector<Appointment> toApptVector(Vector<DBObject> vdbo){
-        Vector<Appointment> apptVector = new Vector<Appointment>();
-        vdbo.forEach(dbobj -> {
-            Appointment newAppt = (Appointment) dbobj;
-            apptVector.add(newAppt);
-        });
-        return apptVector;
-    }
+
 }

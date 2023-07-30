@@ -1,6 +1,7 @@
 package com.casinelli.Appointments;
 
 import com.casinelli.Appointments.DAO.JDBC;
+import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
 import com.casinelli.Appointments.Helper.Logger;
 import javafx.application.Application;
@@ -9,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class Main extends Application {
     //Create Logger Instance
@@ -27,7 +29,8 @@ public class Main extends Application {
         I18nMgmt.setup();
         //open connection to db
         JDBC.openConnection();
-        //Create Logger Instance
+        //Initialize Data Setup
+        DataMgmt.initializeApplicationData();
 
         //start JavaFX interface
         launch();

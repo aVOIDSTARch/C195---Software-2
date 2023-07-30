@@ -2,6 +2,7 @@ package com.casinelli.Appointments.Controller;
 
 import com.casinelli.Appointments.DAO.DBQuery;
 import com.casinelli.Appointments.DAO.Value;
+import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
 import com.casinelli.Appointments.Model.LogEvent;
@@ -53,6 +54,34 @@ public class WelcomeHubController implements Initializable{
     private Button btnWHNavLogout;
     @FXML
     private TableView tblVwWHUpcomingAppts;
+    @FXML
+    private Label lblWHTotalApptsText;
+    @FXML
+    private Label lblWHNumAppts;
+    @FXML
+    private Label lblWHContact1Name;
+    @FXML
+    private Label lblWHContact2Name;
+    @FXML
+    private Label lblWHContact3Name;
+    @FXML
+    private Label lblApptCountTextUser1;
+    @FXML
+    private Label lblApptCountTextUser1lblApptCountNumUser1;
+    @FXML
+    private Label lblApptCountTextUser2;
+    @FXML
+    private Label lblApptCountTextUser1lblApptCountNumUser2;
+    @FXML
+    private Label lblApptCountTextUser3;
+    @FXML
+    private Label lblApptCountTextUser1lblApptCountNumUser3;
+    @FXML
+    private Label lblNextApptUser1;
+    @FXML
+    private Label lblNextApptUser2;
+    @FXML
+    private Label lblNextApptUser3;
 
     @javafx.fxml.FXML
     public void navToCustomerScene(ActionEvent actionEvent) {
@@ -72,6 +101,7 @@ public class WelcomeHubController implements Initializable{
 
     @javafx.fxml.FXML
     public void appLogout(ActionEvent actionEvent) {
+        DataMgmt.setCurrentUser(null);
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
             scene = FXMLLoader.load(getClass().getResource("/login-view.fxml"));

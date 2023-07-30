@@ -6,7 +6,7 @@ import com.casinelli.Appointments.DAO.RetrieveInterface;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Vector;
+
 
 
 public class User extends DBObject{
@@ -21,6 +21,14 @@ public class User extends DBObject{
         ResultSet rs = ps.executeQuery();
         return rs;
     };
+    public static final RetrieveInterface getUserByName = (userName) -> {
+        String sql = "SELECT * FROM USERS WHERE USER_NAME = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, userName.getValue().toString());
+        ResultSet rs = ps.executeQuery();
+        return rs;
+    };
+
 
     public User(int id, String name,String password, LocalDate createDate, String createdBy,
                 LocalDateTime lastUpdate, String lastUpdatedBy) {
@@ -33,9 +41,20 @@ public class User extends DBObject{
         this.lastUpdatedBy = lastUpdatedBy;
     }
 
+    public User(ResultSet rs) throws SQLException {
+        while (rs.next()) {
+            this.id = rs.getInt(USER_COL_NAMES[0]);
+            this.name = rs.getString(USER_COL_NAMES[1]);
+            this.password = "";
+            this.createDate = rs.getDate(USER_COL_NAMES[3]).toLocalDate();
+            this.createdBy = rs.getString(USER_COL_NAMES[4]);
+            this.lastUpdate = rs.getTimestamp(USER_COL_NAMES[5]).toLocalDateTime();
+            this.lastUpdatedBy = rs.getString(USER_COL_NAMES[6]);
+        }
+    }
     @Override
-    int getId() {
-        return this.id;
+    public int getId() {
+        return id;
     }
 
     @Override
@@ -63,7 +82,7 @@ public class User extends DBObject{
         return this.lastUpdatedBy;
     }
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
 }

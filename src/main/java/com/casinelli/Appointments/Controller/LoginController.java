@@ -2,6 +2,7 @@ package com.casinelli.Appointments.Controller;
 
 import com.casinelli.Appointments.DAO.DBQuery;
 import com.casinelli.Appointments.DAO.Value;
+import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
 import com.casinelli.Appointments.Main;
@@ -22,7 +23,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
-
+import java.util.Vector;
 
 
 public class LoginController implements Initializable {
@@ -62,12 +63,16 @@ public class LoginController implements Initializable {
         successfulLogin = verifyPassword(username, userPass);
         LogEvent loginAttempt = new LogEvent(username.getValue(), successfulLogin, LogEvent.EventType.LOGIN_ATTEMPT );
         Main.logger.log(loginAttempt);
-        System.out.println(loginAttempt.toString());
-        try {
-            initializeLandingScene(actionEvent);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if(successfulLogin){
+            try {
+                setCurrentUser(username);
+                System.out.println(DataMgmt.getCurrentUser().toString());
+                initializeLandingScene(actionEvent);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
+
 
     }
     private void initializeLandingScene(ActionEvent ae) throws IOException {
@@ -93,5 +98,14 @@ public class LoginController implements Initializable {
             isSuccesful = true;
         }
         return isSuccesful;
+    }
+    private void setCurrentUser(Value<String> userName){
+        try{
+            User newUser = new User( DBQuery.retrieve(User.getUserByName, userName));
+            DataMgmt.setCurrentUser(newUser);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
