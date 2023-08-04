@@ -60,7 +60,7 @@ public class Customer extends DBObject{
 
     }
     public Customer(ResultSet rs) throws SQLException {
-        if (rs.next()){
+        if (rs != null){
             this.id = rs.getInt(CUSTOMER_COL_NAMES[0]);
             this.name = rs.getString(CUSTOMER_COL_NAMES[1]);
             this.address = rs.getString(CUSTOMER_COL_NAMES[2]);

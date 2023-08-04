@@ -39,7 +39,7 @@ public class Country extends DBObject{
 
     }
     public Country(ResultSet rs) throws SQLException {
-        if(rs.next()) {
+        if(rs != null) {
             this.id = rs.getInt(COUNTRY_COL_NAMES[0]);
             this.name = rs.getString(COUNTRY_COL_NAMES[1]);
             this.createDate = rs.getDate(COUNTRY_COL_NAMES[2]).toLocalDate();

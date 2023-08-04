@@ -1,12 +1,8 @@
 package com.casinelli.Appointments.Controller;
 
-import com.casinelli.Appointments.DAO.DBQuery;
-import com.casinelli.Appointments.DAO.Value;
 import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
-import com.casinelli.Appointments.Model.LogEvent;
-import com.casinelli.Appointments.Model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,8 +15,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class WelcomeHubController implements Initializable{
@@ -84,9 +78,16 @@ public class WelcomeHubController implements Initializable{
     private Label lblApptCountNumForContact3;
     @FXML
     private Label lblWHApptCntToday;
+    @FXML
+    private Label lblWHApptsToday;
 
     @javafx.fxml.FXML
-    public void navToCustomerScene(ActionEvent actionEvent) {
+    public void navToCustomerScene(ActionEvent actionEvent) throws IOException {
+            thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+            scene   = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/customer-view.fxml"));
+            thisStage.setScene(new Scene(scene));
+            thisStage.show();
+
     }
 
     @javafx.fxml.FXML
@@ -106,7 +107,7 @@ public class WelcomeHubController implements Initializable{
         DataMgmt.setCurrentUser(null);
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
-            scene = FXMLLoader.load(getClass().getResource("/login-view.fxml"));
+            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/login-view.fxml"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -116,27 +117,31 @@ public class WelcomeHubController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        //Setup scene content text
+        populateTextWelcomeHub();
+        populateContactSquare();
+        //Initialize Tableview
     }
     private void populateTextWelcomeHub(){
         /////BUTTONS/////
         btnWHNavWelcHub.textProperty().setValue(I18nMgmt.translate("welcomeHub"));
-        btnWHNavCustScene.textProperty().setValue(I18nMgmt.translate("WHNavCustBtn"));
-        btnWHNavScheduleScene.textProperty().setValue(I18nMgmt.translate("WHNavScheduleBtn"));
-        btnWHNavReportsScene.textProperty().setValue(I18nMgmt.translate("WHNavReportsBtn"));
-        btnWHNavLogout.textProperty().setValue(I18nMgmt.translate("WHNavLogOutBtn"));
+        btnWHNavCustScene.textProperty().setValue(I18nMgmt.translate("NavCustBtn"));
+        btnWHNavScheduleScene.textProperty().setValue(I18nMgmt.translate("NavScheduleBtn"));
+        btnWHNavReportsScene.textProperty().setValue(I18nMgmt.translate("NavReportsBtn"));
+        btnWHNavLogout.textProperty().setValue(I18nMgmt.translate("NavLogOutBtn"));
         /////LABELS/////
         lblWHAppName.textProperty().setValue(I18nMgmt.translate("labelAppName"));
         lblWHAppName.textProperty().setValue(I18nMgmt.translate("welcomeHub"));
-        lblWHNavTitle.textProperty().setValue(I18nMgmt.translate("WHNavTitle"));
-        lblWHUsernameLabel.textProperty().setValue(I18nMgmt.translate("WHUsernameLabel"));
+        lblWHNavTitle.textProperty().setValue(I18nMgmt.translate("NavTitle"));
+        lblWHUsernameLabel.textProperty().setValue(I18nMgmt.translate("UsernameLabel"));
         lblWHUsername.textProperty().setValue(DataMgmt.getCurrentUser().getName());
         lblWHZoneID.textProperty().setValue(DateTimeMgmt.ZONE_SYS.toString());
-        lblWHTotalApptsText.textProperty().setValue(I18nMgmt.translate("WHApptsForToday"));
+        lblWHTotalApptsText.textProperty().setValue(I18nMgmt.translate("WHTotalNumApptsLabel"));
         String apptCountForToday = "Total   " + DataMgmt.getApptCountForToday();
         lblWHApptCntToday.textProperty().setValue(apptCountForToday);
+        lblWHApptsToday.textProperty().setValue(I18nMgmt.translate("WHApptsForToday"));
     }
-    private void populateContactSquare(int contactId){
+    private void populateContactSquare(){
         //Set Contact Names
         lblWHContact1Name.textProperty().setValue(DataMgmt.getAllContactsList().get(0).getName());
         lblWHContact2Name.textProperty().setValue(DataMgmt.getAllContactsList().get(1).getName());

@@ -119,7 +119,7 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label layoutX="28.0" layoutY="254.0" prefHeight="27.0" prefWidth="228.0" text="Appointment for Today">
+            <Label fx:id="lblWHApptsToday" layoutX="28.0" layoutY="254.0" prefHeight="27.0" prefWidth="228.0" text="Appointment for Today">
                <font>
                   <Font size="18.0" />
                </font>

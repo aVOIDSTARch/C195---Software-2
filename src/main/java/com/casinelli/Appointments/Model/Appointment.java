@@ -80,7 +80,7 @@ public class Appointment extends DBObject{
 
     }
     public Appointment(ResultSet rs) throws SQLException {
-            if(rs.next()) {
+            if(rs != null) {
             this.id = rs.getInt(APPT_COL_NAMES[0]);
             this.name = rs.getString(APPT_COL_NAMES[1]);
             this.description = rs.getString(APPT_COL_NAMES[2]);

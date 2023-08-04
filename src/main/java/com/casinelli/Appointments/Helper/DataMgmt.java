@@ -1,13 +1,16 @@
 package com.casinelli.Appointments.Helper;
 
 import com.casinelli.Appointments.DAO.DBQuery;
+import com.casinelli.Appointments.DAO.Value;
 import com.casinelli.Appointments.Model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.ResultSet;
+import java.sql.SQLData;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class DataMgmt {
@@ -105,4 +108,14 @@ public abstract class DataMgmt {
     /////CUSTOMER FUNCTIONS/////
 
     /////DIVISION FUNCTIONS/////
+    public static ObservableList<String> getListOfDivNamesByCountryId(int countryId) throws SQLException {
+        ObservableList<String> divNames = FXCollections.observableArrayList();
+        Value<Integer> queryValue = new Value<Integer>(countryId);
+        ResultSet rs = DBQuery.retrieve(Division.getDivisionsWithCountryId, queryValue);
+        while(rs.next()){
+            String newDivName = rs.getString(Division.DIVISION_COL_NAMES[1]);
+            divNames.add(newDivName);
+        }
+        return divNames;
+    }
 }

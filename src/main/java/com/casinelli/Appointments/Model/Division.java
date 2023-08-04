@@ -24,16 +24,17 @@ public class Division extends DBObject {
         return rs;
     };
     public static final RetrieveInterface getDivisionsWithCountryId = (countryId) -> {
+        int cntryID = (int) countryId.getValue();
         String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS WHERE COUNTRY_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1, Integer.getInteger(countryId.getValue().toString()));
+        ps.setInt(1,cntryID);
         ResultSet rs = ps.executeQuery();
         return rs;
     };
     public static final RetrieveInterface getDivisionById = (divId) -> {
         String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS WHERE DIVISION_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1, Integer.getInteger(divId.getValue().toString()));
+        ps.setInt(1, (int) divId.getValue());
         ResultSet rs = ps.executeQuery();
         return rs;
     };
@@ -51,7 +52,7 @@ public class Division extends DBObject {
 
     }
     public Division(ResultSet rs) throws SQLException {
-        if (rs.next()) {
+        if (rs != null) {
             this.id = rs.getInt(DIVISION_COL_NAMES[0]);
             this.name = rs.getString(DIVISION_COL_NAMES[1]);
             this.createDate = rs.getDate(DIVISION_COL_NAMES[2]).toLocalDate();
@@ -61,6 +62,7 @@ public class Division extends DBObject {
             this.countryId = rs.getInt(DIVISION_COL_NAMES[6]);
         }
     }
+
     public int getCountryId() {
         return countryId;
     }

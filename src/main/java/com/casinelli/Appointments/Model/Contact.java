@@ -30,7 +30,7 @@ public class Contact extends DBObject{
 
     }
     public Contact(ResultSet rs) throws SQLException {
-        if (rs.next()) {
+        if (rs != null) {
             this.id = rs.getInt(CONTACT_COL_NAMES[0]);
             this.name = rs.getString(CONTACT_COL_NAMES[1]);
             this.email = rs.getString(CONTACT_COL_NAMES[2]);

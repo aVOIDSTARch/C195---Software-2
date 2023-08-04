@@ -21,9 +21,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.Vector;
+
 
 
 public class LoginController implements Initializable {
@@ -66,7 +65,6 @@ public class LoginController implements Initializable {
         if(successfulLogin){
             try {
                 setCurrentUser(username);
-                System.out.println(DataMgmt.getCurrentUser().toString());
                 initializeLandingScene(actionEvent);
             } catch (IOException e) {
                 throw new RuntimeException(e);
