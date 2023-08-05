@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="619.0" prefWidth="1331.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.casinelli.Appointments.Controller.SchedulingHubController">
+    <VBox prefHeight="614.0" prefWidth="1339.0">
+        <AnchorPane prefHeight="79.0" prefWidth="1023.0">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fafafa00" height="60.0" layoutX="7.0" layoutY="7.0" stroke="BLACK" strokeType="INSIDE" width="1317.0" />
+            <Label fx:id="lblApptSceneAppName" layoutX="21.0" layoutY="11.0" prefHeight="53.0" prefWidth="276.0" text="APPOINTMENTS" textFill="#9e2e2e">
+                <font>
+                    <Font name="System Italic" size="36.0" />
+                </font>
+            </Label>
+            <Label fx:id="lblApptSceneTitle" alignment="CENTER" layoutX="543.0" layoutY="11.0" prefHeight="45.0" prefWidth="254.0" text="Scheduling">
+                <font>
+                    <Font size="36.0" />
+                </font>
+            </Label>
+            <Label fx:id="lblApptUsername" layoutX="1215.0" layoutY="11.0" prefHeight="29.0" prefWidth="95.0" text="Label">
+                <font>
+                    <Font name="System Bold" size="18.0" />
+                </font>
+            </Label>
+            <Label fx:id="lblApptUsernameLabel" alignment="CENTER_RIGHT" layoutX="1120.0" layoutY="7.0" prefHeight="36.0" prefWidth="79.0" text="Welcome">
+                <font>
+                    <Font size="16.0" />
+                </font>
+            </Label>
+            <Label fx:id="lblApptZoneID" layoutX="1139.0" layoutY="36.0" prefHeight="29.0" prefWidth="164.0" text="Zone ID">
+                <font>
+                    <Font size="16.0" />
+                </font>
+            </Label>
+        </AnchorPane>
+        <HBox fx:id="tfWHSceneTitle" prefHeight="551.0" prefWidth="1023.0">
+            <AnchorPane prefHeight="543.0" prefWidth="179.0">
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="60.0" layoutX="17.0" layoutY="17.0" stroke="BLACK" strokeType="INSIDE" width="144.0" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="535.0" layoutX="7.0" layoutY="4.0" stroke="BLACK" strokeType="INSIDE" width="164.0" />
+                <Label fx:id="lblApptNavTitle" alignment="CENTER" layoutX="16.0" layoutY="28.0" prefHeight="39.0" prefWidth="144.0" text="NAVIGATION">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+                <Button fx:id="btnApptNavCustScene" layoutX="18.0" layoutY="151.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#navToCustomerScene" prefHeight="39.0" prefWidth="144.0" text="Customers">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Button>
+                <Button fx:id="btnApptNavWelcHub" layoutX="17.0" layoutY="86.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#navToWelcomeScene" prefHeight="39.0" prefWidth="144.0" text="Welcome Hub">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Button>
+                <Button fx:id="btnApptNavReportsScene" layoutX="18.0" layoutY="279.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#navToReportsScene" prefHeight="39.0" prefWidth="144.0" text="Reports">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Button>
+                <Button fx:id="btnApptNavScheduleScene" disable="true" layoutX="18.0" layoutY="216.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#navToScheduleScene" prefHeight="39.0" prefWidth="144.0" text="Scheduling">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Button>
+                <Button fx:id="btnApptNavLogout" layoutX="18.0" layoutY="484.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#appLogout" prefHeight="39.0" prefWidth="144.0" text="Log Out">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Button>
+            </AnchorPane>
+            <AnchorPane prefHeight="543.0" prefWidth="1151.0">
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff02" height="535.0" layoutX="4.0" layoutY="4.0" stroke="BLACK" strokeType="INSIDE" width="1142.0" />
+                <TableView fx:id="tblVwAppts" layoutX="14.0" layoutY="103.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="426.0" prefWidth="1124.0">
+                    <columns>
+                        <TableColumn fx:id="tvColAppt_ApptID" editable="false" prefWidth="29.0" text="ID" />
+                        <TableColumn fx:id="tvColAppt_ApptName" editable="false" prefWidth="121.0" text="Title" />
+                        <TableColumn fx:id="tvColAppt_Description" editable="false" prefWidth="253.0" text="Description" />
+                        <TableColumn fx:id="tvColAppt_Location" editable="false" minWidth="0.0" prefWidth="101.0" text="Location" />
+                        <TableColumn fx:id="tvColAppt_ApptType" editable="false" prefWidth="83.0" text="Type" />
+                        <TableColumn fx:id="tvColAppt_Start" editable="false" prefWidth="104.0" text="Start" />
+                  <TableColumn fx:id="tvColAppt_End" editable="false" prefWidth="100.0" text="End" />
+                  <TableColumn fx:id="tvColAppt_Customer" editable="false" prefWidth="127.0" text="Customer" />
+                  <TableColumn fx:id="tvColAppt_User" editable="false" prefWidth="100.0" text="User" />
+                  <TableColumn fx:id="tvColAppt_Contact" editable="false" prefWidth="105.0" text="Contact" />
+                    </columns>
+                </TableView>
+            <Button fx:id="btnApptCreate" layoutX="236.0" layoutY="34.0" mnemonicParsing="false" onAction="#createNewAppt" prefHeight="39.0" prefWidth="144.0" text="Create">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnApptUpdate" layoutX="418.0" layoutY="34.0" mnemonicParsing="false" onAction="#updateSelectedAppt" prefHeight="39.0" prefWidth="144.0" text="Update">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnApptDelete" layoutX="606.0" layoutY="34.0" mnemonicParsing="false" onAction="#deleteSelectedAppt" prefHeight="39.0" prefWidth="144.0" text="Delete">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
+            </AnchorPane>
+        </HBox>
+    </VBox>
+</AnchorPane>

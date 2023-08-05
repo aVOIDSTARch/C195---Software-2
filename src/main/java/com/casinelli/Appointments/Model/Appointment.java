@@ -131,32 +131,32 @@ public class Appointment extends DBObject{
     }
 
     @Override
-    int getId() {
+    public int getId() {
         return this.id;
     }
 
     @Override
-    String getName() {
+    public String getName() {
         return this.name;
     }
 
     @Override
-    LocalDate getCreateDate() {
+    public LocalDate getCreateDate() {
         return this.createDate;
     }
 
     @Override
-    String getCreatedBy() {
+    public String getCreatedBy() {
         return this.createdBy;
     }
 
     @Override
-    LocalDateTime getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return this.lastUpdate;
     }
 
     @Override
-    String getLastUpdatedBy() {
+    public String getLastUpdatedBy() {
         return this.lastUpdatedBy;
     }
 

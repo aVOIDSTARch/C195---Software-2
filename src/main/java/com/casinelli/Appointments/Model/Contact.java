@@ -45,21 +45,21 @@ public class Contact extends DBObject{
     }
 
     @Override
-    LocalDate getCreateDate() {
+    public LocalDate getCreateDate() {
         return null;
     }
 
     @Override
-    String getCreatedBy() {
+    public String getCreatedBy() {
         return null;
     }
 
     @Override
-    LocalDateTime getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return null;
     }
     @Override
-    String getLastUpdatedBy() {
+    public String getLastUpdatedBy() {
         return null;
     }
 

@@ -111,6 +111,7 @@ public class WelcomeHubController implements Initializable{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        thisStage.setTitle("Customers");
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }

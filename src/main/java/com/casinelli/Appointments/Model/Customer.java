@@ -3,6 +3,7 @@ package com.casinelli.Appointments.Model;
 import com.casinelli.Appointments.DAO.JDBC;
 import com.casinelli.Appointments.DAO.RetrieveAllInterface;
 import com.casinelli.Appointments.DAO.RetrieveInterface;
+import com.casinelli.Appointments.Helper.DataMgmt;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -89,34 +90,41 @@ public class Customer extends DBObject{
     public int getDivisionId() {
         return divisionId;
     }
+    public String getCountryName(){
+        return DataMgmt.getCountryNameFromDivId(this.divisionId);
+    }
+    public String getDivisionName(){
+        return DataMgmt.getDivisionNameFromDivId(this.divisionId);
+    }
+
 
     @Override
-    int getId() {
+    public int getId() {
         return this.id;
     }
 
     @Override
-    String getName() {
+    public String getName() {
         return this.name;
     }
 
     @Override
-    LocalDate getCreateDate() {
+    public LocalDate getCreateDate() {
         return this.createDate;
     }
 
     @Override
-    String getCreatedBy() {
+    public String getCreatedBy() {
         return this.createdBy;
     }
 
     @Override
-    LocalDateTime getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return this.lastUpdate;
     }
 
     @Override
-    String getLastUpdatedBy() {
+    public String getLastUpdatedBy() {
         return this.lastUpdatedBy;
     }
     public static Vector<Customer> toCustomerVector(Vector<DBObject> vdbo){

@@ -34,7 +34,7 @@ public class Main extends Application {
         JDBC.openConnection();
         //Initialize Data Setup
         DataMgmt.initializeApplicationData();
-
+        //System.out.println(DataMgmt.getAllCustomersList().get(0).getAddress());
         Value<Integer> newInt = new Value<Integer>(2);
 
 

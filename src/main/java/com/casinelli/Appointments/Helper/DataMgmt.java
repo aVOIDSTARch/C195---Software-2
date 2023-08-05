@@ -7,11 +7,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.ResultSet;
-import java.sql.SQLData;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class DataMgmt {
     private static User currentUser;
@@ -92,6 +91,8 @@ public abstract class DataMgmt {
     }
     /////COUNTRY FUNCTIONS/////
 
+
+
     /////CONTACT FUNCTIONS/////
     public static ObservableList<Contact> getAllContactsList(){
         return allContacts;
@@ -106,6 +107,10 @@ public abstract class DataMgmt {
         return apptCount.get();
     }
     /////CUSTOMER FUNCTIONS/////
+    public static ObservableList<Customer> getAllCustomersList(){
+        return allCustomers;
+    }
+
 
     /////DIVISION FUNCTIONS/////
     public static ObservableList<String> getListOfDivNamesByCountryId(int countryId) throws SQLException {
@@ -117,5 +122,30 @@ public abstract class DataMgmt {
             divNames.add(newDivName);
         }
         return divNames;
+    }
+
+    public static String getCountryNameFromDivId(int divId) {
+        AtomicReference<String> countryName = new AtomicReference<>("");
+        AtomicInteger countryId = new AtomicInteger();
+        allDivisions.forEach(division -> {
+            if (division.getId() == divId){
+                countryId.set(division.getCountryId());
+            }
+        });
+        allCountries.forEach(country -> {
+            if(country.getId() == countryId.get()){
+                countryName.set(country.getName());
+            }
+        });
+        return countryName.get();
+    }
+    public static String getDivisionNameFromDivId(int divisionId){
+        AtomicReference<String> divName = new AtomicReference<>("");
+        allDivisions.forEach(div ->{
+            if(div.getId() == divisionId) {
+                divName.set(div.getName());
+            }
+        });
+        return divName.get();
     }
 }

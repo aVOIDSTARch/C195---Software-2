@@ -1,12 +1,11 @@
 package com.casinelli.Appointments.Controller;
 
-import com.casinelli.Appointments.DAO.DBQuery;
+
 import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
 import com.casinelli.Appointments.Model.Customer;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -17,8 +16,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class CustomerHubController implements Initializable {
@@ -68,25 +65,12 @@ public class CustomerHubController implements Initializable {
     private Button btnCustUpdate;
     @javafx.fxml.FXML
     private Button btnCustDelete;
-    ObservableList<Customer> allCustomersList = FXCollections.observableArrayList();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Fill in text from I18n resource
         populateTextPropsCustScene();
-        //Get All Customers ResultSet
-        ResultSet allCustomerSet = null;
-        try {
-            allCustomerSet = DBQuery.retrieveAll(Customer.allCustomers);
-        } catch (SQLException e) {
-            System.out.println("Failed to get all customers from db");
-        }
-        //Populate allCustomersList
-        try {
-            populateAllCustomersList(allCustomerSet);
-        } catch (SQLException e) {
-            System.out.println("failed to populate all customers list");
-        }
-        //Set up Customer TableView
+       //Set up Customer TableView
         initializeCustTblView();
     }
 
@@ -100,22 +84,19 @@ public class CustomerHubController implements Initializable {
         tvColCust_CustDiv.textProperty().setValue(I18nMgmt.translate("ColNameDivision"));
         tvColCust_CustCountry.textProperty().setValue(I18nMgmt.translate("ColNameCountry"));
         /////SET UP COLUMNS FOR DATA/////
-        tblVwCustomers.setItems(allCustomersList);
+        tblVwCustomers.setItems(DataMgmt.getAllCustomersList());
         tvColCust_CustID.setCellValueFactory(new PropertyValueFactory<>("id"));
         tvColCust_CustName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tvColCust_CustAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        tvColCust_CustPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         tvColCust_CustPostalCode.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
-        tvColCust_CustDiv.setCellValueFactory(new PropertyValueFactory<>("divisionId"));
-        //tvColCust_CustCountry.setCellValueFactory(new PropertyValueFactory<>(""));
+        tvColCust_CustDiv.setCellValueFactory(new PropertyValueFactory<>("divisionName"));
+        tvColCust_CustCountry.setCellValueFactory(new PropertyValueFactory<>("countryName"));
 
 
     }
 
-    private void populateAllCustomersList(ResultSet rs) throws SQLException {
-        while(rs.next()){
-            allCustomersList.add(new Customer(rs));
-        }
-    }
+
 
     private void populateTextPropsCustScene() {
         /////NAVIGATION BUTTONS/////
