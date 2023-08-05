@@ -1,7 +1,17 @@
 package com.casinelli.Appointments.Controller;
 
-public class SchedulingHubController
-{
+import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.layout.HBox;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class SchedulingHubController implements Initializable {
     @javafx.fxml.FXML
     private HBox tfWHSceneTitle;
     @javafx.fxml.FXML
@@ -101,5 +111,10 @@ public class SchedulingHubController
 
     @javafx.fxml.FXML
     public void deleteSelectedAppt(ActionEvent actionEvent) {
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 }
