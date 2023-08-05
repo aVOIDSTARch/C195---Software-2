@@ -89,6 +89,9 @@ public abstract class DataMgmt {
     public static int getAllApptCount(){
         return allAppts.size();
     }
+    public static int getTotalNumAppts(){
+        return allAppts.size();
+    }
     /////COUNTRY FUNCTIONS/////
 
 

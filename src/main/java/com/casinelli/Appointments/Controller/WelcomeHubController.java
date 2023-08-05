@@ -83,11 +83,15 @@ public class WelcomeHubController implements Initializable{
 
     @javafx.fxml.FXML
     public void navToCustomerScene(ActionEvent actionEvent) throws IOException {
-            thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
-            scene   = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/customer-view.fxml"));
-            thisStage.setScene(new Scene(scene));
-            thisStage.show();
-
+        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        try {
+            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/customer-view.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        thisStage.setTitle("Customers");
+        thisStage.setScene(new Scene(scene));
+        thisStage.show();
     }
 
     @javafx.fxml.FXML
@@ -96,10 +100,28 @@ public class WelcomeHubController implements Initializable{
 
     @javafx.fxml.FXML
     public void navToReportsScene(ActionEvent actionEvent) {
+        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        try {
+            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/reporting-view.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        thisStage.setTitle("Reports");
+        thisStage.setScene(new Scene(scene));
+        thisStage.show();
     }
 
     @javafx.fxml.FXML
     public void navToScheduleScene(ActionEvent actionEvent) {
+        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        try {
+            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/scheduling-view.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        thisStage.setTitle("Scheduling");
+        thisStage.setScene(new Scene(scene));
+        thisStage.show();
     }
 
     @javafx.fxml.FXML
@@ -141,6 +163,7 @@ public class WelcomeHubController implements Initializable{
         String apptCountForToday = "Total   " + DataMgmt.getApptCountForToday();
         lblWHApptCntToday.textProperty().setValue(apptCountForToday);
         lblWHApptsToday.textProperty().setValue(I18nMgmt.translate("WHApptsForToday"));
+        lblWHNumAppts.textProperty().setValue(Integer.toString(DataMgmt.getTotalNumAppts()));
     }
     private void populateContactSquare(){
         //Set Contact Names

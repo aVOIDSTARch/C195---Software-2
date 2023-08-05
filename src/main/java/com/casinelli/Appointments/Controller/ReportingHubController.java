@@ -6,78 +6,51 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SchedulingHubController implements Initializable {
+public class ReportingHubController implements Initializable {
     //Controller instance variables
     Stage thisStage;
     Parent scene;
     ///// JAVAFX CONTROLS /////
     @javafx.fxml.FXML
+    private Label lblRptSceneAppName;
+    @javafx.fxml.FXML
+    private Label lblRptSceneTitle;
+    @javafx.fxml.FXML
+    private Label lblRptUsername;
+    @javafx.fxml.FXML
+    private Label lblRptUsernameLabel;
+    @javafx.fxml.FXML
+    private Label lblRptZoneID;
+    @javafx.fxml.FXML
     private HBox tfWHSceneTitle;
     @javafx.fxml.FXML
-    private Label lblApptSceneAppName;
+    private Label lblRptNavTitle;
     @javafx.fxml.FXML
-    private Label lblApptSceneTitle;
+    private Button btnRptNavCustScene;
     @javafx.fxml.FXML
-    private Label lblApptUsername;
+    private Button btnRptNavWelcHub;
     @javafx.fxml.FXML
-    private Label lblApptUsernameLabel;
+    private Button btnRptNavReportsScene;
     @javafx.fxml.FXML
-    private Label lblApptZoneID;
+    private Button btnRptNavScheduleScene;
     @javafx.fxml.FXML
-    private Label lblApptNavTitle;
+    private Button btnRptNavLogout;
     @javafx.fxml.FXML
-    private Button btnApptNavCustScene;
+    private Button btnDisplayReport1;
     @javafx.fxml.FXML
-    private Button btnApptNavWelcHub;
+    private Button btnDisplayReport2;
     @javafx.fxml.FXML
-    private Button btnApptNavReportsScene;
+    private Button btnDisplayErrorLog;
     @javafx.fxml.FXML
-    private Button btnApptNavScheduleScene;
-    @javafx.fxml.FXML
-    private Button btnApptNavLogout;
-    @javafx.fxml.FXML
-    private TableView tblVwAppts;
-    @javafx.fxml.FXML
-    private TableColumn tvColAppt_ApptID;
-    @javafx.fxml.FXML
-    private TableColumn tvColAppt_ApptName;
-    @javafx.fxml.FXML
-    private TableColumn tvColAppt_Description;
-    @javafx.fxml.FXML
-    private TableColumn tvColAppt_Location;
-    @javafx.fxml.FXML
-    private TableColumn tvColAppt_ApptType;
-    @javafx.fxml.FXML
-    private TableColumn tvColAppt_Start;
-    @javafx.fxml.FXML
-    private TableColumn tvColAppt_End;
-    @javafx.fxml.FXML
-    private TableColumn tvColAppt_Customer;
-    @javafx.fxml.FXML
-    private TableColumn tvColAppt_User;
-    @javafx.fxml.FXML
-    private TableColumn tvColAppt_Contact;
-    @javafx.fxml.FXML
-    private Button btnApptCreate;
-    @javafx.fxml.FXML
-    private Button btnApptUpdate;
-    @javafx.fxml.FXML
-    private Button btnApptDelete;
-
-    @javafx.fxml.FXML
-    public void initialize() {
-    }
+    private TextArea txtAreaRptOutput;
 
     @javafx.fxml.FXML
     public void navToCustomerScene(ActionEvent actionEvent) {
@@ -107,19 +80,19 @@ public class SchedulingHubController implements Initializable {
 
     @javafx.fxml.FXML
     public void navToReportsScene(ActionEvent actionEvent) {
-        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
-        try {
-            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/reporting-view.fxml"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        thisStage.setTitle("Reports");
-        thisStage.setScene(new Scene(scene));
-        thisStage.show();
     }
 
     @javafx.fxml.FXML
     public void navToScheduleScene(ActionEvent actionEvent) {
+        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        try {
+            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/scheduling-view.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        thisStage.setTitle("Scheduling");
+        thisStage.setScene(new Scene(scene));
+        thisStage.show();
     }
 
     @javafx.fxml.FXML
@@ -137,15 +110,15 @@ public class SchedulingHubController implements Initializable {
     }
 
     @javafx.fxml.FXML
-    public void createNewAppt(ActionEvent actionEvent) {
+    public void displayRptApptsTypeMonth(ActionEvent actionEvent) {
     }
 
     @javafx.fxml.FXML
-    public void updateSelectedAppt(ActionEvent actionEvent) {
+    public void displayRptApptByContact(ActionEvent actionEvent) {
     }
 
     @javafx.fxml.FXML
-    public void deleteSelectedAppt(ActionEvent actionEvent) {
+    public void displayRptExceptionLog(ActionEvent actionEvent) {
     }
 
     @Override

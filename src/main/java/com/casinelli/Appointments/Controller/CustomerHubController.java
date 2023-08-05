@@ -7,18 +7,27 @@ import com.casinelli.Appointments.Helper.I18nMgmt;
 import com.casinelli.Appointments.Model.Customer;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CustomerHubController implements Initializable {
+    //Controller instance variables
+    Stage thisStage;
+    Parent scene;
+    ///// JAVAFX CONTROLS /////
     @javafx.fxml.FXML
     private Label lblCustSceneAppName;
     @javafx.fxml.FXML
@@ -127,18 +136,55 @@ public class CustomerHubController implements Initializable {
 
     @javafx.fxml.FXML
     public void navToWelcomeScene(ActionEvent actionEvent) {
+        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        try {
+            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/welcomehub-view.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        thisStage.setTitle("Welcome Hub");
+        thisStage.setScene(new Scene(scene));
+        thisStage.show();
     }
 
     @javafx.fxml.FXML
     public void navToReportsScene(ActionEvent actionEvent) {
+        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        try {
+            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/reporting-view.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        thisStage.setTitle("Reports");
+        thisStage.setScene(new Scene(scene));
+        thisStage.show();
     }
 
     @javafx.fxml.FXML
     public void navToScheduleScene(ActionEvent actionEvent) {
+        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        try {
+            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/scheduling-view.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        thisStage.setTitle("Scheduling");
+        thisStage.setScene(new Scene(scene));
+        thisStage.show();
     }
 
     @javafx.fxml.FXML
     public void appLogout(ActionEvent actionEvent) {
+        DataMgmt.setCurrentUser(null);
+        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        try {
+            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/login-view.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        thisStage.setTitle("Customers");
+        thisStage.setScene(new Scene(scene));
+        thisStage.show();
     }
 
     @javafx.fxml.FXML
