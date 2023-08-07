@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public abstract class DBQuery {
 
-    public static int create(CreateInterface ci, DBObject dbo){
+    public static int create(CreateInterface ci, DBObject dbo) throws SQLException {
         return ci.insertIntoDB(dbo);
     }
     public static ResultSet retrieve(RetrieveInterface ri, Value<?> matchValue) throws SQLException {

@@ -2,6 +2,7 @@ package com.casinelli.Appointments.Model;
 
 import com.casinelli.Appointments.DAO.JDBC;
 import com.casinelli.Appointments.DAO.RetrieveInterface;
+import com.casinelli.Appointments.Helper.DateTimeMgmt;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -30,7 +31,7 @@ public class User extends DBObject{
     };
 
 
-    public User(int id, String name,String password, LocalDate createDate, String createdBy,
+    public User(int id, String name,String password, LocalDateTime createDate, String createdBy,
                 LocalDateTime lastUpdate, String lastUpdatedBy) {
         this.password = password;
         this.id = id;
@@ -46,9 +47,10 @@ public class User extends DBObject{
             this.id = rs.getInt(USER_COL_NAMES[0]);
             this.name = rs.getString(USER_COL_NAMES[1]);
             this.password = "";
-            this.createDate = rs.getDate(USER_COL_NAMES[3]).toLocalDate();
+            this.createDate = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getDate(USER_COL_NAMES[3]).toLocalDate()
+                    .atTime(rs.getTime(USER_COL_NAMES[3]).toLocalTime()));
             this.createdBy = rs.getString(USER_COL_NAMES[4]);
-            this.lastUpdate = rs.getTimestamp(USER_COL_NAMES[5]).toLocalDateTime();
+            this.lastUpdate = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getTimestamp(USER_COL_NAMES[5]).toLocalDateTime());
             this.lastUpdatedBy = rs.getString(USER_COL_NAMES[6]);
         }
     }
@@ -63,22 +65,22 @@ public class User extends DBObject{
     }
 
     @Override
-    LocalDate getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return this.createDate;
     }
 
     @Override
-    String getCreatedBy() {
+    public String getCreatedBy() {
         return this.createdBy;
     }
 
     @Override
-    LocalDateTime getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return this.lastUpdate;
     }
 
     @Override
-    String getLastUpdatedBy() {
+    public String getLastUpdatedBy() {
         return this.lastUpdatedBy;
     }
     public String getPassword() {

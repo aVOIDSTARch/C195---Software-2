@@ -1,15 +1,14 @@
 package com.casinelli.Appointments.Model;
 
+import com.casinelli.Appointments.DAO.CreateInterface;
 import com.casinelli.Appointments.DAO.JDBC;
 import com.casinelli.Appointments.DAO.RetrieveAllInterface;
 import com.casinelli.Appointments.DAO.RetrieveInterface;
 import com.casinelli.Appointments.Helper.DataMgmt;
+import com.casinelli.Appointments.Helper.DateTimeMgmt;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.sql.*;
+import java.time.*;
 import java.util.Vector;
 
 public class Customer extends DBObject{
@@ -42,10 +41,35 @@ public class Customer extends DBObject{
         ResultSet rs = ps.executeQuery();
         return rs;
     };
+    public static final CreateInterface insertCustomer = (thisCust) -> {
+        //Local variable setup
+        Customer aCustomer = (Customer) thisCust;
+        String username = "DEFAULT NAME";
+        //Update Username
+        if (DataMgmt.getCurrentUser() != null){
+            username = DataMgmt.getCurrentUser().getName();
+        }
+        //INSERT STRING
+        String sql = "INSERT INTO CUSTOMERS (CUSTOMER_NAME, ADDRESS, POSTAL_CODE, PHONE, CREATE_DATE, CREATED_BY, " +
+                "LAST_UPDATE, LAST_UPDATED_BY, DIVISION_ID) VALUES (?,?,?,?,?,?,?,?,?)";
+        //REMEMBER BIND VARS START INDEX AT 1
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql); // Throws SQLException
+        ps.setString(1, aCustomer.getName());
+        ps.setString(2, aCustomer.getAddress());
+        ps.setString(3, aCustomer.getPostalCode());
+        ps.setString(4, aCustomer.getPhone());
+        //ps.setDate(5, Date.valueOf(aCustomer.getCreateDate()));
+        ps.setString(6, username);
+        ps.setTimestamp(7, Timestamp.valueOf(aCustomer.getLastUpdate()));
+        ps.setString(8, username);
+        ps.setInt(9,aCustomer.getDivisionId());
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected;
+    };
 
     /////CONSTRUCTORS/////
     public Customer(int id, String name, String address, String postalCode, String phone,
-                    LocalDate createDate, String createdBy, LocalDateTime lastUpdate,
+                    LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate,
                     String lastUpdatedBy, int divisionId) {
         this.address = address;
         this.postalCode = postalCode;
@@ -67,9 +91,10 @@ public class Customer extends DBObject{
             this.address = rs.getString(CUSTOMER_COL_NAMES[2]);
             this.postalCode = rs.getString(CUSTOMER_COL_NAMES[3]);
             this.phone = rs.getString(CUSTOMER_COL_NAMES[4]);
-            this.createDate = rs.getDate(CUSTOMER_COL_NAMES[5]).toLocalDate();
+            this.createDate = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getDate(CUSTOMER_COL_NAMES[5]).toLocalDate()
+                    .atTime(rs.getTime(CUSTOMER_COL_NAMES[5]).toLocalTime()));
             this.createdBy = rs.getString(CUSTOMER_COL_NAMES[6]);
-            this.lastUpdate = rs.getTimestamp(CUSTOMER_COL_NAMES[7]).toLocalDateTime();
+            this.lastUpdate = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getTimestamp(CUSTOMER_COL_NAMES[7]).toLocalDateTime());
             this.lastUpdatedBy = rs.getString(CUSTOMER_COL_NAMES[8]);
             this.divisionId = rs.getInt(CUSTOMER_COL_NAMES[9]);
         }
@@ -109,7 +134,7 @@ public class Customer extends DBObject{
     }
 
     @Override
-    public LocalDate getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return this.createDate;
     }
 

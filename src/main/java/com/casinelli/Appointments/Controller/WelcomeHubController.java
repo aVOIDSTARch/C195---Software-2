@@ -154,7 +154,7 @@ public class WelcomeHubController implements Initializable{
         btnWHNavLogout.textProperty().setValue(I18nMgmt.translate("NavLogOutBtn"));
         /////LABELS/////
         lblWHAppName.textProperty().setValue(I18nMgmt.translate("labelAppName"));
-        lblWHAppName.textProperty().setValue(I18nMgmt.translate("welcomeHub"));
+        lblWHSceneTitle.textProperty().setValue(I18nMgmt.translate("welcomeHub"));
         lblWHNavTitle.textProperty().setValue(I18nMgmt.translate("NavTitle"));
         lblWHUsernameLabel.textProperty().setValue(I18nMgmt.translate("UsernameLabel"));
         lblWHUsername.textProperty().setValue(DataMgmt.getCurrentUser().getName());

@@ -9,13 +9,19 @@ public abstract class DateTimeMgmt {
     public static final ZoneId ZONE_SYS = ZoneId.systemDefault();
     public static final ZoneId ZONE_UTC = ZoneId.of("UTC");
 
-    public static ZonedDateTime toUTC(ZonedDateTime zdt){
-        ZonedDateTime zdtUTC = ZonedDateTime.ofInstant(zdt.toInstant(), ZONE_UTC);
-        return zdtUTC;
+    public static LocalDateTime convertLocalTZtoUTC(LocalDateTime localLDT){
+        LocalDateTime newUTCldt = localLDT.atZone(DateTimeMgmt.ZONE_SYS)
+                .withZoneSameInstant(ZONE_UTC)
+                .toLocalDateTime();
+        return newUTCldt;
     }
-    public static ZonedDateTime toLocalTimeZone(ZonedDateTime zdtUTC){
-        ZonedDateTime zdtLocal = ZonedDateTime.ofInstant(zdtUTC.toInstant(), ZONE_SYS);
-        return zdtLocal;
+    public static LocalDateTime convertUTCtoLocalTimeZone(LocalDateTime UTCldt){
+        LocalDateTime newLocalLDT = UTCldt.atZone(DateTimeMgmt.ZONE_UTC)
+                .withZoneSameInstant(ZONE_SYS)
+                .toLocalDateTime();
+        return newLocalLDT;
+
     }
+
 
 }

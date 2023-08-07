@@ -3,13 +3,13 @@ package com.casinelli.Appointments.Model;
 import com.casinelli.Appointments.DAO.JDBC;
 import com.casinelli.Appointments.DAO.RetrieveAllInterface;
 import com.casinelli.Appointments.DAO.RetrieveInterface;
+import com.casinelli.Appointments.Helper.DateTimeMgmt;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Vector;
 
 public class Division extends DBObject {
 
@@ -40,7 +40,7 @@ public class Division extends DBObject {
     };
 
     /////CONSTRUCTORS/////
-    public Division(int id, String name, LocalDate createDate, String createdBy, LocalDateTime lastUpdate,
+    public Division(int id, String name, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate,
                     String lastUpdatedBy, int countryId) {
         this.countryId = countryId;
         this.id = id;
@@ -55,9 +55,10 @@ public class Division extends DBObject {
         if (rs != null) {
             this.id = rs.getInt(DIVISION_COL_NAMES[0]);
             this.name = rs.getString(DIVISION_COL_NAMES[1]);
-            this.createDate = rs.getDate(DIVISION_COL_NAMES[2]).toLocalDate();
+            this.createDate = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getDate(DIVISION_COL_NAMES[2]).toLocalDate()
+                    .atTime(rs.getTime(DIVISION_COL_NAMES[2]).toLocalTime()));
             this.createdBy = rs.getString(DIVISION_COL_NAMES[3]);
-            this.lastUpdate = rs.getTimestamp(DIVISION_COL_NAMES[4]).toLocalDateTime();
+            this.lastUpdate = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getTimestamp(DIVISION_COL_NAMES[4]).toLocalDateTime());
             this.lastUpdatedBy = rs.getString(DIVISION_COL_NAMES[5]);
             this.countryId = rs.getInt(DIVISION_COL_NAMES[6]);
         }
@@ -78,7 +79,7 @@ public class Division extends DBObject {
     }
 
     @Override
-    public LocalDate getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return this.createDate;
     }
 

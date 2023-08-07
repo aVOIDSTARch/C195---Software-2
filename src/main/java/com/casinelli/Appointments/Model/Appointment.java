@@ -1,16 +1,14 @@
 package com.casinelli.Appointments.Model;
 
+import com.casinelli.Appointments.DAO.CreateInterface;
 import com.casinelli.Appointments.DAO.JDBC;
 import com.casinelli.Appointments.DAO.RetrieveAllInterface;
 import com.casinelli.Appointments.DAO.RetrieveInterface;
+import com.casinelli.Appointments.Helper.DataMgmt;
+import com.casinelli.Appointments.Helper.DateTimeMgmt;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
+import java.sql.*;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Vector;
 
 public class Appointment extends DBObject{
     private String description;
@@ -58,8 +56,37 @@ public class Appointment extends DBObject{
         ResultSet rs = ps.executeQuery();
         return rs;
     };
+    public static final CreateInterface insertAppointment = (thisAppt) -> {
+        //Local variable setup
+        Appointment anAppt = (Appointment) thisAppt;
+        String username = "DEFAULT NAME";
+        //Update Username
+        if (DataMgmt.getCurrentUser() != null){
+            username = DataMgmt.getCurrentUser().getName();
+        }
+        //INSERT STRING
+        String sql = "INSERT INTO APPOINTMENTS (TITLE, DESCRIPTION, LOCATION, TYPE, START, END, CREATE_DATE, CREATED_BY, " +
+                "LAST_UPDATE, LAST_UPDATED_BY, CUSTOMER_ID, USER_ID, CONTACT_ID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        //REMEMBER BIND VARS START INDEX AT 1
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql); // Throws SQLException
+        ps.setString(1, anAppt.getName());
+        ps.setString(2,anAppt.getDescription());
+        ps.setString(3, anAppt.getLocation());
+        ps.setString(4, anAppt.getType());
+        ps.setTimestamp(5, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(anAppt.getStart())));
+        ps.setTimestamp(6, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(anAppt.getEnd())));
+        ps.setTimestamp(7, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(anAppt.getCreateDate())));
+        ps.setString(8, username);
+        ps.setTimestamp(9, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(anAppt.getLastUpdate())));
+        ps.setString(10, username);
+        ps.setInt(11,anAppt.getCustomerId());
+        ps.setInt(12, anAppt.getUserId());
+        ps.setInt(13,anAppt.getContactId());
+        int rowsAffected = ps.executeUpdate();
+        return rowsAffected;
+    };
     /////CONSTRUCTORS/////
-    public Appointment(int id, String title, LocalDate createDate, String createdBy,
+    public Appointment(int id, String title, LocalDateTime createDate, String createdBy,
                        LocalDateTime lastUpdate, String lastUpdatedBy, String description,
                        String location, String type, LocalDateTime start, LocalDateTime end,
                        int customerId, int userId, int contactId) {
@@ -86,11 +113,14 @@ public class Appointment extends DBObject{
             this.description = rs.getString(APPT_COL_NAMES[2]);
             this.location = rs.getString(APPT_COL_NAMES[3]);
             this.type = rs.getString(APPT_COL_NAMES[4]);
-            this.start = rs.getDate(APPT_COL_NAMES[5]).toLocalDate().atTime(rs.getTime(APPT_COL_NAMES[5]).toLocalTime());
-            this.end = rs.getDate(APPT_COL_NAMES[6]).toLocalDate().atTime(rs.getTime(APPT_COL_NAMES[6]).toLocalTime());
-            this.createDate = rs.getDate(APPT_COL_NAMES[7]).toLocalDate();
+            this.start = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getDate(APPT_COL_NAMES[5]).toLocalDate()
+                    .atTime(rs.getTime(APPT_COL_NAMES[5]).toLocalTime()));
+            this.end = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getDate(APPT_COL_NAMES[6]).toLocalDate()
+                    .atTime(rs.getTime(APPT_COL_NAMES[6]).toLocalTime()));
+            this.createDate = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getDate(APPT_COL_NAMES[7]).toLocalDate()
+                    .atTime(rs.getTime(APPT_COL_NAMES[7]).toLocalTime()));
             this.createdBy = rs.getString(APPT_COL_NAMES[8]);
-            this.lastUpdate = rs.getTimestamp(APPT_COL_NAMES[9]).toLocalDateTime();
+            this.lastUpdate = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getTimestamp(APPT_COL_NAMES[9]).toLocalDateTime());
             this.lastUpdatedBy = rs.getString(APPT_COL_NAMES[10]);
             this.customerId = rs.getInt(APPT_COL_NAMES[11]);
             this.userId = rs.getInt(APPT_COL_NAMES[12]);
@@ -141,7 +171,7 @@ public class Appointment extends DBObject{
     }
 
     @Override
-    public LocalDate getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return this.createDate;
     }
 

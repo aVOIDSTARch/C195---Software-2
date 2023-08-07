@@ -45,7 +45,7 @@ public class Contact extends DBObject{
     }
 
     @Override
-    public LocalDate getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return null;
     }
 

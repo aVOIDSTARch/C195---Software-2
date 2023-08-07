@@ -1,10 +1,14 @@
 package com.casinelli.Appointments;
 
+import com.casinelli.Appointments.DAO.DBQuery;
 import com.casinelli.Appointments.DAO.JDBC;
 import com.casinelli.Appointments.DAO.Value;
 import com.casinelli.Appointments.Helper.DataMgmt;
+import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
 import com.casinelli.Appointments.Helper.Logger;
+import com.casinelli.Appointments.Model.Appointment;
+import com.casinelli.Appointments.Model.Customer;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +18,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Main extends Application {
     //Create Logger Instance
@@ -34,8 +40,13 @@ public class Main extends Application {
         JDBC.openConnection();
         //Initialize Data Setup
         DataMgmt.initializeApplicationData();
-        //System.out.println(DataMgmt.getAllCustomersList().get(0).getAddress());
-        Value<Integer> newInt = new Value<Integer>(2);
+        //Test code to be removed
+
+        LocalDateTime ldt = LocalDateTime.now();
+
+//        Appointment anAppt = new Appointment(444, "Call with Dude", ldt,"Louis", ldt, "louis",
+//                "call about stuff", "here","call", ldt,ldt,1,2,3);
+//        int numrows = DBQuery.create(Appointment.insertAppointment, anAppt);
 
 
         //start JavaFX interface

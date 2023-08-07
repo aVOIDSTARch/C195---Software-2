@@ -3,6 +3,7 @@ package com.casinelli.Appointments.Model;
 import com.casinelli.Appointments.DAO.JDBC;
 import com.casinelli.Appointments.DAO.RetrieveAllInterface;
 import com.casinelli.Appointments.DAO.RetrieveInterface;
+import com.casinelli.Appointments.Helper.DateTimeMgmt;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,7 +30,7 @@ public class Country extends DBObject{
     };
 
     /////CONSTRUCTORS/////
-    public Country(int id, String name, LocalDate createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy) {
+    public Country(int id, String name, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy) {
         this.id = id;
         this.name = name;
         this.createDate = createDate;
@@ -42,9 +43,10 @@ public class Country extends DBObject{
         if(rs != null) {
             this.id = rs.getInt(COUNTRY_COL_NAMES[0]);
             this.name = rs.getString(COUNTRY_COL_NAMES[1]);
-            this.createDate = rs.getDate(COUNTRY_COL_NAMES[2]).toLocalDate();
+            this.createDate = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getDate(COUNTRY_COL_NAMES[2]).toLocalDate()
+                    .atTime(rs.getTime(COUNTRY_COL_NAMES[2]).toLocalTime()));
             this.createdBy = rs.getString(COUNTRY_COL_NAMES[3]);
-            this.lastUpdate = rs.getTimestamp(COUNTRY_COL_NAMES[4]).toLocalDateTime();
+            this.lastUpdate =DateTimeMgmt.convertUTCtoLocalTimeZone( rs.getTimestamp(COUNTRY_COL_NAMES[4]).toLocalDateTime());
             this.lastUpdatedBy = rs.getString(COUNTRY_COL_NAMES[5]);
         }
     }
@@ -60,7 +62,7 @@ public class Country extends DBObject{
     }
 
     @Override
-    public LocalDate getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return this.createDate;
     }
 
