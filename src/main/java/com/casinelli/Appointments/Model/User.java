@@ -5,7 +5,6 @@ import com.casinelli.Appointments.DAO.RetrieveInterface;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 

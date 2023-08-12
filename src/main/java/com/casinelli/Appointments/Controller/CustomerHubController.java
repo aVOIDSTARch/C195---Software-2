@@ -27,6 +27,9 @@ public class CustomerHubController implements Initializable {
     //Controller instance variables
     Stage thisStage;
     Parent scene;
+
+    private static Customer newCustomer;
+    private static Customer selectedCustomer;
     ///// JAVAFX CONTROLS /////
     @javafx.fxml.FXML
     private Label lblCustSceneAppName;
@@ -104,9 +107,6 @@ public class CustomerHubController implements Initializable {
 
 
     }
-
-
-
     private void populateTextPropsCustScene() {
         /////NAVIGATION BUTTONS/////
         btnCustNavWelcHub.textProperty().setValue(I18nMgmt.translate("welcomeHub"));
@@ -142,7 +142,7 @@ public class CustomerHubController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        thisStage.setTitle("Welcome Hub");
+        thisStage.setTitle(I18nMgmt.translate("WelcomeSceneTitle"));
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
@@ -155,7 +155,7 @@ public class CustomerHubController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        thisStage.setTitle("Reports");
+        thisStage.setTitle(I18nMgmt.translate("ReportingSceneTitle"));
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
@@ -168,7 +168,7 @@ public class CustomerHubController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        thisStage.setTitle("Scheduling");
+        thisStage.setTitle(I18nMgmt.translate("SchedulingSceneTitle"));
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
@@ -182,20 +182,57 @@ public class CustomerHubController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        thisStage.setTitle("Customers");
+        thisStage.setTitle(I18nMgmt.translate("LoginSceneTitle"));
+        thisStage.setScene(new Scene(scene));
+        thisStage.show();
+    }
+
+    public static Customer getSelectedCustomer(){
+        return selectedCustomer;
+    }
+    public void setSelectedCustomer(){
+        selectedCustomer = tblVwCustomers.getSelectionModel().getSelectedItem();
+    }
+    public static void setNewCustomer(Customer newCust){
+        newCustomer = newCust;
+    }
+    public static Customer getNewCustomer(){
+        return getNewCustomer();
+    }
+    @javafx.fxml.FXML
+    public void createNewCustomer(ActionEvent actionEvent) {
+        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        try {
+            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/customer-add-view.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        thisStage.setTitle(I18nMgmt.translate("CustAddSceneTitle"));
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
 
     @javafx.fxml.FXML
-    public void createNewCustomer(ActionEvent actionEvent) {
-    }
-
-    @javafx.fxml.FXML
     public void updateSelectedCustomer(ActionEvent actionEvent) {
+        setSelectedCustomer();
+        if(getSelectedCustomer() != null){
+            thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+            try {
+                scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/customer-mod-view.fxml"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            thisStage.setTitle(I18nMgmt.translate("CustModSceneTitle"));
+            thisStage.setScene(new Scene(scene));
+            thisStage.show();
+        }else{
+            System.out.println("Customer not selected");
+        }
+
     }
 
     @javafx.fxml.FXML
     public void deleteSelectedCustomer(ActionEvent actionEvent) {
+
     }
 }

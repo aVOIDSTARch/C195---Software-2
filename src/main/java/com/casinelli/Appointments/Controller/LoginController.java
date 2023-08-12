@@ -76,7 +76,7 @@ public class LoginController implements Initializable {
     private void initializeLandingScene(ActionEvent ae) throws IOException {
         thisStage = (Stage) ((Button)ae.getSource()).getScene().getWindow();
         scene   = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/welcomehub-view.fxml"));
-        thisStage.setTitle("Welcome Hub");
+        thisStage.setTitle(I18nMgmt.translate("WelcomeSceneTitle"));
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }

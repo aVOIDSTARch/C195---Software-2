@@ -94,7 +94,21 @@ public abstract class DataMgmt {
     }
     /////COUNTRY FUNCTIONS/////
 
-
+    public static ObservableList<String> getAllCountryNames(){
+        ObservableList<String> countryNames = FXCollections.observableArrayList();
+        allCountries.forEach(country->
+                countryNames.add(country.getName()));
+        return countryNames;
+    }
+    public static int getCountryIdFromCntryName(String cntryName){
+        AtomicReference<Integer> cntryId = new AtomicReference<>(0);
+        allCountries.forEach(cntry ->{
+            if(cntry.getName() == cntryName) {
+                cntryId.set(cntry.getId());
+            }
+        });
+        return cntryId.get();
+    }
 
     /////CONTACT FUNCTIONS/////
     public static ObservableList<Contact> getAllContactsList(){

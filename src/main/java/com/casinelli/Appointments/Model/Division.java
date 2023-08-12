@@ -8,7 +8,6 @@ import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Division extends DBObject {

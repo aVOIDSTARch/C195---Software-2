@@ -89,7 +89,7 @@ public class WelcomeHubController implements Initializable{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        thisStage.setTitle("Customers");
+        thisStage.setTitle(I18nMgmt.translate("CustomerSceneTitle"));
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
@@ -106,7 +106,7 @@ public class WelcomeHubController implements Initializable{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        thisStage.setTitle("Reports");
+        thisStage.setTitle(I18nMgmt.translate("ReportingSceneTitle"));
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
@@ -119,7 +119,7 @@ public class WelcomeHubController implements Initializable{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        thisStage.setTitle("Scheduling");
+        thisStage.setTitle(I18nMgmt.translate("SchedulingSceneTitle"));
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
@@ -133,7 +133,7 @@ public class WelcomeHubController implements Initializable{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        thisStage.setTitle("Customers");
+        thisStage.setTitle(I18nMgmt.translate("LoginSceneTitle"));
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }

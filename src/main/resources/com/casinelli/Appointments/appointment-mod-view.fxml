@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="651.0" prefWidth="677.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.casinelli.Appointments.Controller.ApptModController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="635.0" layoutX="8.0" layoutY="9.0" stroke="BLACK" strokeType="INSIDE" width="661.0" />
+      <Label fx:id="lblApptModApptID" alignment="CENTER_RIGHT" layoutX="83.0" layoutY="117.0" text="Appointment ID">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblApptModTitle" alignment="CENTER_RIGHT" layoutX="82.0" layoutY="159.0" prefHeight="20.0" prefWidth="100.0" text="Title">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblApptModDesc" alignment="CENTER_RIGHT" layoutX="84.0" layoutY="201.0" prefHeight="20.0" prefWidth="100.0" text="Description">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblApptModLocation" alignment="CENTER_RIGHT" layoutX="82.0" layoutY="243.0" prefHeight="20.0" prefWidth="100.0" text="Location">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblApptModType" alignment="CENTER_RIGHT" layoutX="81.0" layoutY="285.0" prefHeight="20.0" prefWidth="100.0" text="Type">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblApptModCustID" alignment="CENTER_RIGHT" layoutX="87.0" layoutY="458.0" prefHeight="20.0" prefWidth="100.0" text="Customer ID">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblApptModUserID" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="502.0" prefHeight="20.0" prefWidth="100.0" text="User ID">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tfApptModApptID" disable="true" editable="false" focusTraversable="false" layoutX="200.0" layoutY="114.0" prefHeight="25.0" prefWidth="401.0" />
+      <TextField fx:id="tfApptModTitle" layoutX="200.0" layoutY="156.0" prefHeight="25.0" prefWidth="401.0" />
+      <TextField fx:id="tfApptModDesc" layoutX="200.0" layoutY="198.0" prefHeight="25.0" prefWidth="401.0" />
+      <TextField fx:id="tfApptModLocation" layoutX="200.0" layoutY="240.0" prefHeight="25.0" prefWidth="401.0" />
+      <TextField fx:id="tfApptModType" layoutX="200.0" layoutY="282.0" prefHeight="25.0" prefWidth="401.0" />
+      <ComboBox fx:id="cboApptModCustID" layoutX="201.0" layoutY="455.0" prefHeight="25.0" prefWidth="401.0" />
+      <ComboBox fx:id="cboApptModUserID" layoutX="201.0" layoutY="499.0" prefHeight="25.0" prefWidth="401.0" />
+      <Button fx:id="btnApptModUpdate" defaultButton="true" layoutX="365.0" layoutY="563.0" mnemonicParsing="false" onAction="#updateAppointment" prefHeight="39.0" prefWidth="237.0" text="Update">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <Label fx:id="lblAppName" layoutX="326.0" layoutY="46.0" prefHeight="53.0" prefWidth="276.0" text="APPOINTMENTS" textFill="#9e2e2e">
+         <font>
+            <Font name="System Italic" size="36.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnApptAddCancel" layoutX="114.0" layoutY="563.0" mnemonicParsing="false" onAction="#cancelApptCreate" prefHeight="39.0" prefWidth="237.0" text="Cancel">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <DatePicker fx:id="dateApptModStart" layoutX="201.0" layoutY="325.0" prefHeight="25.0" prefWidth="146.0" />
+      <DatePicker fx:id="dateApptModEnd" layoutX="201.0" layoutY="367.0" prefHeight="25.0" prefWidth="146.0" />
+      <ComboBox fx:id="hourApptModStart" layoutX="392.0" layoutY="325.0" prefHeight="25.0" prefWidth="77.0" />
+      <ComboBox fx:id="hourApptModEnd" layoutX="392.0" layoutY="367.0" prefHeight="25.0" prefWidth="77.0" />
+      <ComboBox fx:id="minApptModEnd" layoutX="525.0" layoutY="367.0" prefHeight="25.0" prefWidth="77.0" />
+      <ComboBox fx:id="minApptModStart" layoutX="525.0" layoutY="325.0" prefHeight="25.0" prefWidth="77.0" />
+      <Label fx:id="lblApptModStart" alignment="CENTER_RIGHT" layoutX="81.0" layoutY="329.0" prefHeight="17.0" prefWidth="100.0" text="Start" />
+      <Label fx:id="lblApptModEnd" alignment="CENTER_RIGHT" layoutX="81.0" layoutY="371.0" prefHeight="17.0" prefWidth="100.0" text="End" />
+      <Label fx:id="lblApptModHour" layoutX="361.0" layoutY="329.0" text="Hour" />
+      <Label fx:id="lblApptModMinutes" layoutX="478.0" layoutY="329.0" text="Minutes" />
+      <Label fx:id="lblApptModContact" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="414.0" prefHeight="20.0" prefWidth="100.0" text="Contact">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cboApptModContact" layoutX="201.0" layoutY="411.0" prefHeight="25.0" prefWidth="401.0" />
+      <Label fx:id="lblApptModHour1" layoutX="361.0" layoutY="371.0" text="Hour" />
+      <Label fx:id="lblApptModMinutes1" layoutX="479.0" layoutY="371.0" text="Minutes" />
+   </children>
+</AnchorPane>
