@@ -76,3 +76,12 @@ LOGIN_ATTEMPT Username: test 2023-08-13 16:33:45.650537200 America/New_York Succ
 LOGIN_ATTEMPT Username: test 2023-08-13 16:39:31.525240500 America/New_York Successful: true
 LOGIN_ATTEMPT Username: test 2023-08-19 12:34:10.143781500 America/New_York Successful: true
 LOGIN_ATTEMPT Username: test 2023-08-19 12:35:59.110470700 America/New_York Successful: true
+LOGIN_ATTEMPT Username: test 2023-08-19 13:55:48.131432200 America/New_York Successful: true
+LOGIN_ATTEMPT Username: test 2023-08-19 14:02:39.729831200 America/New_York Successful: true
+LOGIN_ATTEMPT Username: test 2023-08-19 14:04:50.239245500 America/New_York Successful: true
+LOGIN_ATTEMPT Username: test 2023-08-19 14:12:28.172063800 America/New_York Successful: true
+LOGIN_ATTEMPT Username: test 2023-08-19 14:13:59.501780800 America/New_York Successful: true
+LOGIN_ATTEMPT Username: test 2023-08-19 14:18:36.383211 America/New_York Successful: true
+LOGIN_ATTEMPT Username: test 2023-08-19 14:20:17.875704900 America/New_York Successful: true
+LOGIN_ATTEMPT Username: test 2023-08-19 14:24:09.186712300 America/New_York Successful: true
+LOGIN_ATTEMPT Username: test 2023-08-19 14:28:40.747305200 America/New_York Successful: true

@@ -1,6 +1,8 @@
 package com.casinelli.Appointments.Controller;
 
+import com.casinelli.Appointments.DAO.DBQuery;
 import com.casinelli.Appointments.Helper.DataMgmt;
+import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
 import com.casinelli.Appointments.Model.Appointment;
 import javafx.beans.binding.BooleanBinding;
@@ -18,10 +20,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -87,7 +86,7 @@ public class ApptAddController implements Initializable {
     @javafx.fxml.FXML
     private Label lblApptAddContact;
     @javafx.fxml.FXML
-    private ComboBox<String> cboApptAddContact;
+    private ComboBox<String> cboApptAddContactID;
     @javafx.fxml.FXML
     private Label lblApptAddHour1;
     @javafx.fxml.FXML
@@ -118,7 +117,7 @@ public class ApptAddController implements Initializable {
                 .or(dateApptAddEnd.valueProperty().isNull())
                 .or(hourApptAddEnd.valueProperty().isNull())
                 .or(minApptAddEnd.valueProperty().isNull())
-                .or(cboApptAddContact.valueProperty().isNull())
+                .or(cboApptAddContactID.valueProperty().isNull())
                 .or(cboApptAddCustID.valueProperty().isNull())
                 .or(cboApptAddUserID.valueProperty().isNull());
         btnApptAddCreate.disableProperty().bind(addBtnDisabler);
@@ -157,7 +156,7 @@ public class ApptAddController implements Initializable {
             String newContactString = contact.getId() + " " + contact.getName();
             contactList.add(newContactString);
         });
-        cboApptAddContact.setItems(contactList);
+        cboApptAddContactID.setItems(contactList);
     }
 
     private void initializeSceneText() {
@@ -188,16 +187,19 @@ public class ApptAddController implements Initializable {
     ///// BUTTON EVENT HANDLERS /////
     @javafx.fxml.FXML
     public void createNewAppointment(ActionEvent actionEvent) {
-        //Validate All Inputs
-       if (hasValidInputs()){
-           //Build Appt from Inputs
-           Appointment appt = buildNewAppt();
-           //Insert Appt into DB
 
-           //Update ObservableLists in DataMgmt
+        //Build Appt from Inputs
+        Appointment newAppt = buildNewAppt();
+        //Insert Appt into DB
+        try {
+            System.out.println(DBQuery.create(Appointment.insertAppointment, newAppt));
+        } catch (SQLException e) {
+            System.out.println("Failed to write to DB");
+        }
+        //Update ObservableLists in DataMgmt
 
-           //Return Appt Scene
-       }
+        //Return Appt Scene
+
 
 
     }
@@ -216,7 +218,21 @@ public class ApptAddController implements Initializable {
 
     ///// SUPPORT METHODS /////
     private Appointment buildNewAppt() {
-        return null;
+        //Build DateTimes
+        LocalDateTime startTime = DateTimeMgmt.getLocalDT(dateApptAddStart.getValue(),
+                hourApptAddStart.getSelectionModel().getSelectedItem().toString(),
+                minApptAddStart.getSelectionModel().getSelectedItem().toString());
+        LocalDateTime endTime = DateTimeMgmt.getLocalDT(dateApptAddEnd.getValue(),
+                hourApptAddEnd.getSelectionModel().getSelectedItem().toString(),
+                minApptAddEnd.getSelectionModel().getSelectedItem().toString());
+        LocalDateTime thisTime = LocalDateTime.now();
+        //Build and return Apptointment
+        return new Appointment(77, tfApptAddTitle.textProperty().getValue(), thisTime, DataMgmt.getCurrentUser().getName(),
+                thisTime,DataMgmt.getCurrentUser().getName(),tfApptAddDesc.textProperty().getValue(),
+                tfApptAddLocation.textProperty().getValue(), tfApptAddType.textProperty().getValue(),
+                startTime,endTime, cboApptAddCustID.getSelectionModel().getSelectedIndex() + 1,
+                cboApptAddUserID.getSelectionModel().getSelectedIndex() + 1,
+                cboApptAddContactID.getSelectionModel().getSelectedIndex() + 1);
     }
 
     private boolean hasValidInputs() {

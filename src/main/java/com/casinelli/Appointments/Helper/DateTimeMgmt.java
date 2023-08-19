@@ -34,10 +34,15 @@ public abstract class DateTimeMgmt {
 
     ///// TIME AND DATE CREATION METHODS /////
     public static LocalDateTime getLocalDT(LocalDate date, String hours, String minutes){
-        String time = hours + ":" + minutes;
+        String time = padToTwoDigitsWithZero(hours) + ":" + padToTwoDigitsWithZero(minutes);
         return LocalDateTime.of(date, LocalTime.parse(time, timeOnlyFormat));
     }
-
+    public static String padToTwoDigitsWithZero(String inputString){
+        if (inputString.length() == 1) {
+            return 0 + inputString;
+        }
+        return inputString;
+    }
     ///// DATE AND TIME VALIDATION METHODS /////
 
     public static boolean isBetweenHours(LocalTime apptStartTime, LocalTime apptEndTime){
