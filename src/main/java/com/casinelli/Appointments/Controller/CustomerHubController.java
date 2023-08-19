@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class CustomerHubController implements Initializable {
@@ -82,12 +83,12 @@ public class CustomerHubController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Fill in text from I18n resource
         populateTextPropsCustScene();
-       //Set up Customer TableView
+        //Set up Customer TableView
         initializeCustTblView();
     }
 
     private void initializeCustTblView() {
-        /////Column Names
+        ///// POPULATE COLUMN NAMES /////
         tvColCust_CustID.textProperty().setValue(I18nMgmt.translate("ColNameID"));
         tvColCust_CustAddress.textProperty().setValue(I18nMgmt.translate("ColNameCustName"));
         tvColCust_CustAddress.textProperty().setValue(I18nMgmt.translate("ColNameAddress"));
@@ -95,8 +96,9 @@ public class CustomerHubController implements Initializable {
         tvColCust_CustPhone.textProperty().setValue(I18nMgmt.translate("ColNamePhone"));
         tvColCust_CustDiv.textProperty().setValue(I18nMgmt.translate("ColNameDivision"));
         tvColCust_CustCountry.textProperty().setValue(I18nMgmt.translate("ColNameCountry"));
-        /////SET UP COLUMNS FOR DATA/////
+        ///// IMPORT DATA /////
         tblVwCustomers.setItems(DataMgmt.getAllCustomersList());
+        ///// SET UP COLUMNS FOR DATA /////
         tvColCust_CustID.setCellValueFactory(new PropertyValueFactory<>("id"));
         tvColCust_CustName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tvColCust_CustAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
@@ -138,7 +140,7 @@ public class CustomerHubController implements Initializable {
     public void navToWelcomeScene(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
-            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/welcomehub-view.fxml"));
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/welcomehub-view.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -151,7 +153,7 @@ public class CustomerHubController implements Initializable {
     public void navToReportsScene(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
-            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/reporting-view.fxml"));
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/reporting-view.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -164,7 +166,7 @@ public class CustomerHubController implements Initializable {
     public void navToScheduleScene(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
-            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/scheduling-view.fxml"));
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/scheduling-view.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -178,7 +180,7 @@ public class CustomerHubController implements Initializable {
         DataMgmt.setCurrentUser(null);
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
-            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/login-view.fxml"));
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/login-view.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -203,7 +205,7 @@ public class CustomerHubController implements Initializable {
     public void createNewCustomer(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
-            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/customer-add-view.fxml"));
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/customer-add-view.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -218,7 +220,7 @@ public class CustomerHubController implements Initializable {
         if(getSelectedCustomer() != null){
             thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
             try {
-                scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/customer-mod-view.fxml"));
+                scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/customer-mod-view.fxml")));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

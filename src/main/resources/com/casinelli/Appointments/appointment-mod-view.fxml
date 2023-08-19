@@ -64,7 +64,7 @@
             <Font name="System Italic" size="36.0" />
          </font>
       </Label>
-      <Button fx:id="btnApptAddCancel" layoutX="114.0" layoutY="563.0" mnemonicParsing="false" onAction="#cancelApptCreate" prefHeight="39.0" prefWidth="237.0" text="Cancel">
+      <Button fx:id="btnApptModCancel" layoutX="114.0" layoutY="563.0" mnemonicParsing="false" onAction="#cancelApptCreate" prefHeight="39.0" prefWidth="237.0" text="Cancel">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

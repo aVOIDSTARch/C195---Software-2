@@ -24,22 +24,19 @@ public class Customer extends DBObject{
     public static final RetrieveAllInterface allCustomers = () -> {
         String sql = "SELECT * FROM CUSTOMERS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        return rs;
+        return ps.executeQuery();
     };
     public static final RetrieveInterface getCustById = (custId) -> {
         String sql = "SELECT * FROM CUSTOMERS WHERE CUSTOMER_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, Integer.getInteger(custId.getValue().toString()));
-        ResultSet rs = ps.executeQuery();
-        return rs;
+        return ps.executeQuery();
     };
     public static final RetrieveInterface getCustByDivId = (divId) -> {
         String sql = "SELECT * FROM CUSTOMERS WHERE DIVISION_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, Integer.getInteger(divId.getValue().toString()));
-        ResultSet rs = ps.executeQuery();
-        return rs;
+        return ps.executeQuery();
     };
     public static final CreateInterface insertCustomer = (thisCust) -> {
         //Local variable setup
@@ -63,8 +60,7 @@ public class Customer extends DBObject{
         ps.setTimestamp(7, Timestamp.valueOf(aCustomer.getLastUpdate()));
         ps.setString(8, username);
         ps.setInt(9,aCustomer.getDivisionId());
-        int rowsAffected = ps.executeUpdate();
-        return rowsAffected;
+        return ps.executeUpdate();
     };
 
     /////CONSTRUCTORS/////

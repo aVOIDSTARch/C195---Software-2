@@ -9,6 +9,7 @@ import com.casinelli.Appointments.Helper.DateTimeMgmt;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Appointment extends DBObject{
     private String description;
@@ -21,6 +22,8 @@ public class Appointment extends DBObject{
     private int contactId;
     public static final String[] APPT_COL_NAMES = {"Appointment_ID", "Title", "Description", "Location", "Type", "Start", "End",
             "Create_Date", "Created_By", "Last_Update", "Last_Updated_By", "Customer_ID", "User_ID", "Contact_ID"};
+    private final DateTimeFormatter tableViewFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
     /////QUERY LAMBDA FUNCTIONS/////
     public static final RetrieveAllInterface allAppts = () -> {
         String sql = "SELECT * FROM APPOINTMENTS";
@@ -190,4 +193,10 @@ public class Appointment extends DBObject{
         return this.lastUpdatedBy;
     }
 
+    ///// TableView Column Values
+    public String getUserNameIdCombo(){return DataMgmt.getUserById(this.getUserId()).getIdName();}
+    public String getCustomerNameIdCombo(){return DataMgmt.getCustomerById(this.getCustomerId()).getIdName();}
+    public String getContactNameIdCombo(){return DataMgmt.getContactById(this.getContactId()).getIdName();}
+    public String getStartString(){return getStart().format(tableViewFormatter);}
+    public String getEndString(){return getEnd().format(tableViewFormatter);}
 }

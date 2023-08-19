@@ -2,7 +2,7 @@ package com.casinelli.Appointments.Controller;
 
 import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
-import com.casinelli.Appointments.Model.Customer;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class CustAddController implements Initializable {
@@ -49,9 +50,9 @@ public class CustAddController implements Initializable {
     @javafx.fxml.FXML
     private TextField tfCustAddCustPhone;
     @javafx.fxml.FXML
-    private ComboBox cboCustAddCustDiv;
+    private ComboBox<String> cboCustAddCustDiv;
     @javafx.fxml.FXML
-    private ComboBox cboCustAddCustCountry;
+    private ComboBox<String> cboCustAddCustCountry;
     @javafx.fxml.FXML
     private Button btnCustAddCreate;
     @javafx.fxml.FXML
@@ -91,13 +92,14 @@ public class CustAddController implements Initializable {
         tfCustAddCustPostCode.promptTextProperty().setValue(I18nMgmt.translate("CustPostCodePlchldrText"));
         tfCustAddCustPhone.promptTextProperty().setValue(I18nMgmt.translate("CustPhonePlchldrText"));
         //Button Text
-        btnCustAddCreate.textProperty().setValue(I18nMgmt.translate("CustCreateBtnText"));
+        btnCustAddCreate.textProperty().setValue(I18nMgmt.translate("CreateBtnText"));
+        btnCustAddCancel.textProperty().setValue(I18nMgmt.translate("CancelBtnText"));
     }
 
     private void populateCountries() throws SQLException {
         cboCustAddCustCountry.setItems(DataMgmt.getAllCountryNames());
         cboCustAddCustCountry.getSelectionModel().selectFirst();
-        populateDivisions(cboCustAddCustCountry.getSelectionModel().getSelectedItem().toString());
+        populateDivisions(cboCustAddCustCountry.getSelectionModel().getSelectedItem());
     }
     private void populateDivisions(String countryName) throws SQLException {
         cboCustAddCustDiv.setItems(DataMgmt.getListOfDivNamesByCountryId(
@@ -106,17 +108,13 @@ public class CustAddController implements Initializable {
 
     @javafx.fxml.FXML
     private void updateDivisionCbo(ActionEvent actionEvent) throws SQLException {
-        populateDivisions(cboCustAddCustCountry.getSelectionModel().getSelectedItem().toString());
+        populateDivisions(cboCustAddCustCountry.getSelectionModel().getSelectedItem());
     }
-    private void returnToCustomerScene(){
-
-    }
-
     @javafx.fxml.FXML
     public void cancelCustCreate(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
-            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/customer-view.fxml"));
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/customer-view.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

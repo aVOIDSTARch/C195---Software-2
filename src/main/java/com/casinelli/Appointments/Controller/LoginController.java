@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 
@@ -75,7 +76,7 @@ public class LoginController implements Initializable {
     }
     private void initializeLandingScene(ActionEvent ae) throws IOException {
         thisStage = (Stage) ((Button)ae.getSource()).getScene().getWindow();
-        scene   = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/welcomehub-view.fxml"));
+        scene   = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/welcomehub-view.fxml")));
         thisStage.setTitle(I18nMgmt.translate("WelcomeSceneTitle"));
         thisStage.setScene(new Scene(scene));
         thisStage.show();
@@ -99,12 +100,6 @@ public class LoginController implements Initializable {
         return isSuccesful;
     }
     private void setCurrentUser(Value<String> userName){
-        try{
-            User newUser = new User( DBQuery.retrieve(User.getUserByName, userName));
-            DataMgmt.setCurrentUser(newUser);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
+       DataMgmt.setCurrentUser(DataMgmt.getUserByName(userName.getValue()));
     }
 }

@@ -17,5 +17,6 @@ public abstract class DBObject {
     abstract String getCreatedBy();
     abstract LocalDateTime getLastUpdate();
     abstract String getLastUpdatedBy();
+    String getIdName(){return this.getId() + " " + this.getName();};
 
 }

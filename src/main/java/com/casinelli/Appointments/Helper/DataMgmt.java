@@ -9,8 +9,12 @@ import javafx.collections.ObservableList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public abstract class DataMgmt {
     private static User currentUser;
@@ -20,6 +24,7 @@ public abstract class DataMgmt {
     private static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
     private static ObservableList<Appointment> allAppts = FXCollections.observableArrayList();
     private static ObservableList<Division> allDivisions = FXCollections.observableArrayList();
+    private static ObservableList<User> allUsers = FXCollections.observableArrayList();
 
     /////Class Specific Functions/////
     public static void initializeApplicationData() {
@@ -29,12 +34,22 @@ public abstract class DataMgmt {
             DataMgmt.populateAllCountries(DBQuery.retrieveAll(Country.allCountries));
             DataMgmt.populateAllCusts(DBQuery.retrieveAll(Customer.allCustomers));
             DataMgmt.populateAllDivisions(DBQuery.retrieveAll(Division.all1stLvlDivisions));
+            DataMgmt.populateAllUsers(DBQuery.retrieveAll(User.allUsers));
             System.out.println("All Observable Lists Populated");
         }catch(SQLException sqle){
             System.out.println("Failure to Populate Lists");
         }
 
     }
+
+    //Integer Generator
+    public static List<Integer> makeIntList(int startingWith, int endingWith){
+        return IntStream.range(startingWith, endingWith + 1)
+                .boxed()
+                .collect(Collectors.toList());
+    }
+
+    //Current User Getter-Setters
     public static User getCurrentUser() {
         return currentUser;
     }
@@ -43,6 +58,12 @@ public abstract class DataMgmt {
     }
 
     /////List Insertion Functions/////
+    private static void populateAllUsers(ResultSet rs) throws SQLException {
+        allUsers.clear();
+        while (rs.next()){
+            allUsers.add(new User(rs));
+        }
+    }
     private static void populateAllAppts(ResultSet rs) throws SQLException {
         allAppts.clear();
         while (rs.next()){
@@ -73,6 +94,28 @@ public abstract class DataMgmt {
             allCustomers.add(new Customer(rs));
         }
     }
+    /////USERS FUNCTIONS/////
+    public static ObservableList<User> getAllUsersList(){
+        return allUsers;
+    }
+    public static User getUserById(int id){
+        AtomicReference<User> aUser = new AtomicReference<>();
+        allUsers.forEach(user -> {
+            if(user.getId() == id){
+                aUser.set(user);
+            }
+        });
+        return aUser.get();
+    }
+    public static User getUserByName(String username){
+        AtomicReference<User> aUser = new AtomicReference<>();
+        allUsers.forEach(user -> {
+            if(Objects.equals(user.getName(), username)){
+                aUser.set(user);
+            }
+        });
+        return aUser.get();
+    }
     /////APPOINTMENT FUNCTIONS/////
     public static ObservableList<Appointment> getAllApptsList(){
         return allAppts;
@@ -101,7 +144,7 @@ public abstract class DataMgmt {
         return countryNames;
     }
     public static int getCountryIdFromCntryName(String cntryName){
-        AtomicReference<Integer> cntryId = new AtomicReference<>(0);
+        AtomicReference<Integer> cntryId = new AtomicReference<Integer>(0);
         allCountries.forEach(cntry ->{
             if(cntry.getName() == cntryName) {
                 cntryId.set(cntry.getId());
@@ -123,11 +166,28 @@ public abstract class DataMgmt {
         });
         return apptCount.get();
     }
+    public static Contact getContactById(int id){
+        AtomicReference<Contact> thisContact = new AtomicReference<Contact>();
+        allContacts.forEach(contact ->{
+            if(id == contact.getId()){
+                thisContact.set(contact);
+            }
+        });
+        return thisContact.get();
+    }
     /////CUSTOMER FUNCTIONS/////
     public static ObservableList<Customer> getAllCustomersList(){
         return allCustomers;
     }
-
+    public static Customer getCustomerById(int id){
+        AtomicReference<Customer> thisCust = new AtomicReference<Customer>();
+        allCustomers.forEach(cust ->{
+            if(id == cust.getId()){
+                thisCust.set(cust);
+            }
+        });
+        return thisCust.get();
+    }
 
     /////DIVISION FUNCTIONS/////
     public static ObservableList<String> getListOfDivNamesByCountryId(int countryId) throws SQLException {
@@ -165,4 +225,5 @@ public abstract class DataMgmt {
         });
         return divName.get();
     }
+
 }

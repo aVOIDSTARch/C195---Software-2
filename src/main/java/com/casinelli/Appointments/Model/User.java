@@ -1,6 +1,7 @@
 package com.casinelli.Appointments.Model;
 
 import com.casinelli.Appointments.DAO.JDBC;
+import com.casinelli.Appointments.DAO.RetrieveAllInterface;
 import com.casinelli.Appointments.DAO.RetrieveInterface;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 
@@ -18,15 +19,18 @@ public class User extends DBObject{
         String sql = "SELECT * FROM USERS WHERE PASSWORD = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, userName.getValue().toString());
-        ResultSet rs = ps.executeQuery();
-        return rs;
+        return ps.executeQuery();
     };
     public static final RetrieveInterface getUserByName = (userName) -> {
         String sql = "SELECT * FROM USERS WHERE USER_NAME = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, userName.getValue().toString());
-        ResultSet rs = ps.executeQuery();
-        return rs;
+        return ps.executeQuery();
+    };
+    public static final RetrieveAllInterface allUsers = () -> {
+        String sql = "SELECT * FROM USERS";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        return ps.executeQuery();
     };
 
 
@@ -42,7 +46,7 @@ public class User extends DBObject{
     }
 
     public User(ResultSet rs) throws SQLException {
-        while (rs.next()) {
+        if (rs != null) {
             this.id = rs.getInt(USER_COL_NAMES[0]);
             this.name = rs.getString(USER_COL_NAMES[1]);
             this.password = "";
@@ -52,6 +56,7 @@ public class User extends DBObject{
             this.lastUpdate = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getTimestamp(USER_COL_NAMES[5]).toLocalDateTime());
             this.lastUpdatedBy = rs.getString(USER_COL_NAMES[6]);
         }
+
     }
     @Override
     public int getId() {

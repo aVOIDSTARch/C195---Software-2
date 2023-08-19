@@ -42,7 +42,7 @@ public class Main extends Application {
         DataMgmt.initializeApplicationData();
         //Test code to be removed
 
-        LocalDateTime ldt = LocalDateTime.now();
+        //LocalDateTime ldt = LocalDateTime.now();
 
 //        Appointment anAppt = new Appointment(444, "Call with Dude", ldt,"Louis", ldt, "louis",
 //                "call about stuff", "here","call", ldt,ldt,1,2,3);
