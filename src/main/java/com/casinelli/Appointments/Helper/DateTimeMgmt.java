@@ -49,10 +49,12 @@ public abstract class DateTimeMgmt {
     ///// DATE AND TIME VALIDATION METHODS /////
 
     public static boolean isBetweenHours(LocalTime apptStartTime, LocalTime apptEndTime){
-        return (apptStartTime.isAfter(DateTimeMgmt.businessHoursStart.minusMinutes(1))
+        boolean isInBusyHours = (apptStartTime.isAfter(DateTimeMgmt.businessHoursStart.minusMinutes(1))
                 && apptStartTime.isBefore(DateTimeMgmt.businessHoursEnd.plusMinutes(1)))
                 && (apptEndTime.isAfter(DateTimeMgmt.businessHoursStart.minusMinutes(1))
-                && apptEndTime.isBefore(DateTimeMgmt.businessHoursEnd.plusMinutes(1))) ? true : false;
+                && apptEndTime.isBefore(DateTimeMgmt.businessHoursEnd.plusMinutes(1)));
+        System.out.println(isInBusyHours);
+        return isInBusyHours;
     }
 
     public static boolean isBetweenDateTime(LocalDateTime firstStartDateTIme, LocalDateTime firstEndDateTime,
@@ -60,15 +62,17 @@ public abstract class DateTimeMgmt {
         boolean isInsideFirstRange = (secondStartDateTIme.isAfter(firstStartDateTIme.minusMinutes(1))
                 && secondStartDateTIme.isBefore(firstEndDateTime.plusMinutes(1)))
                 || (secondEndDateTime.isAfter(firstStartDateTIme.minusMinutes(1))
-                && secondEndDateTime.isBefore(firstEndDateTime.plusMinutes(1))) ? true : false;
+                && secondEndDateTime.isBefore(firstEndDateTime.plusMinutes(1)));
         boolean isInsideSecondRange = (firstStartDateTIme.isAfter(secondStartDateTIme.minusMinutes(1))
                 && firstStartDateTIme.isBefore(secondEndDateTime.plusMinutes(1)))
                 || (firstEndDateTime.isAfter(secondStartDateTIme.minusMinutes(1))
-                && firstEndDateTime.isBefore(secondEndDateTime.plusMinutes(1))) ? true : false;
+                && firstEndDateTime.isBefore(secondEndDateTime.plusMinutes(1)));
         return (isInsideFirstRange || isInsideSecondRange);
     }
     public static boolean checkStartEndSequence(LocalDateTime startTime, LocalDateTime endTime) {
-        return startTime.isBefore(endTime);
+        boolean inOrder = startTime.isBefore(endTime);
+        System.out.println(inOrder);
+        return inOrder;
     }
 
     public static boolean checkApptOverlaps(Appointment newAppt) {

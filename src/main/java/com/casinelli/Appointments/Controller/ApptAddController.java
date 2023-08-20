@@ -200,8 +200,8 @@ public class ApptAddController implements Initializable {
         LocalDateTime thisTime = LocalDateTime.now();
 
         //Validate Start/End Dates and Times
-        if( isBetweenHours(startTime.toLocalTime(), endTime.toLocalTime())||
-                checkStartEndSequence(startTime, endTime)) {
+        if( !isBetweenHours(startTime.toLocalTime(), endTime.toLocalTime())||
+                !checkStartEndSequence(startTime, endTime)) {
             System.out.println("checks failed for times");
         }else{
             //Build Appt from Inputs
@@ -213,7 +213,7 @@ public class ApptAddController implements Initializable {
                 System.out.println("Failed to write to DB");
             }
             if(checkApptOverlaps(newAppt)){
-                System.out.println("apptointment overlaps");
+                System.out.println("appointment overlaps");
             }else {
                 //Update ObservableLists in DataMgmt
                 DataMgmt.initializeApplicationData();
