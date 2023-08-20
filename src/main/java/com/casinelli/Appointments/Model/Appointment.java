@@ -1,9 +1,6 @@
 package com.casinelli.Appointments.Model;
 
-import com.casinelli.Appointments.DAO.CreateInterface;
-import com.casinelli.Appointments.DAO.JDBC;
-import com.casinelli.Appointments.DAO.RetrieveAllInterface;
-import com.casinelli.Appointments.DAO.RetrieveInterface;
+import com.casinelli.Appointments.DAO.*;
 import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 
@@ -12,6 +9,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Appointment extends DBObject{
+
+
     private String description;
     private String location;
     private String type;
@@ -62,11 +61,6 @@ public class Appointment extends DBObject{
     public static final CreateInterface insertAppointment = (thisAppt) -> {
         //Local variable setup
         Appointment anAppt = (Appointment) thisAppt;
-        String username = "DEFAULT NAME";
-        //Update Username
-        if (DataMgmt.getCurrentUser() != null){
-            username = DataMgmt.getCurrentUser().getName();
-        }
         //INSERT STRING
         String sql = "INSERT INTO APPOINTMENTS (TITLE, DESCRIPTION, LOCATION, TYPE, START, END, CREATE_DATE, CREATED_BY, " +
                 "LAST_UPDATE, LAST_UPDATED_BY, CUSTOMER_ID, USER_ID, CONTACT_ID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -79,14 +73,37 @@ public class Appointment extends DBObject{
         ps.setTimestamp(5, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(anAppt.getStart())));
         ps.setTimestamp(6, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(anAppt.getEnd())));
         ps.setTimestamp(7, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(anAppt.getCreateDate())));
-        ps.setString(8, username);
+        ps.setString(8, anAppt.getCreatedBy());
         ps.setTimestamp(9, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(anAppt.getLastUpdate())));
-        ps.setString(10, username);
+        ps.setString(10, anAppt.getLastUpdatedBy());
         ps.setInt(11,anAppt.getCustomerId());
         ps.setInt(12, anAppt.getUserId());
         ps.setInt(13,anAppt.getContactId());
-        int rowsAffected = ps.executeUpdate();
-        return rowsAffected;
+        return ps.executeUpdate();
+    };
+    public static final UpdateInterface updateAppointment = (thisAppt) -> {
+        //Local variable setup
+        Appointment anAppt = (Appointment) thisAppt;
+        //INSERT STRING
+        String sql = "UPDATE APPOINTMENTS SET TITLE = ?, DESCRIPTION = ?, LOCATION = ?, TYPE = ?, START = ?, END = ?, CREATE_DATE = ?, CREATED_BY = ?, " +
+                "LAST_UPDATE = ?, LAST_UPDATED_BY = ?, CUSTOMER_ID = ?, USER_ID = ?, CONTACT_ID = ? WHERE APPOINTMENT_ID = ?";
+        //REMEMBER BIND VARS START INDEX AT 1
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql); // Throws SQLException
+        ps.setString(1, anAppt.getName());
+        ps.setString(2,anAppt.getDescription());
+        ps.setString(3, anAppt.getLocation());
+        ps.setString(4, anAppt.getType());
+        ps.setTimestamp(5, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(anAppt.getStart())));
+        ps.setTimestamp(6, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(anAppt.getEnd())));
+        ps.setTimestamp(7, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(anAppt.getCreateDate())));
+        ps.setString(8, anAppt.getCreatedBy());
+        ps.setTimestamp(9, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(anAppt.getLastUpdate())));
+        ps.setString(10, anAppt.getLastUpdatedBy());
+        ps.setInt(11,anAppt.getCustomerId());
+        ps.setInt(12, anAppt.getUserId());
+        ps.setInt(13,anAppt.getContactId());
+        ps.setInt(14, anAppt.getId());
+        return ps.executeUpdate();
     };
     /////CONSTRUCTORS/////
     public Appointment(int id, String title, LocalDateTime createDate, String createdBy,
@@ -199,4 +216,37 @@ public class Appointment extends DBObject{
     public String getContactNameIdCombo(){return DataMgmt.getContactById(this.getContactId()).getIdName();}
     public String getStartString(){return getStart().format(tableViewFormatter);}
     public String getEndString(){return getEnd().format(tableViewFormatter);}
+
+    ///// SETTERS FOR APPTS /////
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setStart(LocalDateTime start) {
+        this.start = start;
+    }
+
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
+    }
 }

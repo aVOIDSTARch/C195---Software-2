@@ -84,7 +84,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <ComboBox fx:id="cboApptModContact" layoutX="201.0" layoutY="411.0" prefHeight="25.0" prefWidth="401.0" />
+      <ComboBox fx:id="cboApptModContactID" layoutX="201.0" layoutY="411.0" prefHeight="25.0" prefWidth="401.0" />
       <Label fx:id="lblApptModHour1" layoutX="361.0" layoutY="371.0" text="Hour" />
       <Label fx:id="lblApptModMinutes1" layoutX="479.0" layoutY="371.0" text="Minutes" />
    </children>

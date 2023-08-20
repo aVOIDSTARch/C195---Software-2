@@ -1,9 +1,6 @@
 package com.casinelli.Appointments.Model;
 
-import com.casinelli.Appointments.DAO.CreateInterface;
-import com.casinelli.Appointments.DAO.JDBC;
-import com.casinelli.Appointments.DAO.RetrieveAllInterface;
-import com.casinelli.Appointments.DAO.RetrieveInterface;
+import com.casinelli.Appointments.DAO.*;
 import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 
@@ -42,6 +39,7 @@ public class Customer extends DBObject{
         //Local variable setup
         Customer aCustomer = (Customer) thisCust;
         String username = "DEFAULT NAME";
+
         //Update Username
         if (DataMgmt.getCurrentUser() != null){
             username = DataMgmt.getCurrentUser().getName();
@@ -55,11 +53,36 @@ public class Customer extends DBObject{
         ps.setString(2, aCustomer.getAddress());
         ps.setString(3, aCustomer.getPostalCode());
         ps.setString(4, aCustomer.getPhone());
-        //ps.setDate(5, Date.valueOf(aCustomer.getCreateDate()));
-        ps.setString(6, username);
-        ps.setTimestamp(7, Timestamp.valueOf(aCustomer.getLastUpdate()));
-        ps.setString(8, username);
+        ps.setTimestamp(5, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(aCustomer.getCreateDate())));
+        ps.setString(6, aCustomer.getCreatedBy());
+        ps.setTimestamp(7, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(aCustomer.getLastUpdate())));
+        ps.setString(8, aCustomer.getLastUpdatedBy());
         ps.setInt(9,aCustomer.getDivisionId());
+        return ps.executeUpdate();
+    };
+    public static final UpdateInterface updateCustomer = (thisCust) -> {
+        //Local variable setup
+        Customer aCustomer = (Customer) thisCust;
+        String username = "DEFAULT NAME";
+        //Update Username
+        if (DataMgmt.getCurrentUser() != null){
+            username = DataMgmt.getCurrentUser().getName();
+        }
+        //INSERT STRING
+        String sql = "UPDATE CUSTOMERS SET CUSTOMER_NAME = ?, ADDRESS = ?, POSTAL_CODE = ?, PHONE = ?, CREATE_DATE = ?, " +
+                "CREATED_BY = ?, LAST_UPDATE = ?, LAST_UPDATED_BY = ?, DIVISION_ID = ? WHERE CUSTOMER_ID = ? ";
+        //REMEMBER BIND VARS START INDEX AT 1
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql); // Throws SQLException
+        ps.setString(1, aCustomer.getName());
+        ps.setString(2, aCustomer.getAddress());
+        ps.setString(3, aCustomer.getPostalCode());
+        ps.setString(4, aCustomer.getPhone());
+        ps.setTimestamp(5, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(aCustomer.getCreateDate())));
+        ps.setString(6, aCustomer.getCreatedBy());
+        ps.setTimestamp(7, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(aCustomer.getLastUpdate())));
+        ps.setString(8, aCustomer.getLastUpdatedBy());
+        ps.setInt(9,aCustomer.getDivisionId());
+        ps.setInt(10, aCustomer.getId());
         return ps.executeUpdate();
     };
 
