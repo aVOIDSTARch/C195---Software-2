@@ -1,8 +1,11 @@
 package com.casinelli.Appointments.Helper;
 
+import com.casinelli.Appointments.Model.Appointment;
+
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class DateTimeMgmt {
     public static final Locale LOCALE_SYS = Locale.getDefault();
@@ -63,5 +66,18 @@ public abstract class DateTimeMgmt {
                 || (firstEndDateTime.isAfter(secondStartDateTIme.minusMinutes(1))
                 && firstEndDateTime.isBefore(secondEndDateTime.plusMinutes(1))) ? true : false;
         return (isInsideFirstRange || isInsideSecondRange);
+    }
+    public static boolean checkStartEndSequence(LocalDateTime startTime, LocalDateTime endTime) {
+        return startTime.isBefore(endTime);
+    }
+
+    public static boolean checkApptOverlaps(Appointment newAppt) {
+        AtomicBoolean result = new AtomicBoolean(false);
+        DataMgmt.getAllApptsList().forEach(appt -> {
+           if (isBetweenDateTime(appt.getStart(), appt.getEnd(), newAppt.getStart(), newAppt.getEnd())){
+                result.set(true);
+            }
+        });
+        return result.get();
     }
 }

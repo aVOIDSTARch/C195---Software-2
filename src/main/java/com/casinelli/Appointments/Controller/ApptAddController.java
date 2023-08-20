@@ -21,8 +21,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
+
+import static com.casinelli.Appointments.Helper.DateTimeMgmt.*;
 
 public class ApptAddController implements Initializable {
     //Controller instance variables
@@ -187,22 +190,51 @@ public class ApptAddController implements Initializable {
     ///// BUTTON EVENT HANDLERS /////
     @javafx.fxml.FXML
     public void createNewAppointment(ActionEvent actionEvent) {
+        //Build Times for Appt
+        LocalDateTime startTime = DateTimeMgmt.getLocalDT(dateApptAddStart.getValue(),
+                hourApptAddStart.getSelectionModel().getSelectedItem().toString(),
+                minApptAddStart.getSelectionModel().getSelectedItem().toString());
+        LocalDateTime endTime = DateTimeMgmt.getLocalDT(dateApptAddEnd.getValue(),
+                hourApptAddEnd.getSelectionModel().getSelectedItem().toString(),
+                minApptAddEnd.getSelectionModel().getSelectedItem().toString());
+        LocalDateTime thisTime = LocalDateTime.now();
 
-        //Build Appt from Inputs
-        Appointment newAppt = buildNewAppt();
-        //Insert Appt into DB
-        try {
-            System.out.println(DBQuery.create(Appointment.insertAppointment, newAppt));
-        } catch (SQLException e) {
-            System.out.println("Failed to write to DB");
+        //Validate Start/End Dates and Times
+        if( isBetweenHours(startTime.toLocalTime(), endTime.toLocalTime())||
+                checkStartEndSequence(startTime, endTime)) {
+            System.out.println("checks failed for times");
+        }else{
+            //Build Appt from Inputs
+            Appointment newAppt = buildNewAppt(thisTime, startTime, endTime);
+            //Insert Appt into DB
+            try {
+                System.out.println(DBQuery.create(Appointment.insertAppointment, newAppt));
+            } catch (SQLException e) {
+                System.out.println("Failed to write to DB");
+            }
+            if(checkApptOverlaps(newAppt)){
+                System.out.println("apptointment overlaps");
+            }else {
+                //Update ObservableLists in DataMgmt
+                DataMgmt.initializeApplicationData();
+                //Return Appt Scene
+                thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+                try {
+                    scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/scheduling-view.fxml")));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                thisStage.setTitle(I18nMgmt.translate("SchedulingSceneTitle"));
+                thisStage.setScene(new Scene(scene));
+                thisStage.show();
+            }
+
         }
-        //Update ObservableLists in DataMgmt
-
-        //Return Appt Scene
-
-
 
     }
+
+
+
     @javafx.fxml.FXML
     public void cancelApptCreate(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
@@ -217,15 +249,7 @@ public class ApptAddController implements Initializable {
     }
 
     ///// SUPPORT METHODS /////
-    private Appointment buildNewAppt() {
-        //Build DateTimes
-        LocalDateTime startTime = DateTimeMgmt.getLocalDT(dateApptAddStart.getValue(),
-                hourApptAddStart.getSelectionModel().getSelectedItem().toString(),
-                minApptAddStart.getSelectionModel().getSelectedItem().toString());
-        LocalDateTime endTime = DateTimeMgmt.getLocalDT(dateApptAddEnd.getValue(),
-                hourApptAddEnd.getSelectionModel().getSelectedItem().toString(),
-                minApptAddEnd.getSelectionModel().getSelectedItem().toString());
-        LocalDateTime thisTime = LocalDateTime.now();
+    private Appointment buildNewAppt(LocalDateTime thisTime, LocalDateTime startTime, LocalDateTime endTime) {
         //Build and return Apptointment
         return new Appointment(77, tfApptAddTitle.textProperty().getValue(), thisTime, DataMgmt.getCurrentUser().getName(),
                 thisTime,DataMgmt.getCurrentUser().getName(),tfApptAddDesc.textProperty().getValue(),
@@ -235,9 +259,7 @@ public class ApptAddController implements Initializable {
                 cboApptAddContactID.getSelectionModel().getSelectedIndex() + 1);
     }
 
-    private boolean hasValidInputs() {
-        return true;
-    }
+
 
 
 
