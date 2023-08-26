@@ -188,7 +188,7 @@ public class ApptModController implements Initializable {
 
     private void populateContactsList() {
         ObservableList<String> contactList = FXCollections.observableArrayList();
-        DataMgmt.getAllCustomersList().forEach(contact -> {
+        DataMgmt.getAllContactsList().forEach(contact -> {
             String newContactString = contact.getId() + " " + contact.getName();
             contactList.add(newContactString);
         });
@@ -221,33 +221,52 @@ public class ApptModController implements Initializable {
                 !checkStartEndSequence(startTime, endTime)) {
             System.out.println("checks failed for times");
         }else {
-            //Update ApptToMod
-            updateApptToMod(startTime,endTime,thisTime);
-            //Insert Appt into DB
-            try {
-                System.out.println(DBQuery.update(Appointment.updateAppointment, apptToMod));
-            } catch (SQLException e) {
-                System.out.println("Failed to write to DB");
-            }
+            //Build Appt from Inputs
+            updateApptToMod(thisTime, startTime, endTime);
+            verifyAppt();
+
             if (checkApptOverlaps(apptToMod)) {
                 System.out.println("appointment overlaps");
             } else {
+                //Insert Appt into DB
+                try {
+                    System.out.println(DBQuery.update(Appointment.updateAppointment, apptToMod));
+                } catch (SQLException e) {
+                    System.out.println("Failed to write to DB");
+                }
                 //Update ObservableLists in DataMgmt
                 DataMgmt.initializeApplicationData();
                 //Return Appt Scene
                 thisStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
                 try {
-                    scene = FXMLLoader.load(Objects.requireNonNull(getClass()
-                            .getResource("/com/casinelli/Appointments/scheduling-view.fxml")));
+                    scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/scheduling-view.fxml")));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
                 thisStage.setTitle(I18nMgmt.translate("SchedulingSceneTitle"));
                 thisStage.setScene(new Scene(scene));
                 thisStage.show();
-
             }
         }
+    }
+
+    private void verifyAppt() {
+        System.out.println(apptToMod.getId());
+        System.out.println(apptToMod.getName());
+        System.out.println(apptToMod.getDescription());
+        System.out.println(apptToMod.getLocation());
+        System.out.println(apptToMod.getType());
+        System.out.println(apptToMod.getCreatedBy());
+        System.out.println(apptToMod.getLastUpdatedBy());
+        System.out.println(apptToMod.getStart().toString());
+        System.out.println(apptToMod.getEnd().toString());
+        System.out.println(apptToMod.getCreateDate().toString());
+        System.out.println(apptToMod.getLastUpdate().toString());
+        System.out.println(apptToMod.getContactId());
+        System.out.println(apptToMod.getCustomerId());
+        System.out.println(apptToMod.getUserId());
+
+
     }
 
     @javafx.fxml.FXML

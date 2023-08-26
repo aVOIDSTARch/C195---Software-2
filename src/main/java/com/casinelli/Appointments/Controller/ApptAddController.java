@@ -206,15 +206,16 @@ public class ApptAddController implements Initializable {
         }else{
             //Build Appt from Inputs
             Appointment newAppt = buildNewAppt(thisTime, startTime, endTime);
-            //Insert Appt into DB
-            try {
-                System.out.println(DBQuery.create(Appointment.insertAppointment, newAppt));
-            } catch (SQLException e) {
-                System.out.println("Failed to write to DB");
-            }
+
             if(checkApptOverlaps(newAppt)){
                 System.out.println("appointment overlaps");
             }else {
+                //Insert Appt into DB
+                try {
+                    System.out.println(DBQuery.create(Appointment.insertAppointment, newAppt));
+                } catch (SQLException e) {
+                    System.out.println("Failed to write to DB");
+                }
                 //Update ObservableLists in DataMgmt
                 DataMgmt.initializeApplicationData();
                 //Return Appt Scene
@@ -251,7 +252,7 @@ public class ApptAddController implements Initializable {
     ///// SUPPORT METHODS /////
     private Appointment buildNewAppt(LocalDateTime thisTime, LocalDateTime startTime, LocalDateTime endTime) {
         //Build and return Apptointment
-        return new Appointment(77, tfApptAddTitle.textProperty().getValue(), thisTime, DataMgmt.getCurrentUser().getName(),
+        return new Appointment(7777, tfApptAddTitle.textProperty().getValue(), thisTime, DataMgmt.getCurrentUser().getName(),
                 thisTime,DataMgmt.getCurrentUser().getName(),tfApptAddDesc.textProperty().getValue(),
                 tfApptAddLocation.textProperty().getValue(), tfApptAddType.textProperty().getValue(),
                 startTime,endTime, cboApptAddCustID.getSelectionModel().getSelectedIndex() + 1,

@@ -1,6 +1,7 @@
 package com.casinelli.Appointments;
 
 
+import com.casinelli.Appointments.DAO.DBQuery;
 import com.casinelli.Appointments.DAO.JDBC;
 
 import com.casinelli.Appointments.Helper.DataMgmt;
@@ -9,6 +10,7 @@ import com.casinelli.Appointments.Helper.I18nMgmt;
 import com.casinelli.Appointments.Helper.Logger;
 
 
+import com.casinelli.Appointments.Model.Appointment;
 import javafx.application.Application;
 
 
@@ -42,11 +44,6 @@ public class Main extends Application {
         DataMgmt.initializeApplicationData();
         //Test code to be removed
 
-        //LocalDateTime ldt = LocalDateTime.now();
-
-//        Appointment anAppt = new Appointment(444, "Call with Dude", ldt,"Louis", ldt, "louis",
-//                "call about stuff", "here","call", ldt,ldt,1,2,3);
-//        int numrows = DBQuery.create(Appointment.insertAppointment, anAppt);
 
 
         //start JavaFX interface

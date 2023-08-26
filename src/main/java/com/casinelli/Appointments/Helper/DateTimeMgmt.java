@@ -77,10 +77,14 @@ public abstract class DateTimeMgmt {
 
     public static boolean checkApptOverlaps(Appointment newAppt) {
         AtomicBoolean result = new AtomicBoolean(false);
+
         DataMgmt.getAllApptsList().forEach(appt -> {
-           if (isBetweenDateTime(appt.getStart(), appt.getEnd(), newAppt.getStart(), newAppt.getEnd())){
-                result.set(true);
-            }
+           if(!(appt.getCustomerId() == newAppt.getCustomerId())){
+               if (isBetweenDateTime(appt.getStart(), appt.getEnd(), newAppt.getStart(), newAppt.getEnd())){
+                   result.set(true);
+               }
+           }
+
         });
         return result.get();
     }
