@@ -27,36 +27,31 @@ public class Appointment extends DBObject{
     public static final RetrieveAllInterface allAppts = () -> {
         String sql = "SELECT * FROM APPOINTMENTS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        return rs;
+        return ps.executeQuery();
     };
     public static final RetrieveInterface getApptById = (apptId) -> {
         String sql = "SELECT * FROM APPOINTMENTS WHERE APPOINTMENT_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, Integer.getInteger(apptId.getValue().toString()));
-        ResultSet rs = ps.executeQuery();
-        return rs;
+        return ps.executeQuery();
     };
     public static final RetrieveInterface getApptsByUserId = (userId) -> {
         String sql = "SELECT * FROM APPOINTMENTS WHERE USER_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, Integer.getInteger(userId.getValue().toString()));
-        ResultSet rs = ps.executeQuery();
-        return rs;
+        return ps.executeQuery();
     };
     public static final RetrieveInterface getApptsByType = (type) -> {
         String sql = "SELECT * FROM APPOINTMENTS WHERE TYPE = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, (type.getValue().toString()));
-        ResultSet rs = ps.executeQuery();
-        return rs;
+        return ps.executeQuery();
     };
     public static final RetrieveInterface getApptsByContactId = (contactId) -> {
         String sql = "SELECT * FROM APPOINTMENTS WHERE CONTACT_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, Integer.getInteger(contactId.getValue().toString()));
-        ResultSet rs = ps.executeQuery();
-        return rs;
+        return ps.executeQuery();
     };
     public static final CreateInterface insertAppointment = (thisAppt) -> {
         //Local variable setup
@@ -103,6 +98,12 @@ public class Appointment extends DBObject{
         ps.setInt(12, anAppt.getUserId());
         ps.setInt(13,anAppt.getContactId());
         ps.setInt(14, anAppt.getId());
+        return ps.executeUpdate();
+    };
+    public static final DeleteInterface deleteApptByID = (apptID) -> {
+        String sql = "DELETE FROM APPOINTMENTS WHERE APPOINTMENT_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, (int) apptID.getValue());
         return ps.executeUpdate();
     };
     /////CONSTRUCTORS/////

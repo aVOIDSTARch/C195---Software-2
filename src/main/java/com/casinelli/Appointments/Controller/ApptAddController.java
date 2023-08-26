@@ -110,7 +110,8 @@ public class ApptAddController implements Initializable {
     }
 
     private void setCreateButtonBindings() {
-        addBtnDisabler = tfApptAddTitle.textProperty().isEmpty()
+        addBtnDisabler =
+            tfApptAddTitle.textProperty().isEmpty()
                 .or(tfApptAddDesc.textProperty().isEmpty())
                 .or(tfApptAddLocation.textProperty().isEmpty())
                 .or(tfApptAddType.textProperty().isEmpty())

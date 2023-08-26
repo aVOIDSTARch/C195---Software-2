@@ -1,9 +1,12 @@
 package com.casinelli.Appointments.Controller;
 
 
+import com.casinelli.Appointments.DAO.DBQuery;
+import com.casinelli.Appointments.DAO.Value;
 import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
+import com.casinelli.Appointments.Model.Appointment;
 import com.casinelli.Appointments.Model.Customer;
 
 import javafx.event.ActionEvent;
@@ -21,6 +24,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -29,7 +33,6 @@ public class CustomerHubController implements Initializable {
     Stage thisStage;
     Parent scene;
 
-    private static Customer newCustomer;
     private static Customer selectedCustomer;
     ///// JAVAFX CONTROLS /////
     @javafx.fxml.FXML
@@ -78,6 +81,8 @@ public class CustomerHubController implements Initializable {
     private Button btnCustUpdate;
     @javafx.fxml.FXML
     private Button btnCustDelete;
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -192,15 +197,10 @@ public class CustomerHubController implements Initializable {
     public static Customer getSelectedCustomer(){
         return selectedCustomer;
     }
-    public void setSelectedCustomer(){
+    private void setSelectedCustomer(){
         selectedCustomer = tblVwCustomers.getSelectionModel().getSelectedItem();
     }
-    public static void setNewCustomer(Customer newCust){
-        newCustomer = newCust;
-    }
-    public static Customer getNewCustomer(){
-        return getNewCustomer();
-    }
+
     @javafx.fxml.FXML
     public void createNewCustomer(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
@@ -235,6 +235,17 @@ public class CustomerHubController implements Initializable {
 
     @javafx.fxml.FXML
     public void deleteSelectedCustomer(ActionEvent actionEvent) {
-
+        setSelectedCustomer();
+        if(selectedCustomer != null){
+            Value<Integer> custID = new Value<>(selectedCustomer.getId());
+            try{
+                //Delete selected cust
+                DBQuery.delete(Customer.deleteCustByID, custID);
+                //Update ObservableLists in DataMgmt
+                DataMgmt.initializeApplicationData();
+            } catch (SQLException e) {
+                System.out.println("Failed to delete from DB");
+            }
+        }
     }
 }

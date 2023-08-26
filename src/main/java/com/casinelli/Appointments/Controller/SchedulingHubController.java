@@ -1,5 +1,7 @@
 package com.casinelli.Appointments.Controller;
 
+import com.casinelli.Appointments.DAO.DBQuery;
+import com.casinelli.Appointments.DAO.Value;
 import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
@@ -19,8 +21,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SchedulingHubController implements Initializable {
     //Controller instance variables
@@ -188,6 +192,21 @@ public class SchedulingHubController implements Initializable {
 
     @javafx.fxml.FXML
     public void deleteSelectedAppt(ActionEvent actionEvent) {
+        //Set Selected Appt
+        setSelectedAppt();
+        if(selectedAppt != null){
+            Value<Integer> apptID = new Value<>(selectedAppt.getId());
+            try{
+                //Delete selected appt
+                DBQuery.delete(Appointment.deleteApptByID, apptID);
+                //Update ObservableLists in DataMgmt
+                DataMgmt.initializeApplicationData();
+            } catch (SQLException e) {
+                System.out.println("Failed to delete from DB");
+            }
+        }else{
+            System.out.println("Please select an appt");
+        }
     }
 
     @Override

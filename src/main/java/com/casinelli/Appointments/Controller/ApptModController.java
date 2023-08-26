@@ -151,6 +151,7 @@ public class ApptModController implements Initializable {
         btnApptModCancel.textProperty().setValue(I18nMgmt.translate("CancelBtnText"));
     }
 
+    //// POPULATE COMBO BOXES /////
     private void populateCurrentAppointmentData() {
         tfApptModApptID.textProperty().setValue(String.valueOf(apptToMod.getId()));
         tfApptModTitle.textProperty().setValue(apptToMod.getName());
@@ -223,7 +224,7 @@ public class ApptModController implements Initializable {
         }else {
             //Build Appt from Inputs
             updateApptToMod(thisTime, startTime, endTime);
-            verifyAppt();
+
 
             if (checkApptOverlaps(apptToMod)) {
                 System.out.println("appointment overlaps");
@@ -248,25 +249,6 @@ public class ApptModController implements Initializable {
                 thisStage.show();
             }
         }
-    }
-
-    private void verifyAppt() {
-        System.out.println(apptToMod.getId());
-        System.out.println(apptToMod.getName());
-        System.out.println(apptToMod.getDescription());
-        System.out.println(apptToMod.getLocation());
-        System.out.println(apptToMod.getType());
-        System.out.println(apptToMod.getCreatedBy());
-        System.out.println(apptToMod.getLastUpdatedBy());
-        System.out.println(apptToMod.getStart().toString());
-        System.out.println(apptToMod.getEnd().toString());
-        System.out.println(apptToMod.getCreateDate().toString());
-        System.out.println(apptToMod.getLastUpdate().toString());
-        System.out.println(apptToMod.getContactId());
-        System.out.println(apptToMod.getCustomerId());
-        System.out.println(apptToMod.getUserId());
-
-
     }
 
     @javafx.fxml.FXML

@@ -1,7 +1,11 @@
 package com.casinelli.Appointments.Controller;
 
+import com.casinelli.Appointments.DAO.DBQuery;
 import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
+import com.casinelli.Appointments.Model.Appointment;
+import com.casinelli.Appointments.Model.Customer;
+import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,6 +20,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -59,20 +64,31 @@ public class CustModController implements Initializable {
     @javafx.fxml.FXML
     private Button btnCustModCancel;
 
-    @javafx.fxml.FXML
-    public void updateCustomer_mod_scene(ActionEvent actionEvent) {
-    }
-
+    private BooleanBinding updateButtonDisabler;
+    private Customer selectedCustomer;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        selectedCustomer = CustomerHubController.getSelectedCustomer();
+        setUpdateButtonBindings();
         try {
-            populateCountries();
             initializeSceneText();
+            populateCustomerData();
+            populateCountries();
         } catch (SQLException e) {
             System.out.println("failure");
         }
 
+    }
+
+    private void setUpdateButtonBindings() {
+        updateButtonDisabler =
+                tfCustModCustName.textProperty().isEmpty()
+                        .or(tfCustModCustAddress.textProperty().isEmpty())
+                        .or(tfCustModCustPostCode.textProperty().isEmpty())
+                        .or(tfCustModCustPhone.textProperty().isEmpty())
+                        .or(cboCustModCustDiv.valueProperty().isNull())
+                        .or(cboCustModCustCountry.valueProperty().isNull());
+        btnCustModUpdate.disableProperty().bind(updateButtonDisabler);
     }
     private void initializeSceneText() throws SQLException {
         //Text Labels
@@ -99,6 +115,15 @@ public class CustModController implements Initializable {
         cboCustModCustDiv.getSelectionModel().select(DataMgmt.getDivisionNameFromDivId(CustomerHubController.
                 getSelectedCustomer().getDivisionId()));
     }
+    private void populateCustomerData() {
+        tfCustModCustID.textProperty().setValue(String.valueOf(selectedCustomer.getId()));
+        tfCustModCustName.textProperty().setValue(selectedCustomer.getName());
+        tfCustModCustAddress.textProperty().setValue(selectedCustomer.getAddress());
+        tfCustModCustPostCode.textProperty().setValue(selectedCustomer.getPostalCode());
+        tfCustModCustPhone.textProperty().setValue(selectedCustomer.getPhone());
+        cboCustModCustCountry.setValue(DataMgmt.getCountryNameFromDivId(selectedCustomer.getDivisionId()));
+        cboCustModCustDiv.setValue(DataMgmt.getDivisionNameFromDivId(selectedCustomer.getDivisionId()));
+    }
     private void populateCountries() throws SQLException {
         cboCustModCustCountry.setItems(DataMgmt.getAllCountryNames());
         cboCustModCustCountry.getSelectionModel().selectFirst();
@@ -113,8 +138,39 @@ public class CustModController implements Initializable {
     private void updateDivisionCbo(ActionEvent actionEvent) throws SQLException {
         populateDivisions(cboCustModCustCountry.getSelectionModel().getSelectedItem());
     }
-    private void returnToCustomerScene(){
+    @javafx.fxml.FXML
+    public void updateCustomer_mod_scene(ActionEvent actionEvent) {
+        updateSelectedCustomer();
+        //Insert Cust into DB
+        try {
+            System.out.println(DBQuery.update(Customer.updateCustomer, selectedCustomer));
+        } catch (SQLException e) {
+            System.out.println("Failed to write to DB");
+        }
+        //Update ObservableLists in DataMgmt
+        DataMgmt.initializeApplicationData();
+        //Return Cust Scene
+        thisStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+        try {
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/customer-view.fxml")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        thisStage.setTitle(I18nMgmt.translate("CustomerSceneTitle"));
+        thisStage.setScene(new Scene(scene));
+        thisStage.show();
+    }
 
+    private void updateSelectedCustomer() {
+        LocalDateTime thisTime = LocalDateTime.now();
+        selectedCustomer.setName(tfCustModCustName.getText());
+        selectedCustomer.setAddress(tfCustModCustAddress.getText());
+        selectedCustomer.setPostalCode(tfCustModCustPostCode.getText());
+        selectedCustomer.setPhone(tfCustModCustPhone.getText());
+        selectedCustomer.setDivisionId(cboCustModCustDiv.getSelectionModel().getSelectedIndex());
+        selectedCustomer.setLastUpdatedBy(DataMgmt.getCurrentUser().getName());
+        selectedCustomer.setLastUpdate(thisTime);
     }
 
     @javafx.fxml.FXML

@@ -1,8 +1,12 @@
 package com.casinelli.Appointments.Controller;
 
+import com.casinelli.Appointments.DAO.DBQuery;
 import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
 
+import com.casinelli.Appointments.Model.Appointment;
+import com.casinelli.Appointments.Model.Customer;
+import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,6 +21,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -60,19 +65,29 @@ public class CustAddController implements Initializable {
     @javafx.fxml.FXML
     private Button btnCustAddCancel;
 
-    @javafx.fxml.FXML
-    public void createNewCustomer_add_scene(ActionEvent actionEvent) {
+    private BooleanBinding createButtonDisabler;
 
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        setCreateButtonBindings();
         initializeSceneText();
         try {
             populateCountries();
         } catch (SQLException e) {
             System.out.println("failure");
         }
+    }
+
+    private void setCreateButtonBindings() {
+        createButtonDisabler =
+            tfCustAddCustName.textProperty().isEmpty()
+                .or(tfCustAddCustAddress.textProperty().isEmpty())
+                .or(tfCustAddCustPostCode.textProperty().isEmpty())
+                .or(tfCustAddCustPhone.textProperty().isEmpty())
+                .or(cboCustAddCustDiv.valueProperty().isNull())
+                .or(cboCustAddCustCountry.valueProperty().isNull());
+        btnCustAddCreate.disableProperty().bind(createButtonDisabler);
     }
 
     private void initializeSceneText() {
@@ -110,6 +125,48 @@ public class CustAddController implements Initializable {
     private void updateDivisionCbo(ActionEvent actionEvent) throws SQLException {
         populateDivisions(cboCustAddCustCountry.getSelectionModel().getSelectedItem());
     }
+
+    @javafx.fxml.FXML
+    public void createNewCustomer_add_scene(ActionEvent actionEvent) {
+        Customer newCust = buildNewCustomer();
+        try {
+            System.out.println(DBQuery.create(Customer.insertCustomer, newCust));
+        } catch (SQLException e) {
+            System.out.println("Failed to write to DB");
+        }
+        //Update ObservableLists in DataMgmt
+        DataMgmt.initializeApplicationData();
+        //Return Appt Scene
+        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        try {
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/customer-view.fxml")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        thisStage.setTitle(I18nMgmt.translate("CustomerSceneTitle"));
+        thisStage.setScene(new Scene(scene));
+        thisStage.show();
+
+    }
+
+    private Customer buildNewCustomer() {
+        LocalDateTime thisTime = LocalDateTime.now();
+        return new Customer(
+                8888,
+                tfCustAddCustName.getText(),
+                tfCustAddCustAddress.getText(),
+                tfCustAddCustPostCode.getText(),
+                tfCustAddCustPhone.getText(),
+                thisTime,
+                DataMgmt.getCurrentUser().getName(),
+                thisTime,
+                DataMgmt.getCurrentUser().getName(),
+                cboCustAddCustDiv.getSelectionModel().getSelectedIndex()
+        );
+
+    }
+
     @javafx.fxml.FXML
     public void cancelCustCreate(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();

@@ -19,7 +19,7 @@ public abstract class DBQuery {
     public static int update(UpdateInterface ui,DBObject object) throws SQLException {
         return ui.updateDB(object);
     }
-    public static int delete(DeleteInterface di,String columnName, Value<?> matchValue){
-        return di.deleteFromDB(columnName, matchValue);
+    public static int delete(DeleteInterface di, Value<?> matchValue) throws SQLException {
+        return di.deleteFromDB( matchValue);
     }
 }

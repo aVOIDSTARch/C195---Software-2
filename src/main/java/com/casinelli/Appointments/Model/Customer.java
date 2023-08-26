@@ -38,12 +38,6 @@ public class Customer extends DBObject{
     public static final CreateInterface insertCustomer = (thisCust) -> {
         //Local variable setup
         Customer aCustomer = (Customer) thisCust;
-        String username = "DEFAULT NAME";
-
-        //Update Username
-        if (DataMgmt.getCurrentUser() != null){
-            username = DataMgmt.getCurrentUser().getName();
-        }
         //INSERT STRING
         String sql = "INSERT INTO CUSTOMERS (CUSTOMER_NAME, ADDRESS, POSTAL_CODE, PHONE, CREATE_DATE, CREATED_BY, " +
                 "LAST_UPDATE, LAST_UPDATED_BY, DIVISION_ID) VALUES (?,?,?,?,?,?,?,?,?)";
@@ -53,9 +47,11 @@ public class Customer extends DBObject{
         ps.setString(2, aCustomer.getAddress());
         ps.setString(3, aCustomer.getPostalCode());
         ps.setString(4, aCustomer.getPhone());
-        ps.setTimestamp(5, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(aCustomer.getCreateDate())));
+        ps.setTimestamp(5, Timestamp.valueOf(
+                DateTimeMgmt.convertLocalTZtoUTC(aCustomer.getCreateDate())));
         ps.setString(6, aCustomer.getCreatedBy());
-        ps.setTimestamp(7, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(aCustomer.getLastUpdate())));
+        ps.setTimestamp(7, Timestamp.valueOf(
+                DateTimeMgmt.convertLocalTZtoUTC(aCustomer.getLastUpdate())));
         ps.setString(8, aCustomer.getLastUpdatedBy());
         ps.setInt(9,aCustomer.getDivisionId());
         return ps.executeUpdate();
@@ -63,11 +59,6 @@ public class Customer extends DBObject{
     public static final UpdateInterface updateCustomer = (thisCust) -> {
         //Local variable setup
         Customer aCustomer = (Customer) thisCust;
-        String username = "DEFAULT NAME";
-        //Update Username
-        if (DataMgmt.getCurrentUser() != null){
-            username = DataMgmt.getCurrentUser().getName();
-        }
         //INSERT STRING
         String sql = "UPDATE CUSTOMERS SET CUSTOMER_NAME = ?, ADDRESS = ?, POSTAL_CODE = ?, PHONE = ?, CREATE_DATE = ?, " +
                 "CREATED_BY = ?, LAST_UPDATE = ?, LAST_UPDATED_BY = ?, DIVISION_ID = ? WHERE CUSTOMER_ID = ? ";
@@ -83,6 +74,12 @@ public class Customer extends DBObject{
         ps.setString(8, aCustomer.getLastUpdatedBy());
         ps.setInt(9,aCustomer.getDivisionId());
         ps.setInt(10, aCustomer.getId());
+        return ps.executeUpdate();
+    };
+    public static final DeleteInterface deleteCustByID = (custID) -> {
+        String sql = "DELETE FROM CUSTOMERS WHERE CUSTOMER_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, (int) custID.getValue());
         return ps.executeUpdate();
     };
 
@@ -118,22 +115,28 @@ public class Customer extends DBObject{
             this.divisionId = rs.getInt(CUSTOMER_COL_NAMES[9]);
         }
     }
-
+    ///// GETTERS AND SETTERS /////
     public String getAddress() {
         return address;
     }
+    public void setAddress(String address){this.address = address;}
 
     public String getPostalCode() {
         return postalCode;
     }
+    public void setPostalCode(String postalCode){this.postalCode = postalCode;};
 
     public String getPhone() {
         return phone;
     }
+    public void setPhone(String phone) {this.phone = phone;}
 
     public int getDivisionId() {
         return divisionId;
     }
+    public void setDivisionId(int divisionId) {this.divisionId = divisionId;}
+
+    ///// SUPPLEMENTAL DATA PROVIDERS /////
     public String getCountryName(){
         return DataMgmt.getCountryNameFromDivId(this.divisionId);
     }

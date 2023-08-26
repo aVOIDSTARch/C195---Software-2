@@ -1,5 +1,7 @@
 package com.casinelli.Appointments.DAO;
 
+import java.sql.SQLException;
+
 public interface DeleteInterface {
-    int deleteFromDB(String columnName, Value<?> matchValue);
+    int deleteFromDB(Value<?> matchValue) throws SQLException;
 }

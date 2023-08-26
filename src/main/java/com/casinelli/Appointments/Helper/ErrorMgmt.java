@@ -1,5 +1,5 @@
 package com.casinelli.Appointments.Helper;
 
-public abstract class Validator {
+public abstract class ErrorMgmt {
 
 }
