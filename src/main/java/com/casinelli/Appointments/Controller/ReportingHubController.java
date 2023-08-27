@@ -1,6 +1,11 @@
 package com.casinelli.Appointments.Controller;
 
 import com.casinelli.Appointments.Helper.DataMgmt;
+import com.casinelli.Appointments.Helper.Logger;
+import com.casinelli.Appointments.Helper.ReportGenerator;
+import com.casinelli.Appointments.Main;
+import com.casinelli.Appointments.Model.ExceptionEvent;
+import com.casinelli.Appointments.Model.LogEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,9 +15,12 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.Vector;
 
 public class ReportingHubController implements Initializable {
     //Controller instance variables
@@ -52,11 +60,18 @@ public class ReportingHubController implements Initializable {
     @javafx.fxml.FXML
     private TextArea txtAreaRptOutput;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
+    ///// NAVIGATION METHODS /////
     @javafx.fxml.FXML
     public void navToCustomerScene(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
-            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/customer-view.fxml"));
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/customer-view.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -69,7 +84,8 @@ public class ReportingHubController implements Initializable {
     public void navToWelcomeScene(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
-            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/welcomehub-view.fxml"));
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/welcomehub-view.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -86,7 +102,8 @@ public class ReportingHubController implements Initializable {
     public void navToScheduleScene(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
-            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/scheduling-view.fxml"));
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/scheduling-view.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -100,7 +117,8 @@ public class ReportingHubController implements Initializable {
         DataMgmt.setCurrentUser(null);
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
-            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/login-view.fxml"));
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/login-view.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -109,20 +127,36 @@ public class ReportingHubController implements Initializable {
         thisStage.show();
     }
 
+    ///// REPORT GENERATOR BUTTON LISTENERS /////
     @javafx.fxml.FXML
     public void displayRptApptsTypeMonth(ActionEvent actionEvent) {
+        displayReport(ReportGenerator.generateApptsByTypeAndMonthReport(DataMgmt.getAllApptsList()));
     }
 
     @javafx.fxml.FXML
     public void displayRptApptByContact(ActionEvent actionEvent) {
+        displayReport(ReportGenerator.generateScheduleByContactReport(DataMgmt.getAllApptsList()));
     }
 
     @javafx.fxml.FXML
     public void displayRptExceptionLog(ActionEvent actionEvent) {
+        try {
+            displayReport(ReportGenerator.generateApplicationExceptionReport(Logger.exceptionsFileName));
+        } catch (FileNotFoundException e) {
+            ExceptionEvent fileNotFound = new ExceptionEvent(DataMgmt.getCurrentUser().getName(),
+                    LogEvent.EventType.EXCEPTION, LogEvent.AppLocation.REPORTING, e);
+            Main.logger.log(fileNotFound);
+        }
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
 
+    ///// TEXT AREA FUNCTIONS /////
+    private void displayReport(Vector<String> reportData){
+        txtAreaRptOutput.clear();;
+        reportData.forEach(line -> {
+            txtAreaRptOutput.appendText(line);
+            txtAreaRptOutput.appendText("\n");
+        });
     }
+
 }

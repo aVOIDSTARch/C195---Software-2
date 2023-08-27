@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -17,14 +18,16 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public abstract class DataMgmt {
-    private static User currentUser;
+    private static final User defaultUser = new User(9999999, "DEFAULT_BEFORE_LOGIN", "noPASS", LocalDateTime.now(),
+            "DEFAULT_BEFORE_LOGIN",LocalDateTime.now(), "DEFAULT_BEFORE_LOGIN");
+    private static User currentUser = defaultUser;
     /////Observable Lists From DB Tables/////
-    private static ObservableList<Contact> allContacts = FXCollections.observableArrayList();
-    private static ObservableList<Country> allCountries = FXCollections.observableArrayList();
-    private static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
-    private static ObservableList<Appointment> allAppts = FXCollections.observableArrayList();
-    private static ObservableList<Division> allDivisions = FXCollections.observableArrayList();
-    private static ObservableList<User> allUsers = FXCollections.observableArrayList();
+    private static final ObservableList<Contact> allContacts = FXCollections.observableArrayList();
+    private static final ObservableList<Country> allCountries = FXCollections.observableArrayList();
+    private static final ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
+    private static final ObservableList<Appointment> allAppts = FXCollections.observableArrayList();
+    private static final ObservableList<Division> allDivisions = FXCollections.observableArrayList();
+    private static final ObservableList<User> allUsers = FXCollections.observableArrayList();
 
     /////Class Specific Functions/////
     public static void initializeApplicationData() {

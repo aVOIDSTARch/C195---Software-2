@@ -1,24 +1,26 @@
 package com.casinelli.Appointments.Model;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import com.casinelli.Appointments.Helper.DateTimeMgmt;
+
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-public class LogEvent {
-    private String userName;
-    private boolean successful;
-    private LocalDate attemptDate;
-    private LocalTime attemptTime;
-    private ZoneId systemZoneId;
-    private EventType eventType;
-    public static enum EventType {LOGIN_ATTEMPT, DB_ACCESS, APPLICATION};
 
-    public LogEvent(String userName, boolean successful, EventType eventType){
+public class LogEvent {
+    private final String userName;
+    private final LocalDateTime attemptDateTime;
+    private final ZoneId systemZoneId;
+    private final EventType eventType;
+    public static enum EventType {LOGIN_ATTEMPT, DB_ACCESS, APPLICATION, EXCEPTION};
+
+    public static enum AppLocation {LOGIN_SCENE, WELCOME_HUB, CUSTOMERS, CUSTOMER_CREATE,
+        CUSTOMER_UPDATE, SCHEDULING, APPOINTMENT_CREATE, APPOINTMENT_UPDATE, REPORTING};
+
+
+    public LogEvent(String userName, EventType eventType){
         this.userName = userName;
-        this.successful = successful;
         this.eventType = eventType;
-        this.attemptDate = LocalDate.now();
-        this.attemptTime = LocalTime.now();
+        this.attemptDateTime = LocalDateTime.now();
         this.systemZoneId = ZoneId.systemDefault();
     }
 
@@ -26,16 +28,8 @@ public class LogEvent {
         return userName;
     }
 
-    public boolean isSuccessful() {
-        return successful;
-    }
-
-    public LocalDate getAttemptDate() {
-        return attemptDate;
-    }
-
-    public LocalTime getAttemptTime() {
-        return attemptTime;
+    public LocalDateTime getAttemptDateTime() {
+        return attemptDateTime;
     }
 
     public ZoneId getSystemZoneId() {
@@ -48,8 +42,9 @@ public class LogEvent {
 
     @Override
     public String toString(){
-
-        return eventType.toString() + " Username: " +  userName + " " + attemptDate.toString() + " " + attemptTime.toString()
-                + " " + systemZoneId.toString() + " Successful: " + successful;
+        return eventType.toString() + " Username: " +  userName + " " +
+                attemptDateTime.toLocalDate().format(DateTimeMgmt.dateOnlyFormatter) + " " +
+                attemptDateTime.toLocalTime().format(DateTimeMgmt.timeOnlyFormat) + " " +
+                systemZoneId.toString();
     }
 }

@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class WelcomeHubController implements Initializable{
@@ -85,7 +86,8 @@ public class WelcomeHubController implements Initializable{
     public void navToCustomerScene(ActionEvent actionEvent) throws IOException {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
-            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/customer-view.fxml"));
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/customer-view.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -147,7 +149,7 @@ public class WelcomeHubController implements Initializable{
     }
     private void populateTextWelcomeHub(){
         /////BUTTONS/////
-        btnWHNavWelcHub.textProperty().setValue(I18nMgmt.translate("welcomeHub"));
+        btnWHNavWelcHub.textProperty().setValue(I18nMgmt.translate("NavWelcome"));
         btnWHNavCustScene.textProperty().setValue(I18nMgmt.translate("NavCustBtn"));
         btnWHNavScheduleScene.textProperty().setValue(I18nMgmt.translate("NavScheduleBtn"));
         btnWHNavReportsScene.textProperty().setValue(I18nMgmt.translate("NavReportsBtn"));

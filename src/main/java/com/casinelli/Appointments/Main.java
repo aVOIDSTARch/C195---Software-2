@@ -11,6 +11,7 @@ import com.casinelli.Appointments.Helper.Logger;
 
 
 import com.casinelli.Appointments.Model.Appointment;
+import com.casinelli.Appointments.Model.LogEvent;
 import javafx.application.Application;
 
 
@@ -26,6 +27,12 @@ import java.time.LocalDateTime;
 public class Main extends Application {
     //Create Logger Instance
     public static final Logger logger = new Logger();
+
+    /**
+     * @param stage Initial Stage for Application to Contain FXML scenes
+     * @throws IOException Occurs when the FXML file cannot be found - nested NullPointerException
+     * Changes scene to Login Scene
+     */
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login-view.fxml"));
@@ -44,9 +51,7 @@ public class Main extends Application {
         DataMgmt.initializeApplicationData();
         //Test code to be removed
 
-
-
-        //start JavaFX interface
+        //Start JavaFX interface
         launch();
         //disconnect from db
         JDBC.closeConnection();

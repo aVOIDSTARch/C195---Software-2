@@ -14,6 +14,7 @@ public abstract class DateTimeMgmt {
     public static final ZoneId ZONE_UTC = ZoneId.of("UTC");
 
     public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    public static final DateTimeFormatter dateOnlyFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     public static final DateTimeFormatter timeOnlyFormat = DateTimeFormatter.ofPattern("HH:mm");
 
     public static final LocalTime businessHoursStart = LocalTime.parse("08:00", timeOnlyFormat);
@@ -21,17 +22,15 @@ public abstract class DateTimeMgmt {
 
     ///// TIME CONVERSION METHODS /////
     public static LocalDateTime convertLocalTZtoUTC(LocalDateTime localLDT){
-        LocalDateTime newUTCldt = localLDT.atZone(DateTimeMgmt.ZONE_SYS)
+        return localLDT.atZone(DateTimeMgmt.ZONE_SYS)
                 .withZoneSameInstant(ZONE_UTC)
                 .toLocalDateTime();
-        return newUTCldt;
     }
 
     public static LocalDateTime convertUTCtoLocalTimeZone(LocalDateTime UTCldt){
-        LocalDateTime newLocalLDT = UTCldt.atZone(DateTimeMgmt.ZONE_UTC)
+        return UTCldt.atZone(DateTimeMgmt.ZONE_UTC)
                 .withZoneSameInstant(ZONE_SYS)
                 .toLocalDateTime();
-        return newLocalLDT;
 
     }
 
@@ -49,12 +48,10 @@ public abstract class DateTimeMgmt {
     ///// DATE AND TIME VALIDATION METHODS /////
 
     public static boolean isBetweenHours(LocalTime apptStartTime, LocalTime apptEndTime){
-        boolean isInBusyHours = (apptStartTime.isAfter(DateTimeMgmt.businessHoursStart.minusMinutes(1))
+        return (apptStartTime.isAfter(DateTimeMgmt.businessHoursStart.minusMinutes(1))
                 && apptStartTime.isBefore(DateTimeMgmt.businessHoursEnd.plusMinutes(1)))
                 && (apptEndTime.isAfter(DateTimeMgmt.businessHoursStart.minusMinutes(1))
                 && apptEndTime.isBefore(DateTimeMgmt.businessHoursEnd.plusMinutes(1)));
-        System.out.println(isInBusyHours);
-        return isInBusyHours;
     }
 
     public static boolean isBetweenDateTime(LocalDateTime firstStartDateTIme, LocalDateTime firstEndDateTime,
@@ -70,9 +67,7 @@ public abstract class DateTimeMgmt {
         return (isInsideFirstRange || isInsideSecondRange);
     }
     public static boolean checkStartEndSequence(LocalDateTime startTime, LocalDateTime endTime) {
-        boolean inOrder = startTime.isBefore(endTime);
-        System.out.println(inOrder);
-        return inOrder;
+        return startTime.isBefore(endTime);
     }
 
     public static boolean checkApptOverlaps(Appointment newAppt) {
@@ -84,7 +79,6 @@ public abstract class DateTimeMgmt {
                    result.set(true);
                }
            }
-
         });
         return result.get();
     }
