@@ -1,6 +1,8 @@
 package com.casinelli.Appointments.Helper;
 
 import com.casinelli.Appointments.Model.Appointment;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -53,6 +55,17 @@ public abstract class DateTimeMgmt {
                 && (apptEndTime.isAfter(DateTimeMgmt.businessHoursStart.minusMinutes(1))
                 && apptEndTime.isBefore(DateTimeMgmt.businessHoursEnd.plusMinutes(1)));
     }
+    public static boolean isInNextFifteenMinutes(LocalTime startTime){
+        LocalTime todayNow = LocalTime.now().minusSeconds(1);
+        LocalTime todayNowPlusFifteen = LocalTime.now().plusMinutes(15).plusSeconds(1);
+        return startTime.isAfter(todayNow) && startTime.isBefore(todayNowPlusFifteen);
+    }
+
+    public static boolean isToday(LocalDateTime thisDateTime){
+        return thisDateTime.toLocalDate().equals(LocalDate.now());
+    }
+
+
 
     public static boolean isBetweenDateTime(LocalDateTime firstStartDateTIme, LocalDateTime firstEndDateTime,
                                             LocalDateTime secondStartDateTIme, LocalDateTime secondEndDateTime){

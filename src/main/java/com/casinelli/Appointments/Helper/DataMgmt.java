@@ -45,20 +45,21 @@ public abstract class DataMgmt {
 
     }
 
-    //Integer Generator
+    ///// Integer Generator /////
     public static List<Integer> makeIntList(int startingWith, int endingWith){
         return IntStream.range(startingWith, endingWith + 1)
                 .boxed()
                 .collect(Collectors.toList());
     }
 
-    //Current User Getter-Setters
+    ///// Current User Getter-Setters /////
     public static User getCurrentUser() {
         return currentUser;
     }
     public static void setCurrentUser(User thisUser) {
         DataMgmt.currentUser = thisUser;
     }
+    public static void setUserToDefault() {setCurrentUser(defaultUser);}
 
     /////List Insertion Functions/////
     private static void populateAllUsers(ResultSet rs) throws SQLException {
@@ -97,6 +98,7 @@ public abstract class DataMgmt {
             allCustomers.add(new Customer(rs));
         }
     }
+
     /////USERS FUNCTIONS/////
     public static ObservableList<User> getAllUsersList(){
         return allUsers;
@@ -138,6 +140,16 @@ public abstract class DataMgmt {
     public static int getTotalNumAppts(){
         return allAppts.size();
     }
+    public static ObservableList<Appointment> getApptsByCustomerId(int custID){
+        ObservableList<Appointment> thisCustsAppts = FXCollections.observableArrayList();
+        getAllApptsList().forEach(appt -> {
+            if(appt.getId() == custID){
+                thisCustsAppts.add(appt);
+            }
+        });
+        return thisCustsAppts;
+    }
+
     /////COUNTRY FUNCTIONS/////
 
     public static ObservableList<String> getAllCountryNames(){
@@ -178,6 +190,7 @@ public abstract class DataMgmt {
         });
         return thisContact.get();
     }
+
     /////CUSTOMER FUNCTIONS/////
     public static ObservableList<Customer> getAllCustomersList(){
         return allCustomers;

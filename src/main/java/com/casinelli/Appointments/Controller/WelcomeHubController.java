@@ -1,8 +1,12 @@
 package com.casinelli.Appointments.Controller;
 
+import com.casinelli.Appointments.Helper.AlertFactory;
 import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
+import com.casinelli.Appointments.Model.Appointment;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,8 +19,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.Vector;
 
 public class WelcomeHubController implements Initializable{
     //Controller instance variables
@@ -82,71 +88,18 @@ public class WelcomeHubController implements Initializable{
     @FXML
     private Label lblWHApptsToday;
 
-    @javafx.fxml.FXML
-    public void navToCustomerScene(ActionEvent actionEvent) throws IOException {
-        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
-        try {
-            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
-                    .getResource("/com/casinelli/Appointments/customer-view.fxml")));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        thisStage.setTitle(I18nMgmt.translate("CustomerSceneTitle"));
-        thisStage.setScene(new Scene(scene));
-        thisStage.show();
-    }
-
-    @javafx.fxml.FXML
-    public void navToWelcomeScene(ActionEvent actionEvent) {
-    }
-
-    @javafx.fxml.FXML
-    public void navToReportsScene(ActionEvent actionEvent) {
-        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
-        try {
-            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/reporting-view.fxml"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        thisStage.setTitle(I18nMgmt.translate("ReportingSceneTitle"));
-        thisStage.setScene(new Scene(scene));
-        thisStage.show();
-    }
-
-    @javafx.fxml.FXML
-    public void navToScheduleScene(ActionEvent actionEvent) {
-        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
-        try {
-            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/scheduling-view.fxml"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        thisStage.setTitle(I18nMgmt.translate("SchedulingSceneTitle"));
-        thisStage.setScene(new Scene(scene));
-        thisStage.show();
-    }
-
-    @javafx.fxml.FXML
-    public void appLogout(ActionEvent actionEvent) {
-        DataMgmt.setCurrentUser(null);
-        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
-        try {
-            scene = FXMLLoader.load(getClass().getResource("/com/casinelli/Appointments/login-view.fxml"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        thisStage.setTitle(I18nMgmt.translate("LoginSceneTitle"));
-        thisStage.setScene(new Scene(scene));
-        thisStage.show();
-    }
-
+    ///// INITIALIZE SCENE AND SUPPORTING METHODS /////
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Setup scene content text
         populateTextWelcomeHub();
         populateContactSquare();
         //Initialize Tableview
+        initializeTableView();
+        //Check for Appts in Next 15 Minutes and Notify User
+        displayUpcomingAppts(getApptsInNextFifteenMinutes());
     }
+
     private void populateTextWelcomeHub(){
         /////BUTTONS/////
         btnWHNavWelcHub.textProperty().setValue(I18nMgmt.translate("NavWelcome"));
@@ -184,4 +137,110 @@ public class WelcomeHubController implements Initializable{
         lblApptCountNumForContact2.textProperty().setValue(Integer.toString(DataMgmt.getApptCountByContactId(2)));
         lblApptCountNumForContact3.textProperty().setValue(Integer.toString(DataMgmt.getApptCountByContactId(3)));
     }
+    private void initializeTableView() {
+    }
+
+    private void displayUpcomingAppts(ObservableList<Appointment> apptsList) {
+        Vector<String> apptStrings = new Vector<>();
+        StringBuilder apptsToDisplay = new StringBuilder();
+        apptsList.forEach(appt -> {
+
+            apptStrings.add(String.format("Appt ID: %d Date and Time: %s", appt.getId(), appt.getStartString()));
+        });
+        if(apptStrings.size() > 0){
+            apptsToDisplay.append("Number of Upcoming Appointments: ").append(apptStrings.size());
+            apptStrings.forEach(apptString -> {
+                apptsToDisplay.append("\n").append(apptString);
+            });
+            Alert edgeCaseAlert1 = new Alert(Alert.AlertType.INFORMATION);
+            edgeCaseAlert1.setTitle(I18nMgmt.translate("WelcomeSceneTitle"));
+            edgeCaseAlert1.setHeaderText(I18nMgmt.translate("nextFifteenMinutesHeader"));
+            edgeCaseAlert1.setContentText(apptsToDisplay.toString());
+            edgeCaseAlert1.showAndWait();
+        }else{
+            AlertFactory.getNewDialogAlert(Alert.AlertType.INFORMATION, "WelcomeSceneTitle",
+                    "nextFifteenMinutesHeader", "noApptsNextFifteen").showAndWait();
+        }
+
+
+    }
+    private ObservableList<Appointment> getApptsInNextFifteenMinutes(){
+        LocalDateTime thisTime = LocalDateTime.now();
+        ObservableList<Appointment> upcomingAppts = FXCollections.observableArrayList();
+        DataMgmt.getAllApptsList().forEach(appt -> {
+            if(DateTimeMgmt.isToday(appt.getStart())
+                && DateTimeMgmt.isInNextFifteenMinutes(appt.getStart().toLocalTime())){
+                upcomingAppts.add(appt);
+            }
+        });
+        return upcomingAppts;
+    }
+
+    ///// NAVIGATION BUTTONS /////
+    @javafx.fxml.FXML
+    public void navToCustomerScene(ActionEvent actionEvent) throws IOException {
+        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        try {
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/customer-view.fxml")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        thisStage.setTitle(I18nMgmt.translate("CustomerSceneTitle"));
+        thisStage.setScene(new Scene(scene));
+        thisStage.show();
+    }
+
+    @javafx.fxml.FXML
+    public void navToWelcomeScene(ActionEvent actionEvent) {
+    }
+
+    @javafx.fxml.FXML
+    public void navToReportsScene(ActionEvent actionEvent) {
+        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        try {
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/reporting-view.fxml")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        thisStage.setTitle(I18nMgmt.translate("ReportingSceneTitle"));
+        thisStage.setScene(new Scene(scene));
+        thisStage.show();
+    }
+
+    @javafx.fxml.FXML
+    public void navToScheduleScene(ActionEvent actionEvent) {
+        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        try {
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/scheduling-view.fxml")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        thisStage.setTitle(I18nMgmt.translate("SchedulingSceneTitle"));
+        thisStage.setScene(new Scene(scene));
+        thisStage.show();
+    }
+
+    @javafx.fxml.FXML
+    public void appLogout(ActionEvent actionEvent) {
+        DataMgmt.setUserToDefault();
+        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        try {
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/login-view.fxml")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        thisStage.setTitle(I18nMgmt.translate("LoginSceneTitle"));
+        thisStage.setScene(new Scene(scene));
+        thisStage.show();
+    }
+
+
+
+
+
+
 }

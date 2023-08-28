@@ -55,7 +55,5 @@ public class Main extends Application {
         launch();
         //disconnect from db
         JDBC.closeConnection();
-
-
     }
 }

@@ -3,6 +3,7 @@ package com.casinelli.Appointments.Controller;
 
 import com.casinelli.Appointments.DAO.DBQuery;
 import com.casinelli.Appointments.DAO.Value;
+import com.casinelli.Appointments.Helper.AlertFactory;
 import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
@@ -14,10 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -81,7 +79,10 @@ public class CustomerHubController implements Initializable {
     private Button btnCustUpdate;
     @javafx.fxml.FXML
     private Button btnCustDelete;
-
+    @javafx.fxml.FXML
+    private Button btnCustDisplayCustAppts;
+    @javafx.fxml.FXML
+    private Label lblAttnCustDeletion;
 
 
     @Override
@@ -121,10 +122,13 @@ public class CustomerHubController implements Initializable {
         btnCustNavScheduleScene.textProperty().setValue(I18nMgmt.translate("NavScheduleBtn"));
         btnCustNavReportsScene.textProperty().setValue(I18nMgmt.translate("NavReportsBtn"));
         btnCustNavLogout.textProperty().setValue(I18nMgmt.translate("NavLogOutBtn"));
+
         /////CUSTOMER SCENE SPECIFIC BUTTONS/////
         btnCustCreate.textProperty().setValue(I18nMgmt.translate("CreateButton"));
         btnCustUpdate.textProperty().setValue(I18nMgmt.translate("UpdateButton"));
         btnCustDelete.textProperty().setValue(I18nMgmt.translate("DeleteButton"));
+        btnCustDisplayCustAppts.textProperty().setValue(I18nMgmt.translate("DisplayCustAppts"));
+
         /////LABELS/////
         lblCustSceneAppName.textProperty().setValue(I18nMgmt.translate("labelAppName"));
         lblCustSceneTitle.textProperty().setValue(I18nMgmt.translate("custSceneTitle"));
@@ -132,13 +136,14 @@ public class CustomerHubController implements Initializable {
         lblCustUsernameLabel.textProperty().setValue(I18nMgmt.translate("UsernameLabel"));
         lblCustZoneID.textProperty().setValue(DateTimeMgmt.ZONE_SYS.toString());
         lblCustUsername.textProperty().setValue(DataMgmt.getCurrentUser().getName());
-
-
+        lblAttnCustDeletion.textProperty().setValue(I18nMgmt.translate("AttentionForDeletion"));
 
     }
 
     @javafx.fxml.FXML
     public void navToCustomerScene(ActionEvent actionEvent) {
+        AlertFactory.getNewDialogAlert(Alert.AlertType.INFORMATION, "CustomerSceneTitle",
+                "navToCurrentSceneHeader", "navToCurrentSceneContent").showAndWait();
     }
 
     @javafx.fxml.FXML
@@ -247,5 +252,9 @@ public class CustomerHubController implements Initializable {
                 System.out.println("Failed to delete from DB");
             }
         }
+    }
+
+    @javafx.fxml.FXML
+    public void displayCustAppts(ActionEvent actionEvent) {
     }
 }

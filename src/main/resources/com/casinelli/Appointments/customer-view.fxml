@@ -103,6 +103,12 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
+            <Button fx:id="btnCustDisplayCustAppts" defaultButton="true" layoutX="952.0" layoutY="34.0" mnemonicParsing="false" onAction="#displayCustAppts" prefHeight="39.0" prefWidth="144.0" text="Display Appointments" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Label fx:id="lblAttnCustDeletion" alignment="CENTER_RIGHT" layoutX="488.0" layoutY="80.0" prefHeight="17.0" prefWidth="645.0" text="Attention: All appointments must be canceled before deleting a customer record!" textFill="RED" />
             </AnchorPane>
         </HBox>
     </VBox>
