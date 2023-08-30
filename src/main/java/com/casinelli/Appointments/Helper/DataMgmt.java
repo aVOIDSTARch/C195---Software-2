@@ -3,13 +3,16 @@ package com.casinelli.Appointments.Helper;
 import com.casinelli.Appointments.DAO.DBQuery;
 import com.casinelli.Appointments.DAO.Value;
 import com.casinelli.Appointments.Model.*;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;

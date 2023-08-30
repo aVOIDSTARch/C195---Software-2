@@ -7,14 +7,12 @@ import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
 import com.casinelli.Appointments.Model.Appointment;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -88,6 +86,58 @@ public class SchedulingHubController implements Initializable {
     private Button btnApptUpdate;
     @javafx.fxml.FXML
     private Button btnApptDelete;
+    @javafx.fxml.FXML
+    private TabPane tabPaneApptBundle;
+    @javafx.fxml.FXML
+    private Tab tabAllAppts;
+    @javafx.fxml.FXML
+    private Tab tabThisWeeksAppts;
+    @javafx.fxml.FXML
+    private TableView tblVwThisWeeksAppts;
+    @javafx.fxml.FXML
+    private TableColumn tvColAppt_ApptID1;
+    @javafx.fxml.FXML
+    private TableColumn tvColAppt_ApptName1;
+    @javafx.fxml.FXML
+    private TableColumn tvColAppt_Description1;
+    @javafx.fxml.FXML
+    private TableColumn tvColAppt_Location1;
+    @javafx.fxml.FXML
+    private TableColumn tvColAppt_ApptType1;
+    @javafx.fxml.FXML
+    private TableColumn tvColAppt_Start1;
+    @javafx.fxml.FXML
+    private TableColumn tvColAppt_End1;
+    @javafx.fxml.FXML
+    private TableColumn tvColAppt_Customer1;
+    @javafx.fxml.FXML
+    private TableColumn tvColAppt_User1;
+    @javafx.fxml.FXML
+    private TableColumn tvColAppt_Contact1;
+    @javafx.fxml.FXML
+    private Tab tabThisMonthsAppts;
+    @javafx.fxml.FXML
+    private TableView tblVwThisMonthsAppts;
+    @javafx.fxml.FXML
+    private TableColumn tvColAppt_ApptID2;
+    @javafx.fxml.FXML
+    private TableColumn tvColAppt_ApptName2;
+    @javafx.fxml.FXML
+    private TableColumn tvColAppt_Description2;
+    @javafx.fxml.FXML
+    private TableColumn tvColAppt_Location2;
+    @javafx.fxml.FXML
+    private TableColumn tvColAppt_ApptType2;
+    @javafx.fxml.FXML
+    private TableColumn tvColAppt_Start2;
+    @javafx.fxml.FXML
+    private TableColumn tvColAppt_End2;
+    @javafx.fxml.FXML
+    private TableColumn tvColAppt_Customer2;
+    @javafx.fxml.FXML
+    private TableColumn tvColAppt_User2;
+    @javafx.fxml.FXML
+    private TableColumn tvColAppt_Contact2;
 
     //Appointment Getter-Setters
     public static void setNewAppt(Appointment thisAppt){
@@ -260,5 +310,17 @@ public class SchedulingHubController implements Initializable {
         tvColAppt_User.setCellValueFactory(new PropertyValueFactory<>("userNameIdCombo"));
         tvColAppt_Contact.setCellValueFactory(new PropertyValueFactory<>("contactNameIdCombo"));
 
+    }
+
+    @javafx.fxml.FXML
+    public void refreshTableAllAppts(Event event) {
+    }
+
+    @javafx.fxml.FXML
+    public void refreshTableThisWeeksAppts(Event event) {
+    }
+
+    @javafx.fxml.FXML
+    public void refreshTableThisMonthsAppt(Event event) {
     }
 }
