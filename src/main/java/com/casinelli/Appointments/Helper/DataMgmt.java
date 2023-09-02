@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,6 +25,10 @@ public abstract class DataMgmt {
     private static final User defaultUser = new User(9999999, "DEFAULT_BEFORE_LOGIN", "noPASS", LocalDateTime.now(),
             "DEFAULT_BEFORE_LOGIN",LocalDateTime.now(), "DEFAULT_BEFORE_LOGIN");
     private static User currentUser = defaultUser;
+    private static final Customer defaultCustomer = new Customer(8888888,"DEFAULT", "ADDRESS", "POSTALCODE", "PHONE",
+            LocalDateTime.now(), defaultUser.getName(), LocalDateTime.now(), defaultUser.getName(),1);
+    private static Customer currentCustomer = defaultCustomer;
+
     /////Observable Lists From DB Tables/////
     private static final ObservableList<Contact> allContacts = FXCollections.observableArrayList();
     private static final ObservableList<Country> allCountries = FXCollections.observableArrayList();
@@ -31,16 +36,22 @@ public abstract class DataMgmt {
     private static final ObservableList<Appointment> allAppts = FXCollections.observableArrayList();
     private static final ObservableList<Division> allDivisions = FXCollections.observableArrayList();
     private static final ObservableList<User> allUsers = FXCollections.observableArrayList();
+    private static final ObservableList<Appointment> thisCustsAppts = FXCollections.observableArrayList();
+    private static final ObservableList<Appointment> thisWeekAppts = FXCollections.observableArrayList();
+    private static final ObservableList<Appointment> thisMonthAppts = FXCollections.observableArrayList();
 
     /////Class Specific Functions/////
     public static void initializeApplicationData() {
         try{
-            DataMgmt.populateAllAppts(DBQuery.retrieveAll(Appointment.allAppts));
-            DataMgmt.populateAllContacts(DBQuery.retrieveAll(Contact.allContacts));
-            DataMgmt.populateAllCountries(DBQuery.retrieveAll(Country.allCountries));
-            DataMgmt.populateAllCusts(DBQuery.retrieveAll(Customer.allCustomers));
-            DataMgmt.populateAllDivisions(DBQuery.retrieveAll(Division.all1stLvlDivisions));
-            DataMgmt.populateAllUsers(DBQuery.retrieveAll(User.allUsers));
+            populateAllAppts(DBQuery.retrieveAll(Appointment.allAppts));
+            populateAllContacts(DBQuery.retrieveAll(Contact.allContacts));
+            populateAllCountries(DBQuery.retrieveAll(Country.allCountries));
+            populateAllCusts(DBQuery.retrieveAll(Customer.allCustomers));
+            populateAllDivisions(DBQuery.retrieveAll(Division.all1stLvlDivisions));
+            populateAllUsers(DBQuery.retrieveAll(User.allUsers));
+            populateThisCustsAppts(currentCustomer);
+            populateThisMonthAppts();
+            populateThisWeekAppts();
             System.out.println("All Observable Lists Populated");
         }catch(SQLException sqle){
             System.out.println("Failure to Populate Lists");
@@ -63,6 +74,15 @@ public abstract class DataMgmt {
         DataMgmt.currentUser = thisUser;
     }
     public static void setUserToDefault() {setCurrentUser(defaultUser);}
+
+    ////Current Customer Getters-Setters /////
+    public static Customer getCurrentCustomer() {
+        return currentCustomer;
+    }
+    public static void setCurrentCustomer(Customer thisCustomer) {
+        DataMgmt.currentCustomer = thisCustomer;
+    }
+    public static void setCustomerToDefault() {setCurrentCustomer(defaultCustomer);}
 
     /////List Insertion Functions/////
     private static void populateAllUsers(ResultSet rs) throws SQLException {
@@ -100,6 +120,31 @@ public abstract class DataMgmt {
         while (rs.next()){
             allCustomers.add(new Customer(rs));
         }
+    }
+    private static void populateThisCustsAppts(Customer thisCust){
+        thisCustsAppts.clear();
+        allAppts.forEach(appt -> {
+            if(appt.getCustomerId() == thisCust.getId()){
+                thisCustsAppts.add(appt);
+            }
+        });
+    }
+    private static void populateThisMonthAppts(){
+        allAppts.forEach(appt -> {
+            if(DateTimeMgmt.isSameYearMonth(appt.getStart(),LocalDateTime.now())){
+                thisMonthAppts.add(appt);
+            }
+        });
+
+    }
+    private static void populateThisWeekAppts(){
+        allAppts.forEach(appt -> {
+            if(DateTimeMgmt.isSameYearWeek(ZonedDateTime.of(appt.getStart(), DateTimeMgmt.ZONE_SYS),
+                    DateTimeMgmt.getLocalZDTNow())){
+                thisWeekAppts.add(appt);
+            }
+        });
+
     }
 
     /////USERS FUNCTIONS/////
@@ -151,6 +196,13 @@ public abstract class DataMgmt {
             }
         });
         return thisCustsAppts;
+    }
+    public static ObservableList<Appointment> getMonthApptsList() {
+        return thisMonthAppts;
+    }
+
+    public static ObservableList<Appointment> getWeekApptsList() {
+        return thisWeekAppts;
     }
 
     /////COUNTRY FUNCTIONS/////
@@ -207,6 +259,19 @@ public abstract class DataMgmt {
         });
         return thisCust.get();
     }
+    public static ObservableList<Appointment> getThisCustsAppts(){
+        populateThisCustsAppts(currentCustomer);
+        return thisCustsAppts;
+    }
+    public static int getNumberOfApptsByCustomer(Customer customer) {
+        AtomicInteger numAppts = new AtomicInteger();
+        allAppts.forEach(appt -> {
+            if(appt.getCustomerId() == customer.getId()){
+                numAppts.getAndIncrement();
+            }
+        });
+        return numAppts.get();
+    }
 
     /////DIVISION FUNCTIONS/////
     public static ObservableList<String> getListOfDivNamesByCountryId(int countryId) throws SQLException {
@@ -244,5 +309,7 @@ public abstract class DataMgmt {
         });
         return divName.get();
     }
+
+
 
 }

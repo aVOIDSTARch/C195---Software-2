@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 import static com.casinelli.Appointments.Helper.DateTimeMgmt.*;
 
@@ -219,6 +220,7 @@ public class ApptAddController implements Initializable {
                 }
                 //Update ObservableLists in DataMgmt
                 DataMgmt.initializeApplicationData();
+
                 //Return Appt Scene
                 thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
                 try {

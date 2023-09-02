@@ -7,9 +7,11 @@ import com.casinelli.Appointments.Helper.AlertFactory;
 import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
-import com.casinelli.Appointments.Model.Appointment;
+import com.casinelli.Appointments.Main;
 import com.casinelli.Appointments.Model.Customer;
 
+import com.casinelli.Appointments.Model.ExceptionEvent;
+import com.casinelli.Appointments.Model.LogEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -150,7 +152,8 @@ public class CustomerHubController implements Initializable {
     public void navToWelcomeScene(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
-            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/welcomehub-view.fxml")));
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/welcomehub-view.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -163,7 +166,8 @@ public class CustomerHubController implements Initializable {
     public void navToReportsScene(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
-            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/reporting-view.fxml")));
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/reporting-view.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -176,7 +180,8 @@ public class CustomerHubController implements Initializable {
     public void navToScheduleScene(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
-            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/scheduling-view.fxml")));
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/scheduling-view.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -190,7 +195,8 @@ public class CustomerHubController implements Initializable {
         DataMgmt.setCurrentUser(null);
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
-            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/login-view.fxml")));
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/login-view.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -210,7 +216,8 @@ public class CustomerHubController implements Initializable {
     public void createNewCustomer(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
-            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/customer-add-view.fxml")));
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/customer-add-view.fxml")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -225,7 +232,8 @@ public class CustomerHubController implements Initializable {
         if(getSelectedCustomer() != null){
             thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
             try {
-                scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/customer-mod-view.fxml")));
+                scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                        .getResource("/com/casinelli/Appointments/customer-mod-view.fxml")));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -242,19 +250,43 @@ public class CustomerHubController implements Initializable {
     public void deleteSelectedCustomer(ActionEvent actionEvent) {
         setSelectedCustomer();
         if(selectedCustomer != null){
-            Value<Integer> custID = new Value<>(selectedCustomer.getId());
-            try{
-                //Delete selected cust
-                DBQuery.delete(Customer.deleteCustByID, custID);
-                //Update ObservableLists in DataMgmt
-                DataMgmt.initializeApplicationData();
-            } catch (SQLException e) {
-                System.out.println("Failed to delete from DB");
+            //Verify Zero Appts Scheduled for Customer
+            if (selectedCustomer.hasAppointments()){
+                System.out.println("this bitch got appts");
+            }else{
+                Value<Integer> custID = new Value<>(selectedCustomer.getId());
+                try{
+                    //Delete selected cust
+                    DBQuery.delete(Customer.deleteCustByID, custID);
+                    //Update ObservableLists in DataMgmt
+                    DataMgmt.initializeApplicationData();
+                } catch (SQLException e) {
+                    ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(),
+                            LogEvent.EventType.EXCEPTION, LogEvent.AppLocation.CUSTOMERS, e );
+                    Main.logger.log(event);
+                    AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"CustomerSceneTitle", "sqlErrorHeader",
+                            "sqlDeleteErrorContent");
+                }
             }
+
         }
     }
 
     @javafx.fxml.FXML
     public void displayCustAppts(ActionEvent actionEvent) {
+        setSelectedCustomer();
+        DataMgmt.setCurrentCustomer(getSelectedCustomer());
+        DataMgmt.initializeApplicationData();
+        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        try {
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/scheduling-view.fxml")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        thisStage.setTitle(I18nMgmt.translate("SchedulingSceneTitle"));
+        thisStage.setScene(new Scene(scene));
+        thisStage.setUserData(getSelectedCustomer().getName());
+        thisStage.show();
     }
 }

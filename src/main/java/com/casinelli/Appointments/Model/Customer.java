@@ -182,4 +182,7 @@ public class Customer extends DBObject{
         });
         return custVector;
     }
+    public boolean hasAppointments(){
+        return DataMgmt.getNumberOfApptsByCustomer(this) > 0;
+    }
 }

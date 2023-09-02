@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.IsoFields;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -14,6 +15,8 @@ public abstract class DateTimeMgmt {
     //public static final Locale LOCALE_SYS = new Locale("fr", "CA");
     public static final ZoneId ZONE_SYS = ZoneId.systemDefault();
     public static final ZoneId ZONE_UTC = ZoneId.of("UTC");
+
+
 
     public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     public static final DateTimeFormatter dateOnlyFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -37,6 +40,16 @@ public abstract class DateTimeMgmt {
     }
 
     ///// TIME AND DATE CREATION METHODS /////
+    public static ZonedDateTime getLocalZDTNow(){
+        return ZonedDateTime.now(ZONE_SYS);
+    }
+    public static boolean isSameYearWeek(ZonedDateTime first, ZonedDateTime second){
+        return (first.get(IsoFields.WEEK_BASED_YEAR) == second.get(IsoFields.WEEK_BASED_YEAR))
+                && (first.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR) == second.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR));
+    }
+    public static boolean isSameYearMonth(LocalDateTime first, LocalDateTime second){
+        return (first.getYear() == second.getYear()) && (first.getMonth() == second.getMonth());
+    }
     public static LocalDateTime getLocalDT(LocalDate date, String hours, String minutes){
         String time = padToTwoDigitsWithZero(hours) + ":" + padToTwoDigitsWithZero(minutes);
         return LocalDateTime.of(date, LocalTime.parse(time, timeOnlyFormat));
