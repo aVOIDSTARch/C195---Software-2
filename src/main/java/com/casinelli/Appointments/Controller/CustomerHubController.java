@@ -8,10 +8,11 @@ import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
 import com.casinelli.Appointments.Main;
+import com.casinelli.Appointments.Model.ApplicationEvent;
 import com.casinelli.Appointments.Model.Customer;
-
 import com.casinelli.Appointments.Model.ExceptionEvent;
 import com.casinelli.Appointments.Model.LogEvent;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -32,8 +33,8 @@ public class CustomerHubController implements Initializable {
     //Controller instance variables
     Stage thisStage;
     Parent scene;
-
     private static Customer selectedCustomer;
+
     ///// JAVAFX CONTROLS /////
     @javafx.fxml.FXML
     private Label lblCustSceneAppName;
@@ -50,6 +51,10 @@ public class CustomerHubController implements Initializable {
     @javafx.fxml.FXML
     private Label lblCustNavTitle;
     @javafx.fxml.FXML
+    private Label lblAttnCustDeletion;
+
+    ///// Navigation Buttons /////
+    @javafx.fxml.FXML
     private Button btnCustNavCustScene;
     @javafx.fxml.FXML
     private Button btnCustNavWelcHub;
@@ -59,6 +64,8 @@ public class CustomerHubController implements Initializable {
     private Button btnCustNavScheduleScene;
     @javafx.fxml.FXML
     private Button btnCustNavLogout;
+
+    ///// Customer TableView /////
     @javafx.fxml.FXML
     private TableView<Customer> tblVwCustomers;
     @javafx.fxml.FXML
@@ -75,6 +82,8 @@ public class CustomerHubController implements Initializable {
     private TableColumn<Customer, Integer> tvColCust_CustDiv;
     @javafx.fxml.FXML
     private TableColumn<Customer, String> tvColCust_CustCountry;
+
+    ///// Customer Effect Buttons /////
     @javafx.fxml.FXML
     private Button btnCustCreate;
     @javafx.fxml.FXML
@@ -83,39 +92,15 @@ public class CustomerHubController implements Initializable {
     private Button btnCustDelete;
     @javafx.fxml.FXML
     private Button btnCustDisplayCustAppts;
-    @javafx.fxml.FXML
-    private Label lblAttnCustDeletion;
 
 
+    ///// Initialize Scene Methods /////
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Fill in text from I18n resource
         populateTextPropsCustScene();
         //Set up Customer TableView
         initializeCustTblView();
-    }
-
-    private void initializeCustTblView() {
-        ///// POPULATE COLUMN NAMES /////
-        tvColCust_CustID.textProperty().setValue(I18nMgmt.translate("ColNameID"));
-        tvColCust_CustAddress.textProperty().setValue(I18nMgmt.translate("ColNameCustName"));
-        tvColCust_CustAddress.textProperty().setValue(I18nMgmt.translate("ColNameAddress"));
-        tvColCust_CustPostalCode.textProperty().setValue(I18nMgmt.translate("ColNamePostalCode"));
-        tvColCust_CustPhone.textProperty().setValue(I18nMgmt.translate("ColNamePhone"));
-        tvColCust_CustDiv.textProperty().setValue(I18nMgmt.translate("ColNameDivision"));
-        tvColCust_CustCountry.textProperty().setValue(I18nMgmt.translate("ColNameCountry"));
-        ///// IMPORT DATA /////
-        tblVwCustomers.setItems(DataMgmt.getAllCustomersList());
-        ///// SET UP COLUMNS FOR DATA /////
-        tvColCust_CustID.setCellValueFactory(new PropertyValueFactory<>("id"));
-        tvColCust_CustName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tvColCust_CustAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
-        tvColCust_CustPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        tvColCust_CustPostalCode.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
-        tvColCust_CustDiv.setCellValueFactory(new PropertyValueFactory<>("divisionName"));
-        tvColCust_CustCountry.setCellValueFactory(new PropertyValueFactory<>("countryName"));
-
-
     }
     private void populateTextPropsCustScene() {
         /////NAVIGATION BUTTONS/////
@@ -141,13 +126,35 @@ public class CustomerHubController implements Initializable {
         lblAttnCustDeletion.textProperty().setValue(I18nMgmt.translate("AttentionForDeletion"));
 
     }
+    private void initializeCustTblView() {
+        ///// POPULATE COLUMN NAMES /////
+        tvColCust_CustID.textProperty().setValue(I18nMgmt.translate("ColNameID"));
+        tvColCust_CustAddress.textProperty().setValue(I18nMgmt.translate("ColNameCustName"));
+        tvColCust_CustAddress.textProperty().setValue(I18nMgmt.translate("ColNameAddress"));
+        tvColCust_CustPostalCode.textProperty().setValue(I18nMgmt.translate("ColNamePostalCode"));
+        tvColCust_CustPhone.textProperty().setValue(I18nMgmt.translate("ColNamePhone"));
+        tvColCust_CustDiv.textProperty().setValue(I18nMgmt.translate("ColNameDivision"));
+        tvColCust_CustCountry.textProperty().setValue(I18nMgmt.translate("ColNameCountry"));
+        ///// IMPORT DATA /////
+        tblVwCustomers.setItems(DataMgmt.getAllCustomersList());
+        ///// SET UP COLUMNS FOR DATA /////
+        tvColCust_CustID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        tvColCust_CustName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tvColCust_CustAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        tvColCust_CustPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        tvColCust_CustPostalCode.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+        tvColCust_CustDiv.setCellValueFactory(new PropertyValueFactory<>("divisionName"));
+        tvColCust_CustCountry.setCellValueFactory(new PropertyValueFactory<>("countryName"));
 
+
+    }
+
+    ///// Navigation Button Click Handlers /////
     @javafx.fxml.FXML
     public void navToCustomerScene(ActionEvent actionEvent) {
         AlertFactory.getNewDialogAlert(Alert.AlertType.INFORMATION, "CustomerSceneTitle",
                 "navToCurrentSceneHeader", "navToCurrentSceneContent").showAndWait();
     }
-
     @javafx.fxml.FXML
     public void navToWelcomeScene(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
@@ -155,13 +162,12 @@ public class CustomerHubController implements Initializable {
             scene = FXMLLoader.load(Objects.requireNonNull(getClass()
                     .getResource("/com/casinelli/Appointments/welcomehub-view.fxml")));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            showAndLogNavErrorAlert(e);
         }
         thisStage.setTitle(I18nMgmt.translate("WelcomeSceneTitle"));
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
-
     @javafx.fxml.FXML
     public void navToReportsScene(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
@@ -169,13 +175,12 @@ public class CustomerHubController implements Initializable {
             scene = FXMLLoader.load(Objects.requireNonNull(getClass()
                     .getResource("/com/casinelli/Appointments/reporting-view.fxml")));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            showAndLogNavErrorAlert(e);
         }
         thisStage.setTitle(I18nMgmt.translate("ReportingSceneTitle"));
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
-
     @javafx.fxml.FXML
     public void navToScheduleScene(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
@@ -183,35 +188,46 @@ public class CustomerHubController implements Initializable {
             scene = FXMLLoader.load(Objects.requireNonNull(getClass()
                     .getResource("/com/casinelli/Appointments/scheduling-view.fxml")));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            showAndLogNavErrorAlert(e);
         }
         thisStage.setTitle(I18nMgmt.translate("SchedulingSceneTitle"));
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
-
     @javafx.fxml.FXML
     public void appLogout(ActionEvent actionEvent) {
-        DataMgmt.setCurrentUser(null);
+        DataMgmt.setUserToDefault();
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
             scene = FXMLLoader.load(Objects.requireNonNull(getClass()
                     .getResource("/com/casinelli/Appointments/login-view.fxml")));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            showAndLogNavErrorAlert(e);
         }
         thisStage.setTitle(I18nMgmt.translate("LoginSceneTitle"));
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
 
+    ///// Customer Scene Getters-Setters /////
     public static Customer getSelectedCustomer(){
         return selectedCustomer;
     }
-    private void setSelectedCustomer(){
-        selectedCustomer = tblVwCustomers.getSelectionModel().getSelectedItem();
+    private boolean setSelectedCustomer(){
+        if (tblVwCustomers.getSelectionModel().getSelectedItem() != null){
+            selectedCustomer = tblVwCustomers.getSelectionModel().getSelectedItem();
+            return true;
+        }else{
+            ApplicationEvent event = new ApplicationEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.APPLICATION,
+                    LogEvent.AppLocation.CUSTOMERS, "No Customer Selected.");
+            Main.logger.log(event);
+            AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR, "CustomerSceneTitle", "nothingSelectedErrorHeader",
+                    "nothingSelectedErrorContent").showAndWait();
+            return false;
+        }
     }
 
+    ///// Customer Object Manipulation Button Event Handlers /////
     @javafx.fxml.FXML
     public void createNewCustomer(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
@@ -219,7 +235,7 @@ public class CustomerHubController implements Initializable {
             scene = FXMLLoader.load(Objects.requireNonNull(getClass()
                     .getResource("/com/casinelli/Appointments/customer-add-view.fxml")));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            showAndLogNavErrorAlert(e);
         }
         thisStage.setTitle(I18nMgmt.translate("CustAddSceneTitle"));
         thisStage.setScene(new Scene(scene));
@@ -228,31 +244,31 @@ public class CustomerHubController implements Initializable {
 
     @javafx.fxml.FXML
     public void updateSelectedCustomer(ActionEvent actionEvent) {
-        setSelectedCustomer();
-        if(getSelectedCustomer() != null){
+        if(setSelectedCustomer()){
             thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
             try {
                 scene = FXMLLoader.load(Objects.requireNonNull(getClass()
                         .getResource("/com/casinelli/Appointments/customer-mod-view.fxml")));
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                showAndLogNavErrorAlert(e);
             }
             thisStage.setTitle(I18nMgmt.translate("CustModSceneTitle"));
             thisStage.setScene(new Scene(scene));
             thisStage.show();
-        }else{
-            System.out.println("Customer not selected");
         }
-
     }
 
     @javafx.fxml.FXML
     public void deleteSelectedCustomer(ActionEvent actionEvent) {
-        setSelectedCustomer();
-        if(selectedCustomer != null){
+        if(setSelectedCustomer()){
             //Verify Zero Appts Scheduled for Customer
             if (selectedCustomer.hasAppointments()){
-                System.out.println("this bitch got appts");
+                ApplicationEvent event = new ApplicationEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.APPLICATION,
+                        LogEvent.AppLocation.CUSTOMERS, "Customer has Appointments. Deletion Failed");
+                Main.logger.log(event);
+                AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR, "CustomerSceneTitle", "custHasApptsErrorHeader",
+                        "custHasApptsErrorContent").showAndWait();
+                displayCustAppts(actionEvent);
             }else{
                 Value<Integer> custID = new Value<>(selectedCustomer.getId());
                 try{
@@ -265,16 +281,15 @@ public class CustomerHubController implements Initializable {
                             LogEvent.EventType.EXCEPTION, LogEvent.AppLocation.CUSTOMERS, e );
                     Main.logger.log(event);
                     AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"CustomerSceneTitle", "sqlErrorHeader",
-                            "sqlDeleteErrorContent");
+                            "sqlDeleteErrorContent").showAndWait();
                 }
             }
-
         }
     }
 
     @javafx.fxml.FXML
     public void displayCustAppts(ActionEvent actionEvent) {
-        setSelectedCustomer();
+        if(setSelectedCustomer()){
         DataMgmt.setCurrentCustomer(getSelectedCustomer());
         DataMgmt.initializeApplicationData();
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
@@ -282,11 +297,17 @@ public class CustomerHubController implements Initializable {
             scene = FXMLLoader.load(Objects.requireNonNull(getClass()
                     .getResource("/com/casinelli/Appointments/scheduling-view.fxml")));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            showAndLogNavErrorAlert(e);
         }
         thisStage.setTitle(I18nMgmt.translate("SchedulingSceneTitle"));
         thisStage.setScene(new Scene(scene));
         thisStage.setUserData(getSelectedCustomer().getName());
         thisStage.show();
+        }
+    }
+    private void showAndLogNavErrorAlert(Exception e){
+        ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
+                LogEvent.AppLocation.CUSTOMERS, e);
+        AlertFactory.getFXMLLoadErrorAlert("CustomerSceneTitle").showAndWait();
     }
 }

@@ -79,16 +79,16 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff02" height="535.0" layoutX="4.0" layoutY="4.0" stroke="BLACK" strokeType="INSIDE" width="1142.0" />
             <TableView fx:id="tblVwWHUpcomingAppts" layoutX="14.0" layoutY="284.0" prefHeight="245.0" prefWidth="1124.0">
                <columns>
-                  <TableColumn id="tblColWHUpcomingApptID" editable="false" prefWidth="29.0" text="ID" />
-                  <TableColumn id="tblColWHUpcomingTitle" editable="false" prefWidth="105.0" text="Title" />
-                  <TableColumn id="tblColWHUpcomingDescription" editable="false" prefWidth="239.0" text="Description" />
-                  <TableColumn id="tblColWHUpcomingLocation" editable="false" minWidth="0.0" prefWidth="102.0" text="Location" />
-                  <TableColumn id="tblColWHUpcomingContact" editable="false" prefWidth="113.0" text="Contact" />
-                  <TableColumn id="tblColWHUpcomingType" editable="false" prefWidth="81.0" text="Type" />
-                  <TableColumn id="tblColWHUpcomingStart" editable="false" prefWidth="135.0" text="Start" />
-                  <TableColumn id="tblColWHUpcomingStop" editable="false" prefWidth="126.0" text="Stop" />
-                  <TableColumn id="tblColWHUpcomingCustID" editable="false" prefWidth="106.0" text="Customer ID" />
-                  <TableColumn id="tblColWHUpcomingUserID" editable="false" prefWidth="87.0" text="User ID" />
+                  <TableColumn id="tblColWHUpcomingApptID" fx:id="colWHTVApptId" editable="false" prefWidth="29.0" text="ID" />
+                  <TableColumn id="tblColWHUpcomingTitle" fx:id="colWHTVApptTitle" editable="false" prefWidth="105.0" text="Title" />
+                  <TableColumn id="tblColWHUpcomingDescription" fx:id="colWHTVApptDesc" editable="false" prefWidth="239.0" text="Description" />
+                  <TableColumn id="tblColWHUpcomingLocation" fx:id="colWHTVApptLocation" editable="false" minWidth="0.0" prefWidth="102.0" text="Location" />
+                  <TableColumn id="tblColWHUpcomingType" fx:id="colWHTVApptType" editable="false" prefWidth="81.0" text="Type" />
+                  <TableColumn id="tblColWHUpcomingStart" fx:id="colWHTVApptStart" editable="false" prefWidth="135.0" text="Start" />
+                  <TableColumn id="tblColWHUpcomingStop" fx:id="colWHTVApptEnd" editable="false" prefWidth="126.0" text="End" />
+                  <TableColumn id="tblColWHUpcomingCustID" fx:id="colWHTVApptCustId" editable="false" prefWidth="106.0" text="Customer ID" />
+                  <TableColumn id="tblColWHUpcomingUserID" fx:id="colWHTVApptUserId" editable="false" prefWidth="87.0" text="User ID" />
+                  <TableColumn id="tblColWHUpcomingContact" fx:id="colWHTVApptContactId" editable="false" prefWidth="113.0" text="Contact" />
                </columns>
             </TableView>
             <Label fx:id="lblWHTotalApptsText" layoutX="21.0" layoutY="14.0" prefHeight="29.0" prefWidth="380.0" text="Total Number Of Appointments in System">
@@ -119,7 +119,7 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label fx:id="lblWHApptsToday" layoutX="28.0" layoutY="254.0" prefHeight="27.0" prefWidth="334.0" text="Appointment for Today">
+            <Label fx:id="lblWHApptsToday" layoutX="28.0" layoutY="254.0" prefHeight="27.0" prefWidth="571.0" text="Appointment for Today">
                <font>
                   <Font size="18.0" />
                </font>

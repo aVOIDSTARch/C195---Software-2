@@ -149,3 +149,9 @@ LOGIN_ATTEMPT Username: test 2023-09-02 09:23 America/New_York Successful: true
 LOGIN_ATTEMPT Username: test 2023-09-02 09:27 America/New_York Successful: false
 LOGIN_ATTEMPT Username: test 2023-09-02 09:27 America/New_York Successful: true
 LOGIN_ATTEMPT Username: test 2023-09-02 09:42 America/New_York Successful: true
+LOGIN_ATTEMPT Username: test 2023-09-02 10:10 America/New_York Successful: true
+LOGIN_ATTEMPT Username: test 2023-09-02 10:56 America/New_York Successful: true
+LOGIN_ATTEMPT Username: test 2023-09-02 10:59 America/New_York Successful: true
+LOGIN_ATTEMPT Username: test 2023-09-02 11:00 America/New_York Successful: true
+LOGIN_ATTEMPT Username: test 2023-09-02 11:00 America/New_York Successful: false
+LOGIN_ATTEMPT Username: test 2023-09-02 11:01 America/New_York Successful: true

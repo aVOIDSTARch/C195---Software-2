@@ -5,6 +5,9 @@ import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
 import com.casinelli.Appointments.Model.Appointment;
+import com.casinelli.Appointments.Model.ExceptionEvent;
+import com.casinelli.Appointments.Model.LogEvent;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.fxml.Initializable;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -52,7 +56,7 @@ public class WelcomeHubController implements Initializable{
     @javafx.fxml.FXML
     private Button btnWHNavLogout;
     @FXML
-    private TableView tblVwWHUpcomingAppts;
+    private TableView<Appointment> tblVwWHUpcomingAppts;
     @FXML
     private Label lblWHTotalApptsText;
     @FXML
@@ -87,6 +91,26 @@ public class WelcomeHubController implements Initializable{
     private Label lblWHApptCntToday;
     @FXML
     private Label lblWHApptsToday;
+    @FXML
+    private TableColumn colWHTVApptId;
+    @FXML
+    private TableColumn colWHTVApptTitle;
+    @FXML
+    private TableColumn colWHTVApptDesc;
+    @FXML
+    private TableColumn colWHTVApptLocation;
+    @FXML
+    private TableColumn colWHTVApptType;
+    @FXML
+    private TableColumn colWHTVApptStart;
+    @FXML
+    private TableColumn colWHTVApptEnd;
+    @FXML
+    private TableColumn colWHTVApptCustId;
+    @FXML
+    private TableColumn colWHTVApptUserId;
+    @FXML
+    private TableColumn colWHTVApptContactId;
 
     ///// INITIALIZE SCENE AND SUPPORTING METHODS /////
     @Override
@@ -97,7 +121,7 @@ public class WelcomeHubController implements Initializable{
         //Initialize Tableview
         initializeTableView();
         //Check for Appts in Next 15 Minutes and Notify User
-        displayUpcomingAppts(getApptsInNextFifteenMinutes());
+        displayUpcomingAppts(DataMgmt.getApptsInNext15Mins());
     }
 
     private void populateTextWelcomeHub(){
@@ -138,6 +162,29 @@ public class WelcomeHubController implements Initializable{
         lblApptCountNumForContact3.textProperty().setValue(Integer.toString(DataMgmt.getApptCountByContactId(3)));
     }
     private void initializeTableView() {
+        colWHTVApptId.textProperty().setValue(I18nMgmt.translate("ColNameID"));
+        colWHTVApptTitle.textProperty().setValue(I18nMgmt.translate("ColNameTitle"));
+        colWHTVApptDesc.textProperty().setValue(I18nMgmt.translate("ColNameDesc"));
+        colWHTVApptLocation.textProperty().setValue(I18nMgmt.translate("ColNameLocation"));
+        colWHTVApptType.textProperty().setValue(I18nMgmt.translate("ColNameType"));
+        colWHTVApptStart.textProperty().setValue(I18nMgmt.translate("ColNameStart"));
+        colWHTVApptEnd.textProperty().setValue(I18nMgmt.translate("ColNameEnd"));
+        colWHTVApptCustId.textProperty().setValue(I18nMgmt.translate("ColNameCustomer"));
+        colWHTVApptUserId.textProperty().setValue(I18nMgmt.translate("ColNameUser"));
+        colWHTVApptContactId.textProperty().setValue(I18nMgmt.translate("ColNameContact"));
+        ///// IMPORT DATA /////
+        tblVwWHUpcomingAppts.setItems(DataMgmt.getWeekApptsList());
+        ///// SET UP COLUMNS FOR DATA /////
+        colWHTVApptId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colWHTVApptTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colWHTVApptDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colWHTVApptLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
+        colWHTVApptType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        colWHTVApptStart.setCellValueFactory(new PropertyValueFactory<>("startString"));
+        colWHTVApptEnd.setCellValueFactory(new PropertyValueFactory<>("endString"));
+        colWHTVApptCustId.setCellValueFactory(new PropertyValueFactory<>("customerNameIdCombo"));
+        colWHTVApptUserId.setCellValueFactory(new PropertyValueFactory<>("userNameIdCombo"));
+        colWHTVApptContactId.setCellValueFactory(new PropertyValueFactory<>("contactNameIdCombo"));
     }
 
     private void displayUpcomingAppts(ObservableList<Appointment> apptsList) {
@@ -164,17 +211,6 @@ public class WelcomeHubController implements Initializable{
 
 
     }
-    private ObservableList<Appointment> getApptsInNextFifteenMinutes(){
-        LocalDateTime thisTime = LocalDateTime.now();
-        ObservableList<Appointment> upcomingAppts = FXCollections.observableArrayList();
-        DataMgmt.getAllApptsList().forEach(appt -> {
-            if(DateTimeMgmt.isToday(appt.getStart())
-                && DateTimeMgmt.isInNextFifteenMinutes(appt.getStart().toLocalTime())){
-                upcomingAppts.add(appt);
-            }
-        });
-        return upcomingAppts;
-    }
 
     ///// NAVIGATION BUTTONS /////
     @javafx.fxml.FXML
@@ -184,7 +220,7 @@ public class WelcomeHubController implements Initializable{
             scene = FXMLLoader.load(Objects.requireNonNull(getClass()
                     .getResource("/com/casinelli/Appointments/customer-view.fxml")));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            showAndLogNavErrorAlert(e);
         }
         thisStage.setTitle(I18nMgmt.translate("CustomerSceneTitle"));
         thisStage.setScene(new Scene(scene));
@@ -202,7 +238,7 @@ public class WelcomeHubController implements Initializable{
             scene = FXMLLoader.load(Objects.requireNonNull(getClass()
                     .getResource("/com/casinelli/Appointments/reporting-view.fxml")));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            showAndLogNavErrorAlert(e);
         }
         thisStage.setTitle(I18nMgmt.translate("ReportingSceneTitle"));
         thisStage.setScene(new Scene(scene));
@@ -216,7 +252,7 @@ public class WelcomeHubController implements Initializable{
             scene = FXMLLoader.load(Objects.requireNonNull(getClass()
                     .getResource("/com/casinelli/Appointments/scheduling-view.fxml")));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            showAndLogNavErrorAlert(e);
         }
         thisStage.setTitle(I18nMgmt.translate("SchedulingSceneTitle"));
         thisStage.setScene(new Scene(scene));
@@ -231,16 +267,15 @@ public class WelcomeHubController implements Initializable{
             scene = FXMLLoader.load(Objects.requireNonNull(getClass()
                     .getResource("/com/casinelli/Appointments/login-view.fxml")));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            showAndLogNavErrorAlert(e);
         }
         thisStage.setTitle(I18nMgmt.translate("LoginSceneTitle"));
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
-
-
-
-
-
-
+    private void showAndLogNavErrorAlert(Exception e){
+        ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
+                LogEvent.AppLocation.WELCOME_HUB, e);
+        AlertFactory.getFXMLLoadErrorAlert("WelcomeSceneTitle").showAndWait();
+    }
 }

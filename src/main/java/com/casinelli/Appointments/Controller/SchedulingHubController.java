@@ -2,10 +2,13 @@ package com.casinelli.Appointments.Controller;
 
 import com.casinelli.Appointments.DAO.DBQuery;
 import com.casinelli.Appointments.DAO.Value;
+import com.casinelli.Appointments.Helper.AlertFactory;
 import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
 import com.casinelli.Appointments.Model.Appointment;
+import com.casinelli.Appointments.Model.ExceptionEvent;
+import com.casinelli.Appointments.Model.LogEvent;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
@@ -310,10 +313,6 @@ public class SchedulingHubController implements Initializable {
         tvColWeekAppt_Contact.setCellValueFactory(new PropertyValueFactory<>("contactNameIdCombo"));
     }
 
-    public void setCustomerNameOnTab(String name){
-        tabThisCustsAppts1.textProperty().setValue(name);
-    }
-
     //Appointment Getter-Setters
     private TableView<Appointment> getTableViewSelected(Tab visibleTab){
       AnchorPane pane =  (AnchorPane)  visibleTab.getContent();
@@ -339,7 +338,7 @@ public class SchedulingHubController implements Initializable {
             scene = FXMLLoader.load(Objects.requireNonNull(getClass()
                     .getResource("/com/casinelli/Appointments/customer-view.fxml")));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            showAndLogNavErrorAlert(e);
         }
         thisStage.setTitle(I18nMgmt.translate("CustomerSceneTitle"));
         thisStage.setScene(new Scene(scene));
@@ -353,7 +352,7 @@ public class SchedulingHubController implements Initializable {
             scene = FXMLLoader.load(Objects.requireNonNull(getClass()
                     .getResource("/com/casinelli/Appointments/welcomehub-view.fxml")));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            showAndLogNavErrorAlert(e);
         }
         thisStage.setTitle(I18nMgmt.translate("WelcomeSceneTitle"));
         thisStage.setScene(new Scene(scene));
@@ -366,7 +365,7 @@ public class SchedulingHubController implements Initializable {
         try {
             scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/reporting-view.fxml")));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            showAndLogNavErrorAlert(e);
         }
         thisStage.setTitle(I18nMgmt.translate("ReportingSceneTitle"));
         thisStage.setScene(new Scene(scene));
@@ -384,7 +383,7 @@ public class SchedulingHubController implements Initializable {
         try {
             scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/login-view.fxml")));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            showAndLogNavErrorAlert(e);
         }
         thisStage.setTitle(I18nMgmt.translate("LoginSceneTitle"));
         thisStage.setScene(new Scene(scene));
@@ -398,7 +397,7 @@ public class SchedulingHubController implements Initializable {
         try {
             scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/appointment-add-view.fxml")));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            showAndLogNavErrorAlert(e);
         }
         thisStage.setTitle(I18nMgmt.translate("ApptAddSceneTitle"));
         thisStage.setScene(new Scene(scene));
@@ -414,7 +413,7 @@ public class SchedulingHubController implements Initializable {
         try {
             scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/appointment-mod-view.fxml")));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            showAndLogNavErrorAlert(e);
         }
         thisStage.setTitle(I18nMgmt.translate("ApptModSceneTitle"));
         thisStage.setScene(new Scene(scene));
@@ -448,5 +447,10 @@ public class SchedulingHubController implements Initializable {
                     .setValue(tblVwThisCustAppts.getItems().get(0).getName());
         }
 
+    }
+    private void showAndLogNavErrorAlert(Exception e){
+        ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
+                LogEvent.AppLocation.SCHEDULING, e);
+        AlertFactory.getFXMLLoadErrorAlert("SchedulingSceneTitle").showAndWait();
     }
 }

@@ -40,6 +40,7 @@ public abstract class DataMgmt {
     private static final ObservableList<Appointment> thisWeekAppts = FXCollections.observableArrayList();
     private static final ObservableList<Appointment> thisMonthAppts = FXCollections.observableArrayList();
 
+    private static final ObservableList<Appointment> apptsInNext15Mins = FXCollections.observableArrayList();
     /////Class Specific Functions/////
     public static void initializeApplicationData() {
         try{
@@ -49,15 +50,19 @@ public abstract class DataMgmt {
             populateAllCusts(DBQuery.retrieveAll(Customer.allCustomers));
             populateAllDivisions(DBQuery.retrieveAll(Division.all1stLvlDivisions));
             populateAllUsers(DBQuery.retrieveAll(User.allUsers));
+            populateApptsInNext15Mins();
             populateThisCustsAppts(currentCustomer);
             populateThisMonthAppts();
             populateThisWeekAppts();
+            populateApptsInNext15Mins();
             System.out.println("All Observable Lists Populated");
         }catch(SQLException sqle){
             System.out.println("Failure to Populate Lists");
         }
 
     }
+
+
 
     ///// Integer Generator /////
     public static List<Integer> makeIntList(int startingWith, int endingWith){
@@ -130,6 +135,7 @@ public abstract class DataMgmt {
         });
     }
     private static void populateThisMonthAppts(){
+        thisMonthAppts.clear();
         allAppts.forEach(appt -> {
             if(DateTimeMgmt.isSameYearMonth(appt.getStart(),LocalDateTime.now())){
                 thisMonthAppts.add(appt);
@@ -138,6 +144,7 @@ public abstract class DataMgmt {
 
     }
     private static void populateThisWeekAppts(){
+        thisWeekAppts.clear();
         allAppts.forEach(appt -> {
             if(DateTimeMgmt.isSameYearWeek(ZonedDateTime.of(appt.getStart(), DateTimeMgmt.ZONE_SYS),
                     DateTimeMgmt.getLocalZDTNow())){
@@ -146,6 +153,17 @@ public abstract class DataMgmt {
         });
 
     }
+    private static void populateApptsInNext15Mins() {
+        apptsInNext15Mins.clear();
+         DataMgmt.getAllApptsList().forEach(appt -> {
+                if(DateTimeMgmt.isToday(appt.getStart())
+                        && DateTimeMgmt.isInNextFifteenMinutes(appt.getStart().toLocalTime())){
+                    apptsInNext15Mins.add(appt);
+                }
+            });
+
+    }
+
 
     /////USERS FUNCTIONS/////
     public static ObservableList<User> getAllUsersList(){
@@ -203,6 +221,9 @@ public abstract class DataMgmt {
 
     public static ObservableList<Appointment> getWeekApptsList() {
         return thisWeekAppts;
+    }
+    public static ObservableList<Appointment> getApptsInNext15Mins() {
+        return apptsInNext15Mins;
     }
 
     /////COUNTRY FUNCTIONS/////
