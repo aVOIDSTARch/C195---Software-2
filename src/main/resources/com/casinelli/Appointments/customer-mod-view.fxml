@@ -53,7 +53,7 @@
       <TextField fx:id="tfCustModCustPhone" layoutX="200.0" layoutY="258.0" prefHeight="25.0" prefWidth="401.0" />
       <ComboBox fx:id="cboCustModCustDiv" layoutX="201.0" layoutY="301.0" prefHeight="25.0" prefWidth="401.0" />
       <ComboBox fx:id="cboCustModCustCountry" layoutX="201.0" layoutY="346.0" onAction="#updateDivisionCbo" prefHeight="25.0" prefWidth="401.0" />
-      <Button fx:id="btnCustModUpdate" defaultButton="true" layoutX="364.0" layoutY="398.0" mnemonicParsing="false" onAction="#updateCustomer_mod_scene" prefHeight="39.0" prefWidth="237.0" text="Update">
+      <Button fx:id="btnCustModUpdate" defaultButton="true" layoutX="364.0" layoutY="398.0" mnemonicParsing="false" onAction="#updateCustomer" prefHeight="39.0" prefWidth="237.0" text="Update">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

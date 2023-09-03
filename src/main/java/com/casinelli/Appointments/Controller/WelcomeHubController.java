@@ -4,6 +4,7 @@ import com.casinelli.Appointments.Helper.AlertFactory;
 import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
+import com.casinelli.Appointments.Main;
 import com.casinelli.Appointments.Model.Appointment;
 import com.casinelli.Appointments.Model.ExceptionEvent;
 import com.casinelli.Appointments.Model.LogEvent;
@@ -326,6 +327,7 @@ public class WelcomeHubController implements Initializable{
     private void showAndLogNavErrorAlert(Exception e){
         ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
                 LogEvent.AppLocation.WELCOME_HUB, e);
+        Main.logger.log(event);
         AlertFactory.getFXMLLoadErrorAlert("WelcomeSceneTitle").showAndWait();
     }
 }

@@ -1,21 +1,21 @@
 package com.casinelli.Appointments.Controller;
 
 import com.casinelli.Appointments.DAO.DBQuery;
+import com.casinelli.Appointments.Helper.AlertFactory;
 import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
-
-import com.casinelli.Appointments.Model.Appointment;
+import com.casinelli.Appointments.Main;
 import com.casinelli.Appointments.Model.Customer;
+
+import com.casinelli.Appointments.Model.ExceptionEvent;
+import com.casinelli.Appointments.Model.LogEvent;
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -25,11 +25,15 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * Controller object for Customer Add Scene
+ */
 public class CustAddController implements Initializable {
-    //Controller instance variables
+    ///// Controller instance variables /////
     Stage thisStage;
     Parent scene;
-    //FXML Controls
+
+    ///// FXML Controls /////
     @javafx.fxml.FXML
     private Label lblCustAddCustID;
     @javafx.fxml.FXML
@@ -45,6 +49,9 @@ public class CustAddController implements Initializable {
     @javafx.fxml.FXML
     private Label lblCustAddCustCountry;
     @javafx.fxml.FXML
+    private Label lblWHAppName;
+    ///// Input Textfields /////
+    @javafx.fxml.FXML
     private TextField tfCustAddCustID;
     @javafx.fxml.FXML
     private TextField tfCustAddCustName;
@@ -55,41 +62,60 @@ public class CustAddController implements Initializable {
     @javafx.fxml.FXML
     private TextField tfCustAddCustPhone;
     @javafx.fxml.FXML
+    ///// Selection ComboBoxes /////
     private ComboBox<String> cboCustAddCustDiv;
     @javafx.fxml.FXML
     private ComboBox<String> cboCustAddCustCountry;
+    ///// Buttons /////
     @javafx.fxml.FXML
     private Button btnCustAddCreate;
     @javafx.fxml.FXML
-    private Label lblWHAppName;
-    @javafx.fxml.FXML
     private Button btnCustAddCancel;
 
+    ///// Error Preventing Boolean Bindings /////
     private BooleanBinding createButtonDisabler;
 
 
+    /**
+     * Initializes User Interface for Customer Add Scene
+     * @param url provided by launch method
+     * @param resourceBundle provided by launch method
+     * @exception SQLException occurs when the SQL query fails to retrieve from the Database
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setCreateButtonBindings();
+        setCreateButtonBindings(createButtonDisabler);
         initializeSceneText();
         try {
             populateCountries();
         } catch (SQLException e) {
-            System.out.println("failure");
+            ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
+                    LogEvent.AppLocation.CUSTOMER_CREATE, e);
+            Main.logger.log(event);
+            AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"CustAddSceneTitle","sqlErrorHeader",
+                    "sqlRetrieveErrorContent").showAndWait();
         }
     }
 
-    private void setCreateButtonBindings() {
-        createButtonDisabler =
+    /**
+     * Creates and binds a boolean binding that prevents the user from clicking the Create button without inputting
+     * all information thus avoiding all errors for input
+     * @param binding BooleanBinding for Create button disable property
+     */
+    private void setCreateButtonBindings(BooleanBinding binding) {
+        binding =
             tfCustAddCustName.textProperty().isEmpty()
                 .or(tfCustAddCustAddress.textProperty().isEmpty())
                 .or(tfCustAddCustPostCode.textProperty().isEmpty())
                 .or(tfCustAddCustPhone.textProperty().isEmpty())
                 .or(cboCustAddCustDiv.valueProperty().isNull())
                 .or(cboCustAddCustCountry.valueProperty().isNull());
-        btnCustAddCreate.disableProperty().bind(createButtonDisabler);
+        btnCustAddCreate.disableProperty().bind(binding);
     }
 
+    /**
+     * Populates all translated text for scene
+     */
     private void initializeSceneText() {
         //Text Labels
         lblWHAppName.textProperty().setValue(I18nMgmt.translate("labelAppName"));
@@ -111,28 +137,64 @@ public class CustAddController implements Initializable {
         btnCustAddCancel.textProperty().setValue(I18nMgmt.translate("CancelBtnText"));
     }
 
+    ///// ComboBox List Maintenance Methods /////
+    /**
+     * Builds a List of the country names based on the Database and assigns if to teh Countries ComboBox then calls send
+     * the selected item to the populateDivisions method to complete the same for teh Divisions ComboBox
+     * @throws SQLException SQL error when querying Database for country names
+     */
     private void populateCountries() throws SQLException {
         cboCustAddCustCountry.setItems(DataMgmt.getAllCountryNames());
         cboCustAddCustCountry.getSelectionModel().selectFirst();
         populateDivisions(cboCustAddCustCountry.getSelectionModel().getSelectedItem());
     }
+
+    /**
+     * Builds a List of the Divisions names based on the Database and assigns if to teh Divisions ComboBox
+     * @param countryName Name of the country selected in the Countries ComboBox
+     * @throws SQLException SQL error when querying Database for division names
+     */
     private void populateDivisions(String countryName) throws SQLException {
         cboCustAddCustDiv.setItems(DataMgmt.getListOfDivNamesByCountryId(
                 DataMgmt.getCountryIdFromCntryName(countryName)));
     }
 
+    /**
+     * Updates the Divisions ComboBox whenever the Country ComboBox selection is changed
+     * @param actionEvent selection changed event
+     * @throws SQLException occurs when the SQL query fails to retrieve from the Database
+     */
     @javafx.fxml.FXML
-    private void updateDivisionCbo(ActionEvent actionEvent) throws SQLException {
-        populateDivisions(cboCustAddCustCountry.getSelectionModel().getSelectedItem());
+    private void updateDivisionCbo(ActionEvent actionEvent) {
+        try{
+            populateDivisions(cboCustAddCustCountry.getSelectionModel().getSelectedItem());
+        }catch(SQLException e){
+            ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
+                    LogEvent.AppLocation.CUSTOMER_CREATE, e);
+            Main.logger.log(event);
+            AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"CustAddSceneTitle","sqlErrorHeader",
+                    "sqlRetrieveErrorContent").showAndWait();
+        }
     }
 
+    ///// Button Click Handler Methods /////
+    /**
+     * Requests a new Customer object and attempts to store it in database and sends a request to update local data storage
+     * @param actionEvent button click event
+     * @exception SQLException occurs when Create SQL command fails
+     * @exception IOException Occurs when FXML document cannot be found - nested NullPointerException
+     */
     @javafx.fxml.FXML
     public void createNewCustomer_add_scene(ActionEvent actionEvent) {
         Customer newCust = buildNewCustomer();
         try {
             System.out.println(DBQuery.create(Customer.insertCustomer, newCust));
         } catch (SQLException e) {
-            System.out.println("Failed to write to DB");
+            ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
+                    LogEvent.AppLocation.CUSTOMER_CREATE, e);
+            Main.logger.log(event);
+            AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"CustAddSceneTitle","sqlErrorHeader",
+                    "sqlCreateErrorContent").showAndWait();
         }
         //Update ObservableLists in DataMgmt
         DataMgmt.initializeApplicationData();
@@ -142,7 +204,7 @@ public class CustAddController implements Initializable {
             scene = FXMLLoader.load(Objects.requireNonNull(getClass()
                     .getResource("/com/casinelli/Appointments/customer-view.fxml")));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            showAndLogNavErrorAlert(e);
         }
         thisStage.setTitle(I18nMgmt.translate("CustomerSceneTitle"));
         thisStage.setScene(new Scene(scene));
@@ -150,6 +212,30 @@ public class CustAddController implements Initializable {
 
     }
 
+    /**
+     * Cancels Create Customer process and returns to Customer Scene
+     * @param actionEvent button click event
+     * @exception IOException Occurs when FXML document cannot be found - nested NullPointerException
+     */
+    @javafx.fxml.FXML
+    public void cancelCustCreate(ActionEvent actionEvent) {
+        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        try {
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/customer-view.fxml")));
+        } catch (IOException e) {
+            showAndLogNavErrorAlert(e);
+        }
+        thisStage.setTitle(I18nMgmt.translate("CustomerSceneTitle"));
+        thisStage.setScene(new Scene(scene));
+        thisStage.show();
+    }
+
+    ///// Object Factory Helper Method /////
+    /**
+     * Creates a new Customer object from the information input in the user interface
+     * @return Customer object
+     */
     private Customer buildNewCustomer() {
         LocalDateTime thisTime = LocalDateTime.now();
         return new Customer(
@@ -164,19 +250,16 @@ public class CustAddController implements Initializable {
                 DataMgmt.getCurrentUser().getName(),
                 cboCustAddCustDiv.getSelectionModel().getSelectedIndex()
         );
-
     }
-
-    @javafx.fxml.FXML
-    public void cancelCustCreate(ActionEvent actionEvent) {
-        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
-        try {
-            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/customer-view.fxml")));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        thisStage.setTitle(I18nMgmt.translate("CustomerSceneTitle"));
-        thisStage.setScene(new Scene(scene));
-        thisStage.show();
+    ///// Navigation Error Handler Method /////
+    /**
+     * Displays a navigation error to user and logs it to Exception Log
+     * @param e IOException passed down from parent function
+     */
+    private void showAndLogNavErrorAlert(Exception e){
+        ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
+                LogEvent.AppLocation.CUSTOMER_CREATE, e);
+        Main.logger.log(event);
+        AlertFactory.getFXMLLoadErrorAlert("CustAddSceneTitle").showAndWait();
     }
 }

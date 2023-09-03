@@ -380,6 +380,7 @@ public class CustomerHubController implements Initializable {
     private void showAndLogNavErrorAlert(Exception e){
         ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
                 LogEvent.AppLocation.CUSTOMERS, e);
+        Main.logger.log(event);
         AlertFactory.getFXMLLoadErrorAlert("CustomerSceneTitle").showAndWait();
     }
 }

@@ -569,6 +569,7 @@ public class SchedulingHubController implements Initializable {
     private void showAndLogNavErrorAlert(Exception e){
         ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
                 LogEvent.AppLocation.SCHEDULING, e);
+        Main.logger.log(event);
         AlertFactory.getFXMLLoadErrorAlert("SchedulingSceneTitle").showAndWait();
     }
 }

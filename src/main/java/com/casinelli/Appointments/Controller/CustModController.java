@@ -1,20 +1,21 @@
 package com.casinelli.Appointments.Controller;
 
 import com.casinelli.Appointments.DAO.DBQuery;
+import com.casinelli.Appointments.Helper.AlertFactory;
 import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
-import com.casinelli.Appointments.Model.Appointment;
+import com.casinelli.Appointments.Main;
 import com.casinelli.Appointments.Model.Customer;
+
+import com.casinelli.Appointments.Model.ExceptionEvent;
+import com.casinelli.Appointments.Model.LogEvent;
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -24,8 +25,11 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for Customer Modify Scene
+ */
 public class CustModController implements Initializable {
-    //Controller instance variables
+    ///// Controller instance variables /////
     Stage thisStage;
     Parent scene;
     //FXML Controls
@@ -44,6 +48,10 @@ public class CustModController implements Initializable {
     @javafx.fxml.FXML
     private Label lblCustModCustCountry;
     @javafx.fxml.FXML
+    private Label lblCustModAppName;
+
+    ///// Input Textfields /////
+    @javafx.fxml.FXML
     private TextField tfCustModCustID;
     @javafx.fxml.FXML
     private TextField tfCustModCustName;
@@ -53,43 +61,66 @@ public class CustModController implements Initializable {
     private TextField tfCustModCustPostCode;
     @javafx.fxml.FXML
     private TextField tfCustModCustPhone;
+    ///// Selection ComboBoxes /////
     @javafx.fxml.FXML
     private ComboBox<String> cboCustModCustDiv;
     @javafx.fxml.FXML
     private ComboBox<String> cboCustModCustCountry;
+    ///// Buttons /////
     @javafx.fxml.FXML
     private Button btnCustModUpdate;
     @javafx.fxml.FXML
-    private Label lblCustModAppName;
-    @javafx.fxml.FXML
     private Button btnCustModCancel;
 
+    ///// Error Preventing Boolean Bindings /////
     private BooleanBinding updateButtonDisabler;
+
+    ///// Selected Customer to Update /////
     private Customer selectedCustomer;
+
+    /**
+     * Initializes the user Interface and Populates Selected Customer Data
+     * @param url provided by launch method
+     * @param resourceBundle provided by launch method
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         selectedCustomer = CustomerHubController.getSelectedCustomer();
-        setUpdateButtonBindings();
+        setUpdateButtonBindings(updateButtonDisabler);
         try {
             initializeSceneText();
-            populateCustomerData();
             populateCountries();
+            populateCustomerData();
         } catch (SQLException e) {
-            System.out.println("failure");
+            ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
+                    LogEvent.AppLocation.CUSTOMER_UPDATE, e);
+            Main.logger.log(event);
+            AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"CustModSceneTitle","sqlErrorHeader",
+                    "sqlRetrieveErrorContent").showAndWait();
         }
 
     }
 
-    private void setUpdateButtonBindings() {
-        updateButtonDisabler =
+    /**
+     * Creates and binds a boolean binding that prevents the user from clicking the Create button without inputting
+     * all information thus avoiding all errors for input
+     * @param binding BooleanBinding for Update button disable property
+     */
+    private void setUpdateButtonBindings(BooleanBinding binding) {
+        binding =
                 tfCustModCustName.textProperty().isEmpty()
                         .or(tfCustModCustAddress.textProperty().isEmpty())
                         .or(tfCustModCustPostCode.textProperty().isEmpty())
                         .or(tfCustModCustPhone.textProperty().isEmpty())
                         .or(cboCustModCustDiv.valueProperty().isNull())
                         .or(cboCustModCustCountry.valueProperty().isNull());
-        btnCustModUpdate.disableProperty().bind(updateButtonDisabler);
+        btnCustModUpdate.disableProperty().bind(binding);
     }
+
+    /**
+     * Populate user interface with translated text and Customer Data
+     * @throws SQLException occurs when SQL retrieve command fails
+     */
     private void initializeSceneText() throws SQLException {
         //Text Labels
         lblCustModAppName.textProperty().setValue(I18nMgmt.translate("labelAppName"));
@@ -100,12 +131,6 @@ public class CustModController implements Initializable {
         lblCustModCustPhone.textProperty().setValue(I18nMgmt.translate("CustPhoneLabel"));
         lblCustModCustDiv.textProperty().setValue(I18nMgmt.translate("FirstLvlDivLabel"));
         lblCustModCustCountry.textProperty().setValue(I18nMgmt.translate("CustCountryLabel"));
-        //Fill in Properties of Selected Object
-        tfCustModCustID.textProperty().setValue(String.valueOf(CustomerHubController.getSelectedCustomer().getId()));
-        tfCustModCustName.textProperty().setValue(CustomerHubController.getSelectedCustomer().getName());
-        tfCustModCustAddress.textProperty().setValue(CustomerHubController.getSelectedCustomer().getAddress());
-        tfCustModCustPostCode.textProperty().setValue(CustomerHubController.getSelectedCustomer().getPostalCode());
-        tfCustModCustPhone.textProperty().setValue(CustomerHubController.getSelectedCustomer().getPhone());
         //Button Text
         btnCustModUpdate.textProperty().setValue(I18nMgmt.translate("UpdateBtnText"));
         btnCustModCancel.textProperty().setValue(I18nMgmt.translate("CancelBtnText"));
@@ -115,6 +140,47 @@ public class CustModController implements Initializable {
         cboCustModCustDiv.getSelectionModel().select(DataMgmt.getDivisionNameFromDivId(CustomerHubController.
                 getSelectedCustomer().getDivisionId()));
     }
+    ///// ComboBox List Maintenance Methods /////
+    /**
+     * Builds a List of the country names based on the Database and assigns if to teh Countries ComboBox then calls send
+     * the selected item to the populateDivisions method to complete the same for teh Divisions ComboBox
+     * @throws SQLException SQL error when querying Database for country names
+     */
+    private void populateCountries() throws SQLException {
+        cboCustModCustCountry.setItems(DataMgmt.getAllCountryNames());
+        cboCustModCustCountry.getSelectionModel().selectFirst();
+        populateDivisions(cboCustModCustCountry.getSelectionModel().getSelectedItem());
+    }
+    /**
+     * Builds a List of the Divisions names based on the Database and assigns if to teh Divisions ComboBox
+     * @param countryName Name of the country selected in the Countries ComboBox
+     * @throws SQLException SQL error when querying Database for division names
+     */
+    private void populateDivisions(String countryName) throws SQLException {
+        cboCustModCustDiv.setItems(DataMgmt.getListOfDivNamesByCountryId(
+                DataMgmt.getCountryIdFromCntryName(countryName)));
+    }
+    /**
+     * Updates the Divisions ComboBox whenever the Country ComboBox selection is changed
+     * @param actionEvent selection changed event
+     * @throws SQLException occurs when the SQL query fails to retrieve from the Database
+     */
+    @javafx.fxml.FXML
+    private void updateDivisionCbo(ActionEvent actionEvent) {
+        try{
+            populateDivisions(cboCustModCustCountry.getSelectionModel().getSelectedItem());
+        }catch(SQLException e){
+            ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
+                    LogEvent.AppLocation.CUSTOMER_UPDATE, e);
+            Main.logger.log(event);
+            AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"CustModSceneTitle","sqlErrorHeader",
+                    "sqlRetrieveErrorContent").showAndWait();
+        }
+    }
+
+    /**
+     * Populates input fields with Selected Customer data
+     */
     private void populateCustomerData() {
         tfCustModCustID.textProperty().setValue(String.valueOf(selectedCustomer.getId()));
         tfCustModCustName.textProperty().setValue(selectedCustomer.getName());
@@ -124,28 +190,26 @@ public class CustModController implements Initializable {
         cboCustModCustCountry.setValue(DataMgmt.getCountryNameFromDivId(selectedCustomer.getDivisionId()));
         cboCustModCustDiv.setValue(DataMgmt.getDivisionNameFromDivId(selectedCustomer.getDivisionId()));
     }
-    private void populateCountries() throws SQLException {
-        cboCustModCustCountry.setItems(DataMgmt.getAllCountryNames());
-        cboCustModCustCountry.getSelectionModel().selectFirst();
-        populateDivisions(cboCustModCustCountry.getSelectionModel().getSelectedItem());
-    }
-    private void populateDivisions(String countryName) throws SQLException {
-        cboCustModCustDiv.setItems(DataMgmt.getListOfDivNamesByCountryId(
-                DataMgmt.getCountryIdFromCntryName(countryName)));
-    }
 
+    ///// Button Handler Methods /////
+    /**
+     * Writes updated customer to database, requests local data refresh, navigates to Customer Scene
+     * @param actionEvent button click event
+     * @exception SQLException occurs when SQL update command fails
+     * @exception IOException Occurs when FXML document cannot be found - nested NullPointerException
+     */
     @javafx.fxml.FXML
-    private void updateDivisionCbo(ActionEvent actionEvent) throws SQLException {
-        populateDivisions(cboCustModCustCountry.getSelectionModel().getSelectedItem());
-    }
-    @javafx.fxml.FXML
-    public void updateCustomer_mod_scene(ActionEvent actionEvent) {
+    public void updateCustomer(ActionEvent actionEvent) {
         updateSelectedCustomer();
-        //Insert Cust into DB
+        //Insert Customer into DB
         try {
             System.out.println(DBQuery.update(Customer.updateCustomer, selectedCustomer));
         } catch (SQLException e) {
-            System.out.println("Failed to write to DB");
+            ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
+                    LogEvent.AppLocation.CUSTOMER_UPDATE, e);
+            Main.logger.log(event);
+            AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"CustModSceneTitle","sqlErrorHeader",
+                    "sqlCreateErrorContent").showAndWait();
         }
         //Update ObservableLists in DataMgmt
         DataMgmt.initializeApplicationData();
@@ -155,13 +219,35 @@ public class CustModController implements Initializable {
             scene = FXMLLoader.load(Objects.requireNonNull(getClass()
                     .getResource("/com/casinelli/Appointments/customer-view.fxml")));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            showAndLogNavErrorAlert(e);
         }
         thisStage.setTitle(I18nMgmt.translate("CustomerSceneTitle"));
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
 
+    /**
+     * Cancels Update Customer process and returns to Customer Scene
+     * @param actionEvent utton click event
+     * @exception IOException Occurs when FXML document cannot be found - nested NullPointerException
+     */
+    @javafx.fxml.FXML
+    public void cancelCustUpdate(ActionEvent actionEvent) {
+        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+        try {
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/customer-view.fxml")));
+        } catch (IOException e) {
+            showAndLogNavErrorAlert(e);
+        }
+        thisStage.setTitle(I18nMgmt.translate("CustomerSceneTitle"));
+        thisStage.setScene(new Scene(scene));
+        thisStage.show();
+    }
+
+    /**
+     * Updates Selected Customer object with data from input fields
+     */
+    ///// Customer Modification Helper Method /////
     private void updateSelectedCustomer() {
         LocalDateTime thisTime = LocalDateTime.now();
         selectedCustomer.setName(tfCustModCustName.getText());
@@ -172,17 +258,15 @@ public class CustModController implements Initializable {
         selectedCustomer.setLastUpdatedBy(DataMgmt.getCurrentUser().getName());
         selectedCustomer.setLastUpdate(thisTime);
     }
-
-    @javafx.fxml.FXML
-    public void cancelCustUpdate(ActionEvent actionEvent) {
-        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
-        try {
-            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/customer-view.fxml")));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        thisStage.setTitle(I18nMgmt.translate("CustomerSceneTitle"));
-        thisStage.setScene(new Scene(scene));
-        thisStage.show();
+    ///// Navigation Error Handler Method /////
+    /**
+     * Displays a navigation error to user and logs it to Exception Log
+     * @param e IOException passed down from parent function
+     */
+    private void showAndLogNavErrorAlert(Exception e){
+        ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
+                LogEvent.AppLocation.CUSTOMER_UPDATE, e);
+        Main.logger.log(event);
+        AlertFactory.getFXMLLoadErrorAlert("CustModSceneTitle").showAndWait();
     }
 }
