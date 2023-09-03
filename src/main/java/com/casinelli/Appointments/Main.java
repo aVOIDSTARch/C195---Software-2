@@ -43,6 +43,8 @@ public class Main extends Application {
     }
 
     public static void main(String[] args){
+        //Log Logger Initialized to Application Event Log
+        Logger.logLoggerStartUp();
         //Setup i18n
         I18nMgmt.setup();
         //open connection to db

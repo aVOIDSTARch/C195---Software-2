@@ -1,6 +1,7 @@
 package com.casinelli.Appointments.Model;
 
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
+import com.casinelli.Appointments.Main;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -14,7 +15,7 @@ public class LogEvent {
     public static enum EventType {LOGIN_ATTEMPT, DB_ACCESS, APPLICATION, EXCEPTION};
 
     public static enum AppLocation {LOGIN_SCENE, WELCOME_HUB, CUSTOMERS, CUSTOMER_CREATE,
-        CUSTOMER_UPDATE, SCHEDULING, APPOINTMENT_CREATE, APPOINTMENT_UPDATE, REPORTING};
+        CUSTOMER_UPDATE, SCHEDULING, APPOINTMENT_CREATE, APPOINTMENT_UPDATE, REPORTING, STARTUP};
 
 
     public LogEvent(String userName, EventType eventType){
@@ -23,6 +24,7 @@ public class LogEvent {
         this.attemptDateTime = LocalDateTime.now();
         this.systemZoneId = ZoneId.systemDefault();
     }
+
 
     public String getUserName() {
         return userName;

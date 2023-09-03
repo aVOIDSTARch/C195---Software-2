@@ -1,10 +1,15 @@
 package com.casinelli.Appointments.Controller;
 
 import com.casinelli.Appointments.DAO.DBQuery;
+import com.casinelli.Appointments.Helper.AlertFactory;
 import com.casinelli.Appointments.Helper.DataMgmt;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
+import com.casinelli.Appointments.Main;
 import com.casinelli.Appointments.Model.Appointment;
+
+import com.casinelli.Appointments.Model.ExceptionEvent;
+import com.casinelli.Appointments.Model.LogEvent;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,23 +21,28 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.Scanner;
+
 
 import static com.casinelli.Appointments.Helper.DateTimeMgmt.*;
 
+/**
+ * Controller for Appointment Add Scene
+ */
 public class ApptAddController implements Initializable {
-    //Controller instance variables
+    ///// Controller instance variables /////
     Stage thisStage;
     Parent scene;
-    //FXML Controls
+
+    ///// Final Variables/////
+    private BooleanBinding addBtnDisabler;
+
+    ///// FXML Controls /////
     @javafx.fxml.FXML
     private Label lblApptAddApptID;
     @javafx.fxml.FXML
@@ -48,37 +58,7 @@ public class ApptAddController implements Initializable {
     @javafx.fxml.FXML
     private Label lblApptAddUserID;
     @javafx.fxml.FXML
-    private TextField tfApptAddApptID;
-    @javafx.fxml.FXML
-    private TextField tfApptAddTitle;
-    @javafx.fxml.FXML
-    private TextField tfApptAddDesc;
-    @javafx.fxml.FXML
-    private TextField tfApptAddLocation;
-    @javafx.fxml.FXML
-    private TextField tfApptAddType;
-    @javafx.fxml.FXML
-    private ComboBox<String> cboApptAddCustID;
-    @javafx.fxml.FXML
-    private ComboBox<String> cboApptAddUserID;
-    @javafx.fxml.FXML
-    private Button btnApptAddCreate;
-    @javafx.fxml.FXML
     private Label lblAppName;
-    @javafx.fxml.FXML
-    private Button btnApptAddCancel;
-    @javafx.fxml.FXML
-    private DatePicker dateApptAddStart;
-    @javafx.fxml.FXML
-    private DatePicker dateApptAddEnd;
-    @javafx.fxml.FXML
-    private ComboBox<Integer> hourApptAddStart;
-    @javafx.fxml.FXML
-    private ComboBox<Integer> hourApptAddEnd;
-    @javafx.fxml.FXML
-    private ComboBox<Integer> minApptAddEnd;
-    @javafx.fxml.FXML
-    private ComboBox<Integer> minApptAddStart;
     @javafx.fxml.FXML
     private Label lblApptAddStart;
     @javafx.fxml.FXML
@@ -90,19 +70,61 @@ public class ApptAddController implements Initializable {
     @javafx.fxml.FXML
     private Label lblApptAddContact;
     @javafx.fxml.FXML
-    private ComboBox<String> cboApptAddContactID;
-    @javafx.fxml.FXML
     private Label lblApptAddHour1;
     @javafx.fxml.FXML
     private Label lblApptAddMinutes1;
-    //Final Variables
 
-    private BooleanBinding addBtnDisabler;
+    /////Input Textfields /////
+    @javafx.fxml.FXML
+    private TextField tfApptAddApptID;
+    @javafx.fxml.FXML
+    private TextField tfApptAddTitle;
+    @javafx.fxml.FXML
+    private TextField tfApptAddDesc;
+    @javafx.fxml.FXML
+    private TextField tfApptAddLocation;
+    @javafx.fxml.FXML
+    private TextField tfApptAddType;
+
+    ///// Date Pickers /////
+    @javafx.fxml.FXML
+    private DatePicker dateApptAddStart;
+    @javafx.fxml.FXML
+    private DatePicker dateApptAddEnd;
+
+    ///// ComboBoxes IDs /////
+    @javafx.fxml.FXML
+    private ComboBox<String> cboApptAddCustID;
+    @javafx.fxml.FXML
+    private ComboBox<String> cboApptAddUserID;
+    @javafx.fxml.FXML
+    private ComboBox<String> cboApptAddContactID;
+
+    ///// ComboBoxes Time Strings /////
+    @javafx.fxml.FXML
+    private ComboBox<Integer> hourApptAddStart;
+    @javafx.fxml.FXML
+    private ComboBox<Integer> hourApptAddEnd;
+    @javafx.fxml.FXML
+    private ComboBox<Integer> minApptAddEnd;
+    @javafx.fxml.FXML
+    private ComboBox<Integer> minApptAddStart;
+
+    ///// Buttons /////
+    @javafx.fxml.FXML
+    private Button btnApptAddCreate;
+    @javafx.fxml.FXML
+    private Button btnApptAddCancel;
 
     ///// INITIALIZATION METHODS /////
+    /**
+     * Initializes Appointment Add Scene User Interface
+     * @param url provided bby launch method
+     * @param resourceBundle provided bby launch method
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setCreateButtonBindings();
+        setCreateButtonBindings(addBtnDisabler);
         initializeSceneText();
         populateHoursAndMinsLists();
         populateContactsList();
@@ -110,8 +132,14 @@ public class ApptAddController implements Initializable {
         populateUsersList();
     }
 
-    private void setCreateButtonBindings() {
-        addBtnDisabler =
+    ///// Initialization Helper Methods
+    /**
+     * Creates and binds a boolean binding that prevents the user from clicking the Create button without inputting
+     * all information thus avoiding all errors for input
+     * @param binding BooleanBinding for Create button disable property
+     */
+    private void setCreateButtonBindings(BooleanBinding binding) {
+        binding =
             tfApptAddTitle.textProperty().isEmpty()
                 .or(tfApptAddDesc.textProperty().isEmpty())
                 .or(tfApptAddLocation.textProperty().isEmpty())
@@ -125,9 +153,12 @@ public class ApptAddController implements Initializable {
                 .or(cboApptAddContactID.valueProperty().isNull())
                 .or(cboApptAddCustID.valueProperty().isNull())
                 .or(cboApptAddUserID.valueProperty().isNull());
-        btnApptAddCreate.disableProperty().bind(addBtnDisabler);
+        btnApptAddCreate.disableProperty().bind(binding);
     }
 
+    /**
+     * Creates lists of numbers and assigns then to time input ComboBoxes for minutes and hours
+     */
     private void populateHoursAndMinsLists() {
         ObservableList<Integer> hourList = FXCollections.observableList(DataMgmt.makeIntList(0,23));
         hourApptAddEnd.setItems(hourList);
@@ -137,6 +168,9 @@ public class ApptAddController implements Initializable {
         minApptAddStart.setItems(minList);
     }
 
+    /**
+     * Creates a list of Users and assigns it to the UserId ComboBox
+     */
     private void populateUsersList() {
         ObservableList<String> userList = FXCollections.observableArrayList();
         DataMgmt.getAllUsersList().forEach(user -> {
@@ -146,6 +180,9 @@ public class ApptAddController implements Initializable {
         cboApptAddUserID.setItems(userList);
     }
 
+    /**
+     * Creates a list of Customers and assigns it to the CustomerId ComboBox
+     */
     private void populateCustomersList() {
         ObservableList<String> custList = FXCollections.observableArrayList();
         DataMgmt.getAllCustomersList().forEach(cust -> {
@@ -155,6 +192,9 @@ public class ApptAddController implements Initializable {
         cboApptAddCustID.setItems(custList);
     }
 
+    /**
+     * Creates a list of Contacts and assigns it to the ContactId ComboBox
+     */
     private void populateContactsList() {
         ObservableList<String> contactList = FXCollections.observableArrayList();
         DataMgmt.getAllContactsList().forEach(contact -> {
@@ -164,6 +204,9 @@ public class ApptAddController implements Initializable {
         cboApptAddContactID.setItems(contactList);
     }
 
+    /**
+     * Populates Scene with translated text
+     */
     private void initializeSceneText() {
         //Initialize Labels
         lblAppName.textProperty().setValue(I18nMgmt.translate("labelAppName"));
@@ -181,14 +224,16 @@ public class ApptAddController implements Initializable {
         lblApptAddContact.textProperty().setValue(I18nMgmt.translate("ApptContactText"));
         lblApptAddCustID.textProperty().setValue(I18nMgmt.translate("ApptCustText"));
         lblApptAddUserID.textProperty().setValue(I18nMgmt.translate("ApptUserText"));
-        //Initialize Prompt Text
-
         //Button Text
         btnApptAddCreate.textProperty().setValue(I18nMgmt.translate("CreateBtnText"));
         btnApptAddCancel.textProperty().setValue(I18nMgmt.translate("CancelBtnText"));
 
     }
 
+    /**
+     * Requests new Appointment object, writes to database, requests local data storage update, and navigates to Scheduling Scene
+     * @param actionEvent button click event
+     */
     ///// BUTTON EVENT HANDLERS /////
     @javafx.fxml.FXML
     public void createNewAppointment(ActionEvent actionEvent) {
@@ -216,7 +261,11 @@ public class ApptAddController implements Initializable {
                 try {
                     System.out.println(DBQuery.create(Appointment.insertAppointment, newAppt));
                 } catch (SQLException e) {
-                    System.out.println("Failed to write to DB");
+                    ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
+                            LogEvent.AppLocation.APPOINTMENT_CREATE, e);
+                    Main.logger.log(event);
+                    AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"ApptAddSceneTitle","sqlErrorHeader",
+                            "sqlRetrieveErrorContent").showAndWait();
                 }
                 //Update ObservableLists in DataMgmt
                 DataMgmt.initializeApplicationData();

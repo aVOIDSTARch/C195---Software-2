@@ -8,3 +8,5 @@ APPLICATION Username: test 2023-09-03 06:59 America/New_York in Location: CUSTOM
 No Customer Selected.
 APPLICATION Username: test 2023-09-03 06:59 America/New_York in Location: CUSTOMERS
 Customer has Appointments. Deletion Failed
+APPLICATION Username: Daemon 2023-09-03 09:52 America/New_York in Location: STARTUP
+Logger Succesfully Initialized
