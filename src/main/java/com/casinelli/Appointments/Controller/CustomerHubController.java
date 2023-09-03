@@ -1,6 +1,5 @@
 package com.casinelli.Appointments.Controller;
 
-
 import com.casinelli.Appointments.DAO.DBQuery;
 import com.casinelli.Appointments.DAO.Value;
 import com.casinelli.Appointments.Helper.AlertFactory;
@@ -27,10 +26,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CustomerHubController implements Initializable {
-    //Controller instance variables
+    ///// Controller instance variables /////
     Stage thisStage;
     Parent scene;
     private static Customer selectedCustomer;
@@ -93,8 +93,12 @@ public class CustomerHubController implements Initializable {
     @javafx.fxml.FXML
     private Button btnCustDisplayCustAppts;
 
-
     ///// Initialize Scene Methods /////
+    /**
+     * Initialize the user interface
+     * @param url Provided by launch method
+     * @param resourceBundle Provided by launch method
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Fill in text from I18n resource
@@ -102,6 +106,9 @@ public class CustomerHubController implements Initializable {
         //Set up Customer TableView
         initializeCustTblView();
     }
+    /**
+     * Populates all text properties in the main window
+     */
     private void populateTextPropsCustScene() {
         /////NAVIGATION BUTTONS/////
         btnCustNavWelcHub.textProperty().setValue(I18nMgmt.translate("welcomeHub"));
@@ -124,8 +131,10 @@ public class CustomerHubController implements Initializable {
         lblCustZoneID.textProperty().setValue(DateTimeMgmt.ZONE_SYS.toString());
         lblCustUsername.textProperty().setValue(DataMgmt.getCurrentUser().getName());
         lblAttnCustDeletion.textProperty().setValue(I18nMgmt.translate("AttentionForDeletion"));
-
     }
+    /**
+     * Initializes Customer tableview with translated text and data
+     */
     private void initializeCustTblView() {
         ///// POPULATE COLUMN NAMES /////
         tvColCust_CustID.textProperty().setValue(I18nMgmt.translate("ColNameID"));
@@ -145,16 +154,21 @@ public class CustomerHubController implements Initializable {
         tvColCust_CustPostalCode.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
         tvColCust_CustDiv.setCellValueFactory(new PropertyValueFactory<>("divisionName"));
         tvColCust_CustCountry.setCellValueFactory(new PropertyValueFactory<>("countryName"));
-
-
     }
-
     ///// Navigation Button Click Handlers /////
+    /**
+     * Navigates to the Customer Scene but the scene is already displayed
+     * @param actionEvent Created during the button click
+     */
     @javafx.fxml.FXML
     public void navToCustomerScene(ActionEvent actionEvent) {
-        AlertFactory.getNewDialogAlert(Alert.AlertType.INFORMATION, "CustomerSceneTitle",
-                "navToCurrentSceneHeader", "navToCurrentSceneContent").showAndWait();
+        //Already displaying
     }
+    /**
+     * Navigates to the Welcome Hub Scene
+     * @param actionEvent Created during the button click
+     * @exception IOException Error occurs when the FXML document is not reachable - nested NullPointerException
+     */
     @javafx.fxml.FXML
     public void navToWelcomeScene(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
@@ -168,6 +182,11 @@ public class CustomerHubController implements Initializable {
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
+    /**
+     * Navigates to the Reports Scene
+     * @param actionEvent Created during the button click
+     * @exception IOException Error occurs when the FXML document is not reachable - nested NullPointerException
+     */
     @javafx.fxml.FXML
     public void navToReportsScene(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
@@ -181,6 +200,11 @@ public class CustomerHubController implements Initializable {
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
+    /**
+     * Navigates to the Scheduling Scene
+     * @param actionEvent Created during the button click
+     * @exception IOException Error occurs when the FXML document is not reachable - nested NullPointerException
+     */
     @javafx.fxml.FXML
     public void navToScheduleScene(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
@@ -194,6 +218,11 @@ public class CustomerHubController implements Initializable {
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
+    /**
+     * Logs teh current user out and returns the user to teh login scene
+     * @param actionEvent Created during the button click
+     * @exception IOException Error occurs when the FXML document is not reachable - nested NullPointerException
+     */
     @javafx.fxml.FXML
     public void appLogout(ActionEvent actionEvent) {
         DataMgmt.setUserToDefault();
@@ -208,11 +237,18 @@ public class CustomerHubController implements Initializable {
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
-
+    /**
+     * Getter for the Customer object selected in the tableview
+     * @return Customer - Current Selected Customer
+     */
     ///// Customer Scene Getters-Setters /////
     public static Customer getSelectedCustomer(){
         return selectedCustomer;
     }
+    /**
+     * Sets selected customer and alerts user to error of no Customer selected
+     * @return boolean - true if the selected customer is not null
+     */
     private boolean setSelectedCustomer(){
         if (tblVwCustomers.getSelectionModel().getSelectedItem() != null){
             selectedCustomer = tblVwCustomers.getSelectionModel().getSelectedItem();
@@ -226,8 +262,12 @@ public class CustomerHubController implements Initializable {
             return false;
         }
     }
-
     ///// Customer Object Manipulation Button Event Handlers /////
+    /**
+     * Launches the Customer Add Scene
+     * @param actionEvent Created upon button click
+     * @exception IOException Error occurs when the FXML document is not reachable - nested NullPointerException
+     */
     @javafx.fxml.FXML
     public void createNewCustomer(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
@@ -241,7 +281,11 @@ public class CustomerHubController implements Initializable {
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
-
+    /**
+     * Sets selected Customer and Launches the Customer Modify Scene
+     * @param actionEvent Created upon button click
+     * @exception IOException Error occurs when the FXML document is not reachable - nested NullPointerException
+     */
     @javafx.fxml.FXML
     public void updateSelectedCustomer(ActionEvent actionEvent) {
         if(setSelectedCustomer()){
@@ -257,7 +301,11 @@ public class CustomerHubController implements Initializable {
             thisStage.show();
         }
     }
-
+    /**
+     * Sets and Deletes selected Customer from Database
+     * @param actionEvent Created upon button click
+     * @exception SQLException Error occurs when SQL command fails
+     */
     @javafx.fxml.FXML
     public void deleteSelectedCustomer(ActionEvent actionEvent) {
         if(setSelectedCustomer()){
@@ -270,23 +318,41 @@ public class CustomerHubController implements Initializable {
                         "custHasApptsErrorContent").showAndWait();
                 displayCustAppts(actionEvent);
             }else{
-                Value<Integer> custID = new Value<>(selectedCustomer.getId());
-                try{
-                    //Delete selected cust
-                    DBQuery.delete(Customer.deleteCustByID, custID);
-                    //Update ObservableLists in DataMgmt
-                    DataMgmt.initializeApplicationData();
-                } catch (SQLException e) {
-                    ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(),
-                            LogEvent.EventType.EXCEPTION, LogEvent.AppLocation.CUSTOMERS, e );
-                    Main.logger.log(event);
-                    AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"CustomerSceneTitle", "sqlErrorHeader",
-                            "sqlDeleteErrorContent").showAndWait();
+                Alert newAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                newAlert.setTitle(I18nMgmt.translate("ConfirmText"));
+                newAlert.setHeaderText(I18nMgmt.translate("CustDeleteConfirmHeader"));
+                newAlert.setContentText(I18nMgmt.translate("CustDeleteConfirmContent") +
+                        "\nCustomer: " + selectedCustomer.getName());
+                Optional<ButtonType> result = newAlert.showAndWait();
+
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    Value<Integer> custID = new Value<>(selectedCustomer.getId());
+                    try{
+                        //Delete selected cust
+                        DBQuery.delete(Customer.deleteCustByID, custID);
+                        //Update ObservableLists in DataMgmt
+                        DataMgmt.initializeApplicationData();
+                        ApplicationEvent event = new ApplicationEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.APPLICATION,
+                                LogEvent.AppLocation.CUSTOMERS, "Cusomter Deleted");
+                        Main.logger.log(event);
+                        AlertFactory.getNewDialogAlert(Alert.AlertType.INFORMATION,"CustomerSceneTitle","CustDeleteSuccessHeader",
+                                "CustDeleteSuccessContent").showAndWait();
+                    } catch (SQLException e) {
+                        ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(),
+                                LogEvent.EventType.EXCEPTION, LogEvent.AppLocation.CUSTOMERS, e );
+                        Main.logger.log(event);
+                        AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"CustomerSceneTitle", "sqlErrorHeader",
+                                "sqlDeleteErrorContent").showAndWait();
+                    }
                 }
             }
         }
     }
-
+    /**
+     * Sets the selected Customer Object and navigates to Scheduling Scene
+     * @param actionEvent Created upon button click
+     * @exception IOException Error occurs when the FXML document is not reachable - nested NullPointerException
+     */
     @javafx.fxml.FXML
     public void displayCustAppts(ActionEvent actionEvent) {
         if(setSelectedCustomer()){
@@ -305,6 +371,12 @@ public class CustomerHubController implements Initializable {
         thisStage.show();
         }
     }
+
+    ///// Navigation Error Alert Handler /////
+    /**
+     * Displays a navigation error to user and logs it to Exception Log
+     * @param e IOException passed down from parent function
+     */
     private void showAndLogNavErrorAlert(Exception e){
         ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
                 LogEvent.AppLocation.CUSTOMERS, e);

@@ -8,7 +8,6 @@ import com.casinelli.Appointments.Model.Appointment;
 import com.casinelli.Appointments.Model.ExceptionEvent;
 import com.casinelli.Appointments.Model.LogEvent;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,16 +22,18 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
+/**
+ * Controller for the Welcome Hub Scene User Interface
+ */
 public class WelcomeHubController implements Initializable{
-    //Controller instance variables
+    /////// Controller instance variables /////
     Stage thisStage;
     Parent scene;
-
+    ///// Labels /////
     @javafx.fxml.FXML
     private Label lblWHAppName;
     @javafx.fxml.FXML
@@ -46,6 +47,7 @@ public class WelcomeHubController implements Initializable{
     @javafx.fxml.FXML
     private Label lblWHNavTitle;
     @javafx.fxml.FXML
+    ///// Navigation Buttons /////
     private Button btnWHNavCustScene;
     @javafx.fxml.FXML
     private Button btnWHNavWelcHub;
@@ -55,8 +57,30 @@ public class WelcomeHubController implements Initializable{
     private Button btnWHNavScheduleScene;
     @javafx.fxml.FXML
     private Button btnWHNavLogout;
+    ///// Upcoming Appts TableView /////
     @FXML
     private TableView<Appointment> tblVwWHUpcomingAppts;
+    @FXML
+    private TableColumn colWHTVApptId;
+    @FXML
+    private TableColumn colWHTVApptTitle;
+    @FXML
+    private TableColumn colWHTVApptDesc;
+    @FXML
+    private TableColumn colWHTVApptLocation;
+    @FXML
+    private TableColumn colWHTVApptType;
+    @FXML
+    private TableColumn colWHTVApptStart;
+    @FXML
+    private TableColumn colWHTVApptEnd;
+    @FXML
+    private TableColumn colWHTVApptCustId;
+    @FXML
+    private TableColumn colWHTVApptUserId;
+    @FXML
+    private TableColumn colWHTVApptContactId;
+    ///// Text Labels for Primary Window /////
     @FXML
     private Label lblWHTotalApptsText;
     @FXML
@@ -91,28 +115,13 @@ public class WelcomeHubController implements Initializable{
     private Label lblWHApptCntToday;
     @FXML
     private Label lblWHApptsToday;
-    @FXML
-    private TableColumn colWHTVApptId;
-    @FXML
-    private TableColumn colWHTVApptTitle;
-    @FXML
-    private TableColumn colWHTVApptDesc;
-    @FXML
-    private TableColumn colWHTVApptLocation;
-    @FXML
-    private TableColumn colWHTVApptType;
-    @FXML
-    private TableColumn colWHTVApptStart;
-    @FXML
-    private TableColumn colWHTVApptEnd;
-    @FXML
-    private TableColumn colWHTVApptCustId;
-    @FXML
-    private TableColumn colWHTVApptUserId;
-    @FXML
-    private TableColumn colWHTVApptContactId;
 
     ///// INITIALIZE SCENE AND SUPPORTING METHODS /////
+    /**
+     * Initializes Welcome Hub Scene User interface
+     * @param url Provided by launch method
+     * @param resourceBundle Provided by launch method
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Setup scene content text
@@ -124,6 +133,9 @@ public class WelcomeHubController implements Initializable{
         displayUpcomingAppts(DataMgmt.getApptsInNext15Mins());
     }
 
+    /**
+     * Populates translated Welcome hub Scene text Labels
+     */
     private void populateTextWelcomeHub(){
         /////BUTTONS/////
         btnWHNavWelcHub.textProperty().setValue(I18nMgmt.translate("NavWelcome"));
@@ -144,6 +156,10 @@ public class WelcomeHubController implements Initializable{
         lblWHApptsToday.textProperty().setValue(I18nMgmt.translate("WHApptsForToday"));
         lblWHNumAppts.textProperty().setValue(Integer.toString(DataMgmt.getTotalNumAppts()));
     }
+
+    /**
+     * Populates Contact Square Information from database data
+     */
     private void populateContactSquare(){
         //Set Contact Names
         lblWHContact1Name.textProperty().setValue(DataMgmt.getAllContactsList().get(0).getName());
@@ -161,6 +177,10 @@ public class WelcomeHubController implements Initializable{
         lblApptCountNumForContact2.textProperty().setValue(Integer.toString(DataMgmt.getApptCountByContactId(2)));
         lblApptCountNumForContact3.textProperty().setValue(Integer.toString(DataMgmt.getApptCountByContactId(3)));
     }
+
+    /**
+     * Initializes the Next 15 Minutes Appointments TableView
+     */
     private void initializeTableView() {
         colWHTVApptId.textProperty().setValue(I18nMgmt.translate("ColNameID"));
         colWHTVApptTitle.textProperty().setValue(I18nMgmt.translate("ColNameTitle"));
@@ -187,11 +207,14 @@ public class WelcomeHubController implements Initializable{
         colWHTVApptContactId.setCellValueFactory(new PropertyValueFactory<>("contactNameIdCombo"));
     }
 
+    /**
+     * Alerts teh user of Appointments occuring in the next 15 minutes of Loggin in
+     * @param apptsList List of Appointments that occur in the next 15 minutes
+     */
     private void displayUpcomingAppts(ObservableList<Appointment> apptsList) {
         Vector<String> apptStrings = new Vector<>();
         StringBuilder apptsToDisplay = new StringBuilder();
         apptsList.forEach(appt -> {
-
             apptStrings.add(String.format("Appt ID: %d Date and Time: %s", appt.getId(), appt.getStartString()));
         });
         if(apptStrings.size() > 0){
@@ -208,13 +231,16 @@ public class WelcomeHubController implements Initializable{
             AlertFactory.getNewDialogAlert(Alert.AlertType.INFORMATION, "WelcomeSceneTitle",
                     "nextFifteenMinutesHeader", "noApptsNextFifteen").showAndWait();
         }
-
-
     }
 
+    /**
+     * Navigates to Customer Scene
+     * @param actionEvent Created upon button click
+     * @throws IOException Error occurs when the FXML document is not reachable - nested NullPointerException
+     */
     ///// NAVIGATION BUTTONS /////
     @javafx.fxml.FXML
-    public void navToCustomerScene(ActionEvent actionEvent) throws IOException {
+    public void navToCustomerScene(ActionEvent actionEvent)  {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
             scene = FXMLLoader.load(Objects.requireNonNull(getClass()
@@ -227,10 +253,20 @@ public class WelcomeHubController implements Initializable{
         thisStage.show();
     }
 
+    /**
+     * Method does nothing at this time button disabled in user interface
+     * @param actionEvent crated upon button click
+     */
     @javafx.fxml.FXML
     public void navToWelcomeScene(ActionEvent actionEvent) {
+        //Scene already displayed
     }
 
+    /**
+     * Navigates to Reports Scene
+     * @param actionEvent created upon button click
+     * @exception IOException Error occurs when the FXML document is not reachable - nested NullPointerException
+     */
     @javafx.fxml.FXML
     public void navToReportsScene(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
@@ -245,6 +281,11 @@ public class WelcomeHubController implements Initializable{
         thisStage.show();
     }
 
+    /**
+     * Navigates to Scheduling Scene
+     * @param actionEvent created upon button click
+     * @exception IOException Error occurs when the FXML document is not reachable - nested NullPointerException
+     */
     @javafx.fxml.FXML
     public void navToScheduleScene(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
@@ -259,6 +300,11 @@ public class WelcomeHubController implements Initializable{
         thisStage.show();
     }
 
+    /**
+     * Logs out current user and returns the user to the Login Scene
+     * @param actionEvent created upon button click
+     * @exception IOException occurs when the FXML document is not reachable - nested NullPointerException
+     */
     @javafx.fxml.FXML
     public void appLogout(ActionEvent actionEvent) {
         DataMgmt.setUserToDefault();
@@ -273,6 +319,10 @@ public class WelcomeHubController implements Initializable{
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
+    /**
+     * Displays a navigation error to user and logs it to Exception Log
+     * @param e IOException passed down from parent function
+     */
     private void showAndLogNavErrorAlert(Exception e){
         ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
                 LogEvent.AppLocation.WELCOME_HUB, e);

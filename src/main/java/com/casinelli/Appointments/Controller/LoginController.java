@@ -28,7 +28,9 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 
-
+/**
+ * Controls the Login Scene User Interface
+ */
 public class LoginController implements Initializable {
     //Controller instance variables
     Stage thisStage;

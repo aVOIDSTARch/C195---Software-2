@@ -294,6 +294,7 @@ public abstract class DataMgmt {
         return numAppts.get();
     }
 
+
     /////DIVISION FUNCTIONS/////
     public static ObservableList<String> getListOfDivNamesByCountryId(int countryId) throws SQLException {
         ObservableList<String> divNames = FXCollections.observableArrayList();
