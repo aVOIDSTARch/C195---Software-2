@@ -10,18 +10,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/**
+ * Class for storing Division data and methods
+ */
 public class Division extends DBObject {
 
     private int countryId;
+    ///// Array of Column Names for Database Access /////
     public static final String[] DIVISION_COL_NAMES = {"Division_ID", "Division",  "Create_Date", "Created_By", "Last_Update",
             "Last_Updated_By", "Country_ID"};
+
     /////QUERY LAMBDA FUNCTIONS/////
+
+    //Retrieve List of All Divisions
     public static final RetrieveAllInterface all1stLvlDivisions = () -> {
         String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         return rs;
     };
+    //Retrieve Divisions by Country ID
     public static final RetrieveInterface getDivisionsWithCountryId = (countryId) -> {
         int cntryID = (int) countryId.getValue();
         String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS WHERE COUNTRY_ID = ?";
@@ -30,6 +38,7 @@ public class Division extends DBObject {
         ResultSet rs = ps.executeQuery();
         return rs;
     };
+    //Retrieve Divisions by Division ID
     public static final RetrieveInterface getDivisionById = (divId) -> {
         String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS WHERE DIVISION_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -39,6 +48,17 @@ public class Division extends DBObject {
     };
 
     /////CONSTRUCTORS/////
+
+    /**
+     * Constructor for a Division object requiring inputs for all variables
+     * @param id int division ID
+     * @param name String division name
+     * @param createDate LocalDateTime createion date
+     * @param createdBy String name of user that created the object
+     * @param lastUpdate LocalDateTime last modify date
+     * @param lastUpdatedBy String name of last user to modify object
+     * @param countryId int country ID
+     */
     public Division(int id, String name, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate,
                     String lastUpdatedBy, int countryId) {
         this.countryId = countryId;
@@ -50,6 +70,12 @@ public class Division extends DBObject {
         this.lastUpdatedBy = lastUpdatedBy;
 
     }
+
+    /**
+     * Constructor for a Division object using a ResultSet from the database
+     * @param rs ResultSet from a first level division table query
+     * @throws SQLException occurs when retrieve command fails
+     */
     public Division(ResultSet rs) throws SQLException {
         if (rs != null) {
             this.id = rs.getInt(DIVISION_COL_NAMES[0]);
@@ -64,35 +90,30 @@ public class Division extends DBObject {
         }
     }
 
+    ///// Getters and Setters /////
     public int getCountryId() {
         return countryId;
     }
-
     @Override
     public int getId() {
         return this.id;
     }
-
     @Override
     public String getName() {
         return this.name;
     }
-
     @Override
     public LocalDateTime getCreateDate() {
         return this.createDate;
     }
-
     @Override
     public String getCreatedBy() {
         return this.createdBy;
     }
-
     @Override
     public LocalDateTime getLastUpdate() {
         return this.lastUpdate;
     }
-
     @Override
     public String getLastUpdatedBy() {
         return this.lastUpdatedBy;

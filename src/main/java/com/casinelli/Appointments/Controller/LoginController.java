@@ -120,7 +120,7 @@ public class LoginController implements Initializable {
         boolean isSuccesful = false;
         String dbPassword = "";
         try{
-        ResultSet rs = DBQuery.retrieve(User.userPassword, username);
+        ResultSet rs = DBQuery.retrieve(User.getUserByName, username);
         if(rs.next()){
             dbPassword = rs.getString(User.USER_COL_NAMES[2]);
         }

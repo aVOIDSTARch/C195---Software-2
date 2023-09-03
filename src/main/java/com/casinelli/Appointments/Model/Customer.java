@@ -9,32 +9,25 @@ import java.time.*;
 import java.util.Vector;
 
 public class Customer extends DBObject{
+    ///// Instance Variables /////
     private String address;
     private String postalCode;
     private String phone;
     private int divisionId;
 
+    ///// Column Name Array /////
     public static final String[] CUSTOMER_COL_NAMES = {"Customer_ID", "Customer_Name", "Address", "Postal_Code", "Phone",
             "Create_Date", "Created_By", "Last_Update", "Last_Updated_By", "Division_ID"};
 
-    /////QUERY LAMBDA FUNCTIONS/////
+    ///// QUERY LAMBDA FUNCTIONS /////
+
+    //Get all Customers from DB
     public static final RetrieveAllInterface allCustomers = () -> {
         String sql = "SELECT * FROM CUSTOMERS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         return ps.executeQuery();
     };
-    public static final RetrieveInterface getCustById = (custId) -> {
-        String sql = "SELECT * FROM CUSTOMERS WHERE CUSTOMER_ID = ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1, Integer.getInteger(custId.getValue().toString()));
-        return ps.executeQuery();
-    };
-    public static final RetrieveInterface getCustByDivId = (divId) -> {
-        String sql = "SELECT * FROM CUSTOMERS WHERE DIVISION_ID = ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1, Integer.getInteger(divId.getValue().toString()));
-        return ps.executeQuery();
-    };
+    //Create new Customer in Database
     public static final CreateInterface insertCustomer = (thisCust) -> {
         //Local variable setup
         Customer aCustomer = (Customer) thisCust;
@@ -58,6 +51,7 @@ public class Customer extends DBObject{
         ps.setInt(9,aCustomer.getDivisionId());
         return ps.executeUpdate();
     };
+    //Update existing Customer in Database
     public static final UpdateInterface updateCustomer = (thisCust) -> {
         //Local variable setup
         Customer aCustomer = (Customer) thisCust;
@@ -80,6 +74,7 @@ public class Customer extends DBObject{
         ps.setInt(10, aCustomer.getId());
         return ps.executeUpdate();
     };
+    //Delete Customer from Database
     public static final DeleteInterface deleteCustByID = (custID) -> {
         String sql = "DELETE FROM CUSTOMERS WHERE CUSTOMER_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -87,6 +82,19 @@ public class Customer extends DBObject{
         return ps.executeUpdate();
     };
 
+    /**
+     * Constructor for Customer Object requiring inputs for all variables
+     * @param id int customer ID
+     * @param name String customer name
+     * @param address String customer address
+     * @param postalCode String customer postal code
+     * @param phone String customer phone number
+     * @param createDate LocalDateTime creation date
+     * @param createdBy String user who create the object
+     * @param lastUpdate LocalDateTime last update date
+     * @param lastUpdatedBy String user who last updated teh object
+     * @param divisionId int division ID
+     */
     /////CONSTRUCTORS/////
     public Customer(int id, String name, String address, String postalCode, String phone,
                     LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate,
@@ -104,6 +112,12 @@ public class Customer extends DBObject{
 
 
     }
+
+    /**
+     * Constructor for Customer object from ResultSet
+     * @param rs ResultSet from Customer table query
+     * @throws SQLException occurs when the SQL retrieve command fails
+     */
     public Customer(ResultSet rs) throws SQLException {
         if (rs != null){
             this.id = rs.getInt(CUSTOMER_COL_NAMES[0]);
@@ -120,22 +134,44 @@ public class Customer extends DBObject{
             this.divisionId = rs.getInt(CUSTOMER_COL_NAMES[9]);
         }
     }
+
     ///// GETTERS AND SETTERS /////
+    @Override
+    public int getId() {
+        return this.id;
+    }
+    @Override
+    public String getName() {
+        return this.name;
+    }
+    @Override
+    public LocalDateTime getCreateDate() {
+        return this.createDate;
+    }
+    @Override
+    public String getCreatedBy() {
+        return this.createdBy;
+    }
+    @Override
+    public LocalDateTime getLastUpdate() {
+        return this.lastUpdate;
+    }
+    @Override
+    public String getLastUpdatedBy() {
+        return this.lastUpdatedBy;
+    }
     public String getAddress() {
         return address;
     }
     public void setAddress(String address){this.address = address;}
-
     public String getPostalCode() {
         return postalCode;
     }
     public void setPostalCode(String postalCode){this.postalCode = postalCode;};
-
     public String getPhone() {
         return phone;
     }
     public void setPhone(String phone) {this.phone = phone;}
-
     public int getDivisionId() {
         return divisionId;
     }
@@ -149,44 +185,10 @@ public class Customer extends DBObject{
         return DataMgmt.getDivisionNameFromDivId(this.divisionId);
     }
 
-
-    @Override
-    public int getId() {
-        return this.id;
-    }
-
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public LocalDateTime getCreateDate() {
-        return this.createDate;
-    }
-
-    @Override
-    public String getCreatedBy() {
-        return this.createdBy;
-    }
-
-    @Override
-    public LocalDateTime getLastUpdate() {
-        return this.lastUpdate;
-    }
-
-    @Override
-    public String getLastUpdatedBy() {
-        return this.lastUpdatedBy;
-    }
-    public static Vector<Customer> toCustomerVector(Vector<DBObject> vdbo){
-        Vector<Customer> custVector = new Vector<Customer>();
-        vdbo.forEach(dbobj -> {
-            Customer newCust = (Customer) dbobj;
-            custVector.add(newCust);
-        });
-        return custVector;
-    }
+    /**
+     * Checks if this customer has any Appointments scheduled
+     * @return boolean true if Customer has Appointments scheduled
+     */
     public boolean hasAppointments(){
         return DataMgmt.getNumberOfApptsByCustomer(this) > 0;
     }

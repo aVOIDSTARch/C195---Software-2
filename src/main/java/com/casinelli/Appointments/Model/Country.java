@@ -11,24 +11,34 @@ import java.sql.SQLException;
 import java.time.*;
 
 
+/**
+ * Class for object containing Country data and methods
+ */
 public class Country extends DBObject{
+    ///// Column Names Array /////
     public static final String[] COUNTRY_COL_NAMES = {"Country_ID", "Country", "Create_Date", "Created_By", "Last_Update",
             "Last_Updated_By"};
+
     /////QUERY LAMBDA FUNCTIONS/////
+
+    //Get all countries from Database
     public static final RetrieveAllInterface allCountries = () -> {
         String sql = "SELECT * FROM COUNTRIES";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         return rs;
     };
-    public static final RetrieveInterface getCountryById = (countryId) -> {
-        String sql = "SELECT * FROM COUNTRIES WHERE COUNTRY_ID = ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-            ps.setInt(1, Integer.getInteger(countryId.getValue().toString()));
-        ResultSet rs = ps.executeQuery();
-        return rs;
-    };
 
+
+    /**
+     * Constructor for Country object requiring inputs for all variables
+     * @param id int country ID
+     * @param name String country name
+     * @param createDate LocalDateTime creation date
+     * @param createdBy String user who created the object
+     * @param lastUpdate LocalDateTime last tiem modified
+     * @param lastUpdatedBy String user who last modified the object
+     */
     /////CONSTRUCTORS/////
     public Country(int id, String name, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy) {
         this.id = id;
@@ -39,6 +49,12 @@ public class Country extends DBObject{
         this.lastUpdatedBy = lastUpdatedBy;
 
     }
+
+    /**
+     * Constructor that accepts a ResultSet
+     * @param rs ResultSet from Country table query
+     * @throws SQLException occurs when SQL retrieve command fails
+     */
     public Country(ResultSet rs) throws SQLException {
         if(rs != null) {
             this.id = rs.getInt(COUNTRY_COL_NAMES[0]);
@@ -52,31 +68,27 @@ public class Country extends DBObject{
         }
     }
 
+    ///// Getters and Setters /////
     @Override
     public int getId() {
         return this.id;
     }
-
     @Override
     public String getName() {
         return this.name;
     }
-
     @Override
     public LocalDateTime getCreateDate() {
         return this.createDate;
     }
-
     @Override
     public String getCreatedBy() {
         return this.createdBy;
     }
-
     @Override
     public LocalDateTime getLastUpdate() {
         return this.lastUpdate;
     }
-
     @Override
     public String getLastUpdatedBy() {
         return this.lastUpdatedBy;

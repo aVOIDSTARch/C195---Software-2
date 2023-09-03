@@ -8,9 +8,12 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Class for object that contains Appointment data and methods
+ **/
 public class Appointment extends DBObject{
 
-
+    ///// Instance Variables /////
     private String description;
     private String location;
     private String type;
@@ -19,40 +22,21 @@ public class Appointment extends DBObject{
     private int customerId;
     private int userId;
     private int contactId;
+
+    ///// Column Name Array /////
     public static final String[] APPT_COL_NAMES = {"Appointment_ID", "Title", "Description", "Location", "Type", "Start", "End",
             "Create_Date", "Created_By", "Last_Update", "Last_Updated_By", "Customer_ID", "User_ID", "Contact_ID"};
-    private final DateTimeFormatter tableViewFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
 
     /////QUERY LAMBDA FUNCTIONS/////
+
+    //Get all appointments from database
     public static final RetrieveAllInterface allAppts = () -> {
         String sql = "SELECT * FROM APPOINTMENTS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         return ps.executeQuery();
     };
-    public static final RetrieveInterface getApptById = (apptId) -> {
-        String sql = "SELECT * FROM APPOINTMENTS WHERE APPOINTMENT_ID = ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1, Integer.getInteger(apptId.getValue().toString()));
-        return ps.executeQuery();
-    };
-    public static final RetrieveInterface getApptsByUserId = (userId) -> {
-        String sql = "SELECT * FROM APPOINTMENTS WHERE USER_ID = ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1, Integer.getInteger(userId.getValue().toString()));
-        return ps.executeQuery();
-    };
-    public static final RetrieveInterface getApptsByType = (type) -> {
-        String sql = "SELECT * FROM APPOINTMENTS WHERE TYPE = ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, (type.getValue().toString()));
-        return ps.executeQuery();
-    };
-    public static final RetrieveInterface getApptsByContactId = (contactId) -> {
-        String sql = "SELECT * FROM APPOINTMENTS WHERE CONTACT_ID = ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1, Integer.getInteger(contactId.getValue().toString()));
-        return ps.executeQuery();
-    };
+    //Create new Appointment in database
     public static final CreateInterface insertAppointment = (thisAppt) -> {
         //Local variable setup
         Appointment anAppt = (Appointment) thisAppt;
@@ -80,6 +64,7 @@ public class Appointment extends DBObject{
         ps.setInt(13,anAppt.getContactId());
         return ps.executeUpdate();
     };
+    //Update existing Appointment in database
     public static final UpdateInterface updateAppointment = (thisAppt) -> {
         //Local variable setup
         Appointment anAppt = (Appointment) thisAppt;
@@ -108,12 +93,31 @@ public class Appointment extends DBObject{
         ps.setInt(14, anAppt.getId());
         return ps.executeUpdate();
     };
+    //Delete Appointment from database
     public static final DeleteInterface deleteApptByID = (apptID) -> {
         String sql = "DELETE FROM APPOINTMENTS WHERE APPOINTMENT_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, (int) apptID.getValue());
         return ps.executeUpdate();
     };
+
+    /**
+     * Constructor for Appointment object that requires inputs for all variables
+     * @param id int Appointment ID
+     * @param title String Appointment title or name
+     * @param createDate LocalDateTime creation date
+     * @param createdBy String user that created the object
+     * @param lastUpdate LocalDateTime last time object was updated
+     * @param lastUpdatedBy String last user that updated the object
+     * @param description String Appointment description
+     * @param location String Appointment location
+     * @param type String Appointment type
+     * @param start LocalDateTime start time
+     * @param end LocalDateTime end time
+     * @param customerId int customer ID
+     * @param userId int user ID
+     * @param contactId int  contact ID
+     */
     /////CONSTRUCTORS/////
     public Appointment(int id, String title, LocalDateTime createDate, String createdBy,
                        LocalDateTime lastUpdate, String lastUpdatedBy, String description,
@@ -135,6 +139,12 @@ public class Appointment extends DBObject{
         this.contactId = contactId;
 
     }
+
+    /**
+     * Constructor for Appointment object that accepts a ResultSet
+     * @param rs ResultSet from Appointment table query
+     * @throws SQLException occurs when SQL retrieve command fails
+     */
     public Appointment(ResultSet rs) throws SQLException {
             if(rs != null) {
             this.id = rs.getInt(APPT_COL_NAMES[0]);
@@ -158,105 +168,84 @@ public class Appointment extends DBObject{
         }
     }
 
+    ///// SETTERS FOR APPTS /////
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public void setLocation(String location) {
+        this.location = location;
+    }
+    public void setType(String type) {
+        this.type = type;
+    }
+    public void setStart(LocalDateTime start) {
+        this.start = start;
+    }
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
+    }
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
+    }
     public String getDescription() {
         return description;
     }
-
     public String getLocation() {
         return location;
     }
-
     public String getType() {
         return type;
     }
-
     public LocalDateTime getStart() {
         return start;
     }
-
     public LocalDateTime getEnd() {
         return end;
     }
-
     public int getCustomerId() {
         return customerId;
     }
-
     public int getUserId() {
         return userId;
     }
-
     public int getContactId() {
         return contactId;
     }
-
     @Override
     public int getId() {
         return this.id;
     }
-
     @Override
     public String getName() {
         return this.name;
     }
-
     @Override
     public LocalDateTime getCreateDate() {
         return this.createDate;
     }
-
     @Override
     public String getCreatedBy() {
         return this.createdBy;
     }
-
     @Override
     public LocalDateTime getLastUpdate() {
         return this.lastUpdate;
     }
-
     @Override
     public String getLastUpdatedBy() {
         return this.lastUpdatedBy;
     }
 
-    ///// TableView Column Values
+    ///// TableView Column Value Getters /////
     public String getUserNameIdCombo(){return DataMgmt.getUserById(this.getUserId()).getIdName();}
     public String getCustomerNameIdCombo(){return DataMgmt.getCustomerById(this.getCustomerId()).getIdName();}
     public String getContactNameIdCombo(){return DataMgmt.getContactById(this.getContactId()).getIdName();}
-    public String getStartString(){return getStart().format(tableViewFormatter);}
-    public String getEndString(){return getEnd().format(tableViewFormatter);}
-
-    ///// SETTERS FOR APPTS /////
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setStart(LocalDateTime start) {
-        this.start = start;
-    }
-
-    public void setEnd(LocalDateTime end) {
-        this.end = end;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public void setContactId(int contactId) {
-        this.contactId = contactId;
-    }
+    public String getStartString(){return getStart().format(DateTimeMgmt.dateAndTimeformatter);}
+    public String getEndString(){return getEnd().format(DateTimeMgmt.dateAndTimeformatter);}
 }

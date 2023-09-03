@@ -21,11 +21,11 @@ public abstract class DateTimeMgmt {
     //public static final Locale LOCALE_SYS = new Locale("fr", "CA");
     public static final ZoneId ZONE_SYS = ZoneId.systemDefault();
     public static final ZoneId ZONE_UTC = ZoneId.of("UTC");
-    public static final ZoneId ZONE_EST = ZoneId.of("EST");
+    public static final ZoneId ZONE_EST = ZoneId.of("America/New_York");
 
 
     ///// Date and Time Formatters /////
-    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    public static final DateTimeFormatter dateAndTimeformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     public static final DateTimeFormatter dateOnlyFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     public static final DateTimeFormatter timeOnlyFormat = DateTimeFormatter.ofPattern("HH:mm");
 

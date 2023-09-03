@@ -2,31 +2,11 @@ package com.casinelli.Appointments.Model;
 
 import java.time.*;
 
+/**
+ * Abstract base class for database derived classes
+ */
 public abstract class DBObject {
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public void setLastUpdate(LocalDateTime lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
-    public void setLastUpdatedBy(String lastUpdatedBy) {
-        this.lastUpdatedBy = lastUpdatedBy;
-    }
-
+    ///// Instance Variables /////
     protected int id;
     protected String name;
     protected LocalDateTime createDate;
@@ -35,12 +15,32 @@ public abstract class DBObject {
     protected String lastUpdatedBy;
 
 
+    ///// Getters and Setters
+    public void setId(int id) {
+        this.id = id;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
+    }
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+    public void setLastUpdate(LocalDateTime lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+    public void setLastUpdatedBy(String lastUpdatedBy) {
+        this.lastUpdatedBy = lastUpdatedBy;
+    }
     abstract int getId();
     abstract String getName();
     abstract LocalDateTime getCreateDate();
     abstract String getCreatedBy();
     abstract LocalDateTime getLastUpdate();
     abstract String getLastUpdatedBy();
+    //Special Case Getter for ComboBox Strings
     String getIdName(){return this.getId() + " " + this.getName();};
 
 }

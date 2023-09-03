@@ -8,25 +8,27 @@ import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import java.sql.*;
 import java.time.LocalDateTime;
 
-
-
+/**
+ * Class to Store User Object
+ */
 public class User extends DBObject{
-
+    ///// Instance Variables /////
     private String password;
+    ///// Column Names Array /////
     public static final String[] USER_COL_NAMES = {"User_ID", "User_Name", "Password", "Create_Date", "Created_By", "Last_Update",
             "Last_Updated_By"};
-    public static final RetrieveInterface userPassword = (userName) -> {
-        String sql = "SELECT * FROM USERS WHERE PASSWORD = ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, userName.getValue().toString());
-        return ps.executeQuery();
-    };
+
+    ///// Lambda Functions for Database Interactions /////
+
+    //Get user from database using by USER_NAME
+
     public static final RetrieveInterface getUserByName = (userName) -> {
         String sql = "SELECT * FROM USERS WHERE USER_NAME = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, userName.getValue().toString());
         return ps.executeQuery();
     };
+    //Get all Users in Database
     public static final RetrieveAllInterface allUsers = () -> {
         String sql = "SELECT * FROM USERS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -34,6 +36,16 @@ public class User extends DBObject{
     };
 
 
+    /**
+     * Contructor for user from all params
+     * @param id int user id
+     * @param name String user name
+     * @param password String user password
+     * @param createDate LocalDateTime created date
+     * @param createdBy String creator name
+     * @param lastUpdate LocalDateTime last updated date and time
+     * @param lastUpdatedBy String last updating user
+     */
     public User(int id, String name,String password, LocalDateTime createDate, String createdBy,
                 LocalDateTime lastUpdate, String lastUpdatedBy) {
         this.password = password;
@@ -45,6 +57,11 @@ public class User extends DBObject{
         this.lastUpdatedBy = lastUpdatedBy;
     }
 
+    /**
+     * Costructor of User object from a ResultSet
+     * @param rs ResultSet of User object data
+     * @throws SQLException occurs when SQL retrieve command fails
+     */
     public User(ResultSet rs) throws SQLException {
         if (rs != null) {
             this.id = rs.getInt(USER_COL_NAMES[0]);
@@ -59,6 +76,10 @@ public class User extends DBObject{
         }
 
     }
+
+    ///// Getters and Setters /////
+
+    //NOTE: Password Access is intentionally denied
     @Override
     public int getId() {
         return id;
@@ -83,7 +104,6 @@ public class User extends DBObject{
     public LocalDateTime getLastUpdate() {
         return this.lastUpdate;
     }
-
     @Override
     public String getLastUpdatedBy() {
         return this.lastUpdatedBy;
