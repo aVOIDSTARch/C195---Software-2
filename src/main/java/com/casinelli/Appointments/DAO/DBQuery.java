@@ -9,12 +9,17 @@ import com.casinelli.Appointments.Model.LogEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Abstract class that centralizes all access to the database with logging functionality
+ */
 public abstract class DBQuery {
 
+    //Create
     public static int create(CreateInterface ci, DBObject dbo) throws SQLException {
         logDBEvent(DatabaseEvent.DBEventType.CREATE);
         return ci.insertIntoDB(dbo);
     }
+    //Retrieve
     public static ResultSet retrieve(RetrieveInterface ri, Value<?> matchValue) throws SQLException {
         logDBEvent(DatabaseEvent.DBEventType.RETRIEVE);
         return ri.getRowsFromDB(matchValue);
@@ -23,15 +28,18 @@ public abstract class DBQuery {
         logDBEvent(DatabaseEvent.DBEventType.RETRIEVE);
         return rai.getAllRecords();
     }
+    //Update
     public static int update(UpdateInterface ui,DBObject object) throws SQLException {
         logDBEvent(DatabaseEvent.DBEventType.UPDATE);
         return ui.updateDB(object);
     }
+    //Delete
     public static int delete(DeleteInterface di, Value<?> matchValue) throws SQLException {
         logDBEvent(DatabaseEvent.DBEventType.DELETE);
         return di.deleteFromDB( matchValue);
     }
 
+    // Helper Function to Log DB Access Events
     private static void logDBEvent(DatabaseEvent.DBEventType dbEvent){
         DatabaseEvent dbE = new DatabaseEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.DB_ACCESS,
                 dbEvent);
