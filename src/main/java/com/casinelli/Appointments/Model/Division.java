@@ -54,10 +54,11 @@ public class Division extends DBObject {
         if (rs != null) {
             this.id = rs.getInt(DIVISION_COL_NAMES[0]);
             this.name = rs.getString(DIVISION_COL_NAMES[1]);
-            this.createDate = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getDate(DIVISION_COL_NAMES[2]).toLocalDate()
-                    .atTime(rs.getTime(DIVISION_COL_NAMES[2]).toLocalTime()));
+            this.createDate = DateTimeMgmt.convertToLDTInZone(rs.getDate(DIVISION_COL_NAMES[2]).toLocalDate()
+                    .atTime(rs.getTime(DIVISION_COL_NAMES[2]).toLocalTime()),DateTimeMgmt.ZONE_UTC,DateTimeMgmt.ZONE_SYS);
             this.createdBy = rs.getString(DIVISION_COL_NAMES[3]);
-            this.lastUpdate = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getTimestamp(DIVISION_COL_NAMES[4]).toLocalDateTime());
+            this.lastUpdate = DateTimeMgmt.convertToLDTInZone(rs.getTimestamp(DIVISION_COL_NAMES[4])
+                    .toLocalDateTime(),DateTimeMgmt.ZONE_UTC,DateTimeMgmt.ZONE_SYS);
             this.lastUpdatedBy = rs.getString(DIVISION_COL_NAMES[5]);
             this.countryId = rs.getInt(DIVISION_COL_NAMES[6]);
         }

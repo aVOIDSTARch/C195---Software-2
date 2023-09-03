@@ -6,6 +6,7 @@ import com.casinelli.Appointments.DAO.JDBC;
 
 import com.casinelli.Appointments.Helper.DataMgmt;
 
+import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
 import com.casinelli.Appointments.Helper.Logger;
 
@@ -46,7 +47,7 @@ public class Main extends Application {
         //Log Logger Initialized to Application Event Log
         Logger.logLoggerStartUp();
         //Setup i18n
-        I18nMgmt.setup();
+        I18nMgmt.setup(DataMgmt.PACKAGE_PATH);
         //open connection to db
         JDBC.openConnection();
         //Initialize Data Setup

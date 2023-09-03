@@ -247,14 +247,14 @@ public class ApptAddController implements Initializable {
         LocalDateTime thisTime = LocalDateTime.now();
 
         //Validate Start/End Dates and Times
-        if( !isBetweenHours(startTime.toLocalTime(), endTime.toLocalTime())||
-                !checkStartEndSequence(startTime, endTime)) {
+        if( !isBetweenBusinessHoursInEST(startTime.toLocalTime(), endTime.toLocalTime())||
+                !isInProperOrderOfTime(startTime, endTime)) {
             System.out.println("checks failed for times");
         }else{
             //Build Appt from Inputs
             Appointment newAppt = buildNewAppt(thisTime, startTime, endTime);
 
-            if(checkApptOverlaps(newAppt)){
+            if(hasApptOverlaps(newAppt)){
                 System.out.println("appointment overlaps");
             }else {
                 //Insert Appt into DB

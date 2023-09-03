@@ -50,10 +50,11 @@ public class User extends DBObject{
             this.id = rs.getInt(USER_COL_NAMES[0]);
             this.name = rs.getString(USER_COL_NAMES[1]);
             this.password = "";
-            this.createDate = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getDate(USER_COL_NAMES[3]).toLocalDate()
-                    .atTime(rs.getTime(USER_COL_NAMES[3]).toLocalTime()));
+            this.createDate = DateTimeMgmt.convertToLDTInZone(rs.getDate(USER_COL_NAMES[3]).toLocalDate()
+                    .atTime(rs.getTime(USER_COL_NAMES[3]).toLocalTime()),DateTimeMgmt.ZONE_UTC,DateTimeMgmt.ZONE_SYS);
             this.createdBy = rs.getString(USER_COL_NAMES[4]);
-            this.lastUpdate = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getTimestamp(USER_COL_NAMES[5]).toLocalDateTime());
+            this.lastUpdate = DateTimeMgmt.convertToLDTInZone(rs.getTimestamp(USER_COL_NAMES[5])
+                    .toLocalDateTime(),DateTimeMgmt.ZONE_UTC,DateTimeMgmt.ZONE_SYS);
             this.lastUpdatedBy = rs.getString(USER_COL_NAMES[6]);
         }
 

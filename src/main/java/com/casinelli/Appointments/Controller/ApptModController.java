@@ -218,15 +218,15 @@ public class ApptModController implements Initializable {
         LocalDateTime thisTime = LocalDateTime.now();
 
         //Validate Start/End Dates and Times
-        if( !isBetweenHours(startTime.toLocalTime(), endTime.toLocalTime())||
-                !checkStartEndSequence(startTime, endTime)) {
+        if( !isBetweenBusinessHoursInEST(startTime.toLocalTime(), endTime.toLocalTime())||
+                !isInProperOrderOfTime(startTime, endTime)) {
             System.out.println("checks failed for times");
         }else {
             //Build Appt from Inputs
             updateApptToMod(thisTime, startTime, endTime);
 
 
-            if (checkApptOverlaps(apptToMod)) {
+            if (hasApptOverlaps(apptToMod)) {
                 System.out.println("appointment overlaps");
             } else {
                 //Insert Appt into DB

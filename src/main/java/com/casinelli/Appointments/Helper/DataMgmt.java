@@ -2,17 +2,17 @@ package com.casinelli.Appointments.Helper;
 
 import com.casinelli.Appointments.DAO.DBQuery;
 import com.casinelli.Appointments.DAO.Value;
+import com.casinelli.Appointments.Main;
 import com.casinelli.Appointments.Model.*;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +21,11 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * Helper class to contain and manage locally stored data and application variables
+ */
 public abstract class DataMgmt {
+    ///// Default Objects /////
     private static final User defaultUser = new User(9999999, "DEFAULT_BEFORE_LOGIN", "noPASS", LocalDateTime.now(),
             "DEFAULT_BEFORE_LOGIN",LocalDateTime.now(), "DEFAULT_BEFORE_LOGIN");
     private static User currentUser = defaultUser;
@@ -29,19 +33,27 @@ public abstract class DataMgmt {
             LocalDateTime.now(), defaultUser.getName(), LocalDateTime.now(), defaultUser.getName(),1);
     private static Customer currentCustomer = defaultCustomer;
 
-    /////Observable Lists From DB Tables/////
+    ///// Path to Translation Files /////
+    public static final String PACKAGE_PATH = "com/casinelli/Appointments/Appts";
+
+    /////Observable Lists From Database Tables/////
     private static final ObservableList<Contact> allContacts = FXCollections.observableArrayList();
     private static final ObservableList<Country> allCountries = FXCollections.observableArrayList();
     private static final ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
     private static final ObservableList<Appointment> allAppts = FXCollections.observableArrayList();
     private static final ObservableList<Division> allDivisions = FXCollections.observableArrayList();
     private static final ObservableList<User> allUsers = FXCollections.observableArrayList();
+
+    ///// Observable Lists Compiled for Specific Application Needs /////
     private static final ObservableList<Appointment> thisCustsAppts = FXCollections.observableArrayList();
     private static final ObservableList<Appointment> thisWeekAppts = FXCollections.observableArrayList();
     private static final ObservableList<Appointment> thisMonthAppts = FXCollections.observableArrayList();
-
     private static final ObservableList<Appointment> apptsInNext15Mins = FXCollections.observableArrayList();
+
     /////Class Specific Functions/////
+    /**
+     * Populates all Observable Lists for Application use from database
+     */
     public static void initializeApplicationData() {
         try{
             populateAllAppts(DBQuery.retrieveAll(Appointment.allAppts));
@@ -56,15 +68,23 @@ public abstract class DataMgmt {
             populateThisWeekAppts();
             populateApptsInNext15Mins();
             System.out.println("All Observable Lists Populated");
-        }catch(SQLException sqle){
-            System.out.println("Failure to Populate Lists");
+        }catch(SQLException e){
+            ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
+                    LogEvent.AppLocation.DATAMGMT, e);
+            Main.logger.log(event);
+            AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"HelperClassTitle","sqlErrorHeader",
+                    "sqlRetrieveErrorContent").showAndWait();
         }
-
     }
 
-
-
     ///// Integer Generator /////
+
+    /**
+     * Creates a list of integers up to and including ending number
+     * @param startingWith int to start with
+     * @param endingWith int to end with (inclusive)
+     * @return List<Integer> of Integers
+     */
     public static List<Integer> makeIntList(int startingWith, int endingWith){
         return IntStream.range(startingWith, endingWith + 1)
                 .boxed()
@@ -90,6 +110,7 @@ public abstract class DataMgmt {
     public static void setCustomerToDefault() {setCurrentCustomer(defaultCustomer);}
 
     /////List Insertion Functions/////
+    //These methods add the appropriate objects to the corresponding ObservableList
     private static void populateAllUsers(ResultSet rs) throws SQLException {
         allUsers.clear();
         while (rs.next()){
@@ -164,11 +185,44 @@ public abstract class DataMgmt {
 
     }
 
-
-    /////USERS FUNCTIONS/////
+    ///// ObservableList Getters /////
+    //Countries and Divisions Lists are intentional not provided as they require formatting to use
     public static ObservableList<User> getAllUsersList(){
         return allUsers;
     }
+    public static ObservableList<Appointment> getAllApptsList(){
+        return allAppts;
+    }
+    public static ObservableList<Appointment> getMonthApptsList() {
+        return thisMonthAppts;
+    }
+    public static ObservableList<Appointment> getWeekApptsList() {
+        return thisWeekAppts;
+    }
+    public static ObservableList<Appointment> getApptsInNext15Mins() {
+        return apptsInNext15Mins;
+    }
+    public static ObservableList<Contact> getAllContactsList(){
+        return allContacts;
+    }
+    public static ObservableList<Customer> getAllCustomersList(){
+        return allCustomers;
+    }
+    public static ObservableList<Appointment> getThisCustsAppts(){
+        populateThisCustsAppts(currentCustomer);
+        return thisCustsAppts;
+    }
+
+
+    ///// Class Specific Functions /////
+
+    /////USERS FUNCTIONS/////
+
+    /**
+     * Find a User object by ID
+     * @param id int user id
+     * @return User that matches ID
+     */
     public static User getUserById(int id){
         AtomicReference<User> aUser = new AtomicReference<>();
         allUsers.forEach(user -> {
@@ -178,6 +232,12 @@ public abstract class DataMgmt {
         });
         return aUser.get();
     }
+
+    /**
+     * Find a User object by Name
+     * @param username String user name
+     * @return User that matches the user name
+     */
     public static User getUserByName(String username){
         AtomicReference<User> aUser = new AtomicReference<>();
         allUsers.forEach(user -> {
@@ -187,10 +247,13 @@ public abstract class DataMgmt {
         });
         return aUser.get();
     }
+
     /////APPOINTMENT FUNCTIONS/////
-    public static ObservableList<Appointment> getAllApptsList(){
-        return allAppts;
-    }
+
+    /**
+     * Gets total number of Appointments scheduled for today in local system time zone
+     * @return int total number of Appointments found
+     */
     public static int getApptCountForToday(){
         AtomicInteger apptCount = new AtomicInteger();
         allAppts.forEach(appt -> {
@@ -200,40 +263,34 @@ public abstract class DataMgmt {
         });
         return apptCount.get();
     }
-    public static int getAllApptCount(){
-        return allAppts.size();
-    }
-    public static int getTotalNumAppts(){
-        return allAppts.size();
-    }
-    public static ObservableList<Appointment> getApptsByCustomerId(int custID){
-        ObservableList<Appointment> thisCustsAppts = FXCollections.observableArrayList();
-        getAllApptsList().forEach(appt -> {
-            if(appt.getId() == custID){
-                thisCustsAppts.add(appt);
-            }
-        });
-        return thisCustsAppts;
-    }
-    public static ObservableList<Appointment> getMonthApptsList() {
-        return thisMonthAppts;
-    }
 
-    public static ObservableList<Appointment> getWeekApptsList() {
-        return thisWeekAppts;
-    }
-    public static ObservableList<Appointment> getApptsInNext15Mins() {
-        return apptsInNext15Mins;
+    /**
+     * Calculates total number of Appointments in system
+     * @return Total number of appointments
+     */
+    public static int getTotalNumAppts(){
+        initializeApplicationData();
+        return allAppts.size();
     }
 
     /////COUNTRY FUNCTIONS/////
 
+    /**
+     * Compiles a list of country names and stores in an ObservableList
+     * @return ObservableList<String> of all country names
+     */
     public static ObservableList<String> getAllCountryNames(){
         ObservableList<String> countryNames = FXCollections.observableArrayList();
         allCountries.forEach(country->
                 countryNames.add(country.getName()));
         return countryNames;
     }
+
+    /**
+     * Find Country Name from the Country Id
+     * @param cntryName String country name
+     * @return int country ID
+     */
     public static int getCountryIdFromCntryName(String cntryName){
         AtomicReference<Integer> cntryId = new AtomicReference<Integer>(0);
         allCountries.forEach(cntry ->{
@@ -245,9 +302,12 @@ public abstract class DataMgmt {
     }
 
     /////CONTACT FUNCTIONS/////
-    public static ObservableList<Contact> getAllContactsList(){
-        return allContacts;
-    }
+
+    /**
+     * Calculates number of Appointments assigned to Contact
+     * @param contactId int contact Id
+     * @return int number of assigned Appointments
+     */
     public static int getApptCountByContactId(int contactId){
         AtomicInteger apptCount = new AtomicInteger();
         allAppts.forEach(appt ->  {
@@ -257,6 +317,12 @@ public abstract class DataMgmt {
         });
         return apptCount.get();
     }
+
+    /**
+     * Find contact by contact Id
+     * @param id int contact Id
+     * @return Contact that matches Id
+     */
     public static Contact getContactById(int id){
         AtomicReference<Contact> thisContact = new AtomicReference<Contact>();
         allContacts.forEach(contact ->{
@@ -268,9 +334,12 @@ public abstract class DataMgmt {
     }
 
     /////CUSTOMER FUNCTIONS/////
-    public static ObservableList<Customer> getAllCustomersList(){
-        return allCustomers;
-    }
+
+    /**
+     * Find customer by customer ID
+     * @param id int Customer ID
+     * @return Customer that matches ID
+     */
     public static Customer getCustomerById(int id){
         AtomicReference<Customer> thisCust = new AtomicReference<Customer>();
         allCustomers.forEach(cust ->{
@@ -280,10 +349,12 @@ public abstract class DataMgmt {
         });
         return thisCust.get();
     }
-    public static ObservableList<Appointment> getThisCustsAppts(){
-        populateThisCustsAppts(currentCustomer);
-        return thisCustsAppts;
-    }
+
+    /**
+     * Calculate Number of Appointments scheduled for a Customer
+     * @param customer Customer to use
+     * @return int Number of Appointments scheduled for Customer
+     */
     public static int getNumberOfApptsByCustomer(Customer customer) {
         AtomicInteger numAppts = new AtomicInteger();
         allAppts.forEach(appt -> {
@@ -294,7 +365,12 @@ public abstract class DataMgmt {
         return numAppts.get();
     }
 
-
+    /**
+     * Builds a List of Division names based on the Country ID specified
+     * @param countryId int country ID
+     * @return ObservableList<String> Division names for the country specified
+     * @throws SQLException occurs when SQL retrieve command fails
+     */
     /////DIVISION FUNCTIONS/////
     public static ObservableList<String> getListOfDivNamesByCountryId(int countryId) throws SQLException {
         ObservableList<String> divNames = FXCollections.observableArrayList();
@@ -307,6 +383,11 @@ public abstract class DataMgmt {
         return divNames;
     }
 
+    /**
+     * Provides Country Name for a Division ID
+     * @param divId int Division ID
+     * @return String country name
+     */
     public static String getCountryNameFromDivId(int divId) {
         AtomicReference<String> countryName = new AtomicReference<>("");
         AtomicInteger countryId = new AtomicInteger();
@@ -322,6 +403,12 @@ public abstract class DataMgmt {
         });
         return countryName.get();
     }
+
+    /**
+     * Get Division Name from Division ID
+     * @param divisionId int division ID
+     * @return String division name
+     */
     public static String getDivisionNameFromDivId(int divisionId){
         AtomicReference<String> divName = new AtomicReference<>("");
         allDivisions.forEach(div ->{
@@ -331,7 +418,4 @@ public abstract class DataMgmt {
         });
         return divName.get();
     }
-
-
-
 }

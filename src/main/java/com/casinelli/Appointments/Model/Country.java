@@ -43,10 +43,11 @@ public class Country extends DBObject{
         if(rs != null) {
             this.id = rs.getInt(COUNTRY_COL_NAMES[0]);
             this.name = rs.getString(COUNTRY_COL_NAMES[1]);
-            this.createDate = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getDate(COUNTRY_COL_NAMES[2]).toLocalDate()
-                    .atTime(rs.getTime(COUNTRY_COL_NAMES[2]).toLocalTime()));
+            this.createDate = DateTimeMgmt.convertToLDTInZone(rs.getDate(COUNTRY_COL_NAMES[2]).toLocalDate()
+                    .atTime(rs.getTime(COUNTRY_COL_NAMES[2]).toLocalTime()),DateTimeMgmt.ZONE_UTC,DateTimeMgmt.ZONE_SYS);
             this.createdBy = rs.getString(COUNTRY_COL_NAMES[3]);
-            this.lastUpdate =DateTimeMgmt.convertUTCtoLocalTimeZone( rs.getTimestamp(COUNTRY_COL_NAMES[4]).toLocalDateTime());
+            this.lastUpdate =DateTimeMgmt.convertToLDTInZone(rs.getTimestamp(COUNTRY_COL_NAMES[4])
+                    .toLocalDateTime(),DateTimeMgmt.ZONE_UTC,DateTimeMgmt.ZONE_SYS);
             this.lastUpdatedBy = rs.getString(COUNTRY_COL_NAMES[5]);
         }
     }

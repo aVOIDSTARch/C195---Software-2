@@ -65,11 +65,15 @@ public class Appointment extends DBObject{
         ps.setString(2,anAppt.getDescription());
         ps.setString(3, anAppt.getLocation());
         ps.setString(4, anAppt.getType());
-        ps.setTimestamp(5, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(anAppt.getStart())));
-        ps.setTimestamp(6, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(anAppt.getEnd())));
-        ps.setTimestamp(7, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(anAppt.getCreateDate())));
+        ps.setTimestamp(5, Timestamp.valueOf(DateTimeMgmt.convertToLDTInZone(anAppt
+                .getStart(), DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC)));
+        ps.setTimestamp(6, Timestamp.valueOf(DateTimeMgmt.convertToLDTInZone(anAppt
+                .getEnd(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC)));
+        ps.setTimestamp(7, Timestamp.valueOf(DateTimeMgmt.convertToLDTInZone(anAppt
+                .getCreateDate(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC)));
         ps.setString(8, anAppt.getCreatedBy());
-        ps.setTimestamp(9, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(anAppt.getLastUpdate())));
+        ps.setTimestamp(9, Timestamp.valueOf(DateTimeMgmt.convertToLDTInZone(anAppt
+                .getLastUpdate(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC)));
         ps.setString(10, anAppt.getLastUpdatedBy());
         ps.setInt(11,anAppt.getCustomerId());
         ps.setInt(12, anAppt.getUserId());
@@ -88,11 +92,15 @@ public class Appointment extends DBObject{
         ps.setString(2,anAppt.getDescription());
         ps.setString(3, anAppt.getLocation());
         ps.setString(4, anAppt.getType());
-        ps.setTimestamp(5, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(anAppt.getStart())));
-        ps.setTimestamp(6, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(anAppt.getEnd())));
-        ps.setTimestamp(7, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(anAppt.getCreateDate())));
+        ps.setTimestamp(5, Timestamp.valueOf(DateTimeMgmt.convertToLDTInZone(anAppt
+                .getStart(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC)));
+        ps.setTimestamp(6, Timestamp.valueOf(DateTimeMgmt.convertToLDTInZone(anAppt
+                .getEnd(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC)));
+        ps.setTimestamp(7, Timestamp.valueOf(DateTimeMgmt.convertToLDTInZone(anAppt
+                .getCreateDate(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC)));
         ps.setString(8, anAppt.getCreatedBy());
-        ps.setTimestamp(9, Timestamp.valueOf(DateTimeMgmt.convertLocalTZtoUTC(anAppt.getLastUpdate())));
+        ps.setTimestamp(9, Timestamp.valueOf(DateTimeMgmt.convertToLDTInZone(anAppt
+                .getLastUpdate(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC)));
         ps.setString(10, anAppt.getLastUpdatedBy());
         ps.setInt(11,anAppt.getCustomerId());
         ps.setInt(12, anAppt.getUserId());
@@ -134,14 +142,15 @@ public class Appointment extends DBObject{
             this.description = rs.getString(APPT_COL_NAMES[2]);
             this.location = rs.getString(APPT_COL_NAMES[3]);
             this.type = rs.getString(APPT_COL_NAMES[4]);
-            this.start = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getDate(APPT_COL_NAMES[5]).toLocalDate()
-                    .atTime(rs.getTime(APPT_COL_NAMES[5]).toLocalTime()));
-            this.end = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getDate(APPT_COL_NAMES[6]).toLocalDate()
-                    .atTime(rs.getTime(APPT_COL_NAMES[6]).toLocalTime()));
-            this.createDate = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getDate(APPT_COL_NAMES[7]).toLocalDate()
-                    .atTime(rs.getTime(APPT_COL_NAMES[7]).toLocalTime()));
+            this.start = DateTimeMgmt.convertToLDTInZone(rs.getDate(APPT_COL_NAMES[5]).toLocalDate()
+                    .atTime(rs.getTime(APPT_COL_NAMES[5]).toLocalTime()),DateTimeMgmt.ZONE_UTC,DateTimeMgmt.ZONE_SYS);
+            this.end = DateTimeMgmt.convertToLDTInZone(rs.getDate(APPT_COL_NAMES[6]).toLocalDate()
+                    .atTime(rs.getTime(APPT_COL_NAMES[6]).toLocalTime()),DateTimeMgmt.ZONE_UTC,DateTimeMgmt.ZONE_SYS);
+            this.createDate = DateTimeMgmt.convertToLDTInZone(rs.getDate(APPT_COL_NAMES[7]).toLocalDate()
+                    .atTime(rs.getTime(APPT_COL_NAMES[7]).toLocalTime()),DateTimeMgmt.ZONE_UTC,DateTimeMgmt.ZONE_SYS);
             this.createdBy = rs.getString(APPT_COL_NAMES[8]);
-            this.lastUpdate = DateTimeMgmt.convertUTCtoLocalTimeZone(rs.getTimestamp(APPT_COL_NAMES[9]).toLocalDateTime());
+            this.lastUpdate = DateTimeMgmt.convertToLDTInZone(rs.getTimestamp(APPT_COL_NAMES[9])
+                    .toLocalDateTime(),DateTimeMgmt.ZONE_UTC,DateTimeMgmt.ZONE_SYS);
             this.lastUpdatedBy = rs.getString(APPT_COL_NAMES[10]);
             this.customerId = rs.getInt(APPT_COL_NAMES[11]);
             this.userId = rs.getInt(APPT_COL_NAMES[12]);
