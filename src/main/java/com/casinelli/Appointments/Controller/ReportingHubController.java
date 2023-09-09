@@ -83,8 +83,6 @@ public class ReportingHubController implements Initializable {
     private ComboBox<String> cboReportApptMonth;
     @javafx.fxml.FXML
     private ComboBox<String> cboRptLogSelector;
-    @javafx.fxml.FXML
-    private HBox tfWHSceneTitle;
 
 
     /**

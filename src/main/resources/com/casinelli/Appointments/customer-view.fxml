@@ -40,7 +40,7 @@
                 </font>
             </Label>
         </AnchorPane>
-        <HBox fx:id="tfWHSceneHBox" prefHeight="551.0" prefWidth="1023.0">
+        <HBox prefHeight="551.0" prefWidth="1023.0">
             <AnchorPane prefHeight="543.0" prefWidth="179.0">
                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="60.0" layoutX="17.0" layoutY="17.0" stroke="BLACK" strokeType="INSIDE" width="144.0" />
                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="535.0" layoutX="7.0" layoutY="4.0" stroke="BLACK" strokeType="INSIDE" width="164.0" />

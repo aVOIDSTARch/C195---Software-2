@@ -47,8 +47,6 @@ public class CustomerHubController implements Initializable {
     @javafx.fxml.FXML
     private Label lblCustZoneID;
     @javafx.fxml.FXML
-    private HBox tfWHSceneHBox;
-    @javafx.fxml.FXML
     private Label lblCustNavTitle;
     @javafx.fxml.FXML
     private Label lblAttnCustDeletion;
