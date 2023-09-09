@@ -238,6 +238,7 @@ public class ReportingHubController implements Initializable {
     ///// REPORT GENERATOR BUTTON LISTENERS /////
     @javafx.fxml.FXML
     public void displayRptApptsTypeMonth(ActionEvent actionEvent) {
+        actionEvent.consume();
         displayReport(ReportGenerator.generateApptsByTypeAndMonthReport(DataMgmt.getAllApptsList(),
                     cboReportApptMonth.getSelectionModel().getSelectedItem(),
                     cboReportApptType.getSelectionModel().getSelectedItem()));
@@ -249,6 +250,7 @@ public class ReportingHubController implements Initializable {
      */
     @javafx.fxml.FXML
     public void displayRptApptByContact(ActionEvent actionEvent) {
+        actionEvent.consume();
         displayReport(ReportGenerator.generateScheduleByContactReport(DataMgmt.getAllContactsList()));
     }
     /**
@@ -257,6 +259,7 @@ public class ReportingHubController implements Initializable {
      */
     @javafx.fxml.FXML
     public void displayRptSelectedLog(ActionEvent actionEvent) {
+        actionEvent.consume();
         String filename = getSelectedLogFileName(cboRptLogSelector.getSelectionModel().getSelectedIndex());
         if(!filename.isEmpty()){
             try {
