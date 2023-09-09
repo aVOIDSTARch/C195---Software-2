@@ -9,24 +9,25 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="461.0" prefWidth="445.0" spacing="20.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.casinelli.Appointments.Controller.LoginController">
-  <padding>
-    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-  </padding>
-   <children>
-      <AnchorPane prefHeight="435.0" prefWidth="443.0">
-         <children>
-            <Button fx:id="buttonLogin" accessibleText="Login Button" alignment="BOTTOM_CENTER" defaultButton="true" layoutX="180.0" layoutY="276.0" onAction="#onLoginClick" text="Login" />
-            <TextField fx:id="tfUsername" layoutX="129.0" layoutY="199.0" promptText="Enter Username" />
-            <PasswordField fx:id="tfPassword" layoutX="129.0" layoutY="238.0" promptText="Enter Password" />
-            <Label fx:id="lblZoneId" alignment="CENTER_RIGHT" layoutX="238.0" layoutY="390.0" prefHeight="17.0" prefWidth="149.0" text="ZoneID" />
-            <Label fx:id="lblAppTitle" alignment="CENTER" layoutX="61.0" layoutY="44.0" prefHeight="17.0" prefWidth="286.0" text="APPOINTMENTS" textFill="#d04141">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblPleaseLogin" alignment="CENTER" layoutX="129.0" layoutY="141.0" prefHeight="53.0" prefWidth="149.0" text="login please" textAlignment="CENTER" wrapText="true" />
-         </children>
-      </AnchorPane>
-   </children>
+<VBox alignment="CENTER" prefHeight="461.0" prefWidth="445.0" spacing="20.0" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml" fx:controller="com.casinelli.Appointments.Controller.LoginController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+    <AnchorPane prefHeight="435.0" prefWidth="443.0">
+        <Button fx:id="buttonLogin" accessibleText="Login Button" alignment="BOTTOM_CENTER" defaultButton="true"
+                layoutX="180.0" layoutY="276.0" onAction="#onLoginClick" text="Login"/>
+        <TextField fx:id="tfUsername" layoutX="129.0" layoutY="199.0" promptText="Enter Username"/>
+        <PasswordField fx:id="tfPassword" layoutX="129.0" layoutY="238.0" promptText="Enter Password"/>
+        <Label fx:id="lblZoneId" alignment="CENTER_RIGHT" layoutX="238.0" layoutY="390.0" prefHeight="17.0"
+               prefWidth="149.0" text="ZoneID"/>
+        <Label fx:id="lblAppTitle" alignment="CENTER" layoutX="61.0" layoutY="44.0" prefHeight="17.0"
+               prefWidth="286.0" text="APPOINTMENTS" textFill="#d04141">
+            <font>
+                <Font size="36.0"/>
+            </font>
+        </Label>
+        <Label fx:id="lblPleaseLogin" alignment="CENTER" layoutX="129.0" layoutY="141.0" prefHeight="53.0"
+               prefWidth="149.0" text="login please" textAlignment="CENTER" wrapText="true"/>
+    </AnchorPane>
 </VBox>

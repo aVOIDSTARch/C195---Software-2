@@ -8,66 +8,73 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="677.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.casinelli.Appointments.Controller.CustModController">
-   <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="455.0" layoutX="8.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" width="661.0" />
-      <Label fx:id="lblCustModCustID" layoutX="108.0" layoutY="93.0" text="Customer ID">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblCustModCustName" layoutX="86.0" layoutY="135.0" text="Customer Name">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblCustModCustAddress" layoutX="137.0" layoutY="177.0" text="Address">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblCustModCustPostCode" layoutX="113.0" layoutY="219.0" text="Postal Code">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblCustModCustPhone" layoutX="92.0" layoutY="261.0" text="Phone Number">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblCustModCustDiv" layoutX="75.0" layoutY="304.0" text="First Level Divison">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="lblCustModCustCountry" layoutX="137.0" layoutY="349.0" text="Country">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <TextField fx:id="tfCustModCustID" disable="true" editable="false" layoutX="200.0" layoutY="90.0" prefHeight="25.0" prefWidth="401.0" />
-      <TextField fx:id="tfCustModCustName" layoutX="200.0" layoutY="132.0" prefHeight="25.0" prefWidth="401.0" />
-      <TextField fx:id="tfCustModCustAddress" layoutX="200.0" layoutY="174.0" prefHeight="25.0" prefWidth="401.0" />
-      <TextField fx:id="tfCustModCustPostCode" layoutX="200.0" layoutY="216.0" prefHeight="25.0" prefWidth="401.0" />
-      <TextField fx:id="tfCustModCustPhone" layoutX="200.0" layoutY="258.0" prefHeight="25.0" prefWidth="401.0" />
-      <ComboBox fx:id="cboCustModCustDiv" layoutX="201.0" layoutY="301.0" prefHeight="25.0" prefWidth="401.0" />
-      <ComboBox fx:id="cboCustModCustCountry" layoutX="201.0" layoutY="346.0" onAction="#updateDivisionCbo" prefHeight="25.0" prefWidth="401.0" />
-      <Button fx:id="btnCustModUpdate" defaultButton="true" layoutX="364.0" layoutY="398.0" mnemonicParsing="false" onAction="#updateCustomer" prefHeight="39.0" prefWidth="237.0" text="Update">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Button>
-      <Label fx:id="lblCustModAppName" layoutX="326.0" layoutY="22.0" prefHeight="53.0" prefWidth="276.0" text="APPOINTMENTS" textFill="#9e2e2e">
-         <font>
-            <Font name="System Italic" size="36.0" />
-         </font>
-      </Label>
-      <Button fx:id="btnCustModCancel" layoutX="113.0" layoutY="398.0" mnemonicParsing="false" onAction="#cancelCustUpdate" prefHeight="39.0" prefWidth="237.0" text="Cancel">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Button>
-      <Label fx:id="lblCustModCompleteInputs" alignment="CENTER" layoutX="365.0" layoutY="442.0" prefHeight="17.0" prefWidth="237.0" text="Complete Inputs to Continue" textFill="RED" />
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0"
+            prefWidth="677.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.casinelli.Appointments.Controller.CustModController">
+   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="455.0" layoutX="8.0" layoutY="10.0" stroke="BLACK"
+              strokeType="INSIDE" width="661.0"/>
+   <Label fx:id="lblCustModCustID" layoutX="108.0" layoutY="93.0" text="Customer ID">
+      <font>
+         <Font size="14.0"/>
+      </font>
+   </Label>
+   <Label fx:id="lblCustModCustName" layoutX="86.0" layoutY="135.0" text="Customer Name">
+      <font>
+         <Font size="14.0"/>
+      </font>
+   </Label>
+   <Label fx:id="lblCustModCustAddress" layoutX="137.0" layoutY="177.0" text="Address">
+      <font>
+         <Font size="14.0"/>
+      </font>
+   </Label>
+   <Label fx:id="lblCustModCustPostCode" layoutX="113.0" layoutY="219.0" text="Postal Code">
+      <font>
+         <Font size="14.0"/>
+      </font>
+   </Label>
+   <Label fx:id="lblCustModCustPhone" layoutX="92.0" layoutY="261.0" text="Phone Number">
+      <font>
+         <Font size="14.0"/>
+      </font>
+   </Label>
+   <Label fx:id="lblCustModCustDiv" layoutX="75.0" layoutY="304.0" text="First Level Divison">
+      <font>
+         <Font size="14.0"/>
+      </font>
+   </Label>
+   <Label fx:id="lblCustModCustCountry" layoutX="137.0" layoutY="349.0" text="Country">
+      <font>
+         <Font size="14.0"/>
+      </font>
+   </Label>
+   <TextField fx:id="tfCustModCustID" disable="true" editable="false" layoutX="200.0" layoutY="90.0" prefHeight="25.0"
+              prefWidth="401.0"/>
+   <TextField fx:id="tfCustModCustName" layoutX="200.0" layoutY="132.0" prefHeight="25.0" prefWidth="401.0"/>
+   <TextField fx:id="tfCustModCustAddress" layoutX="200.0" layoutY="174.0" prefHeight="25.0" prefWidth="401.0"/>
+   <TextField fx:id="tfCustModCustPostCode" layoutX="200.0" layoutY="216.0" prefHeight="25.0" prefWidth="401.0"/>
+   <TextField fx:id="tfCustModCustPhone" layoutX="200.0" layoutY="258.0" prefHeight="25.0" prefWidth="401.0"/>
+   <ComboBox fx:id="cboCustModCustDiv" layoutX="201.0" layoutY="301.0" prefHeight="25.0" prefWidth="401.0"/>
+   <ComboBox fx:id="cboCustModCustCountry" layoutX="201.0" layoutY="346.0" onAction="#updateDivisionCbo"
+             prefHeight="25.0" prefWidth="401.0"/>
+   <Button fx:id="btnCustModUpdate" defaultButton="true" layoutX="364.0" layoutY="398.0" mnemonicParsing="false"
+           onAction="#updateCustomer" prefHeight="39.0" prefWidth="237.0" text="Update">
+      <font>
+         <Font name="System Bold" size="18.0"/>
+      </font>
+   </Button>
+   <Label fx:id="lblCustModAppName" layoutX="326.0" layoutY="22.0" prefHeight="53.0" prefWidth="276.0"
+          text="APPOINTMENTS" textFill="#9e2e2e">
+      <font>
+         <Font name="System Italic" size="36.0"/>
+      </font>
+   </Label>
+   <Button fx:id="btnCustModCancel" layoutX="113.0" layoutY="398.0" mnemonicParsing="false" onAction="#cancelCustUpdate"
+           prefHeight="39.0" prefWidth="237.0" text="Cancel">
+      <font>
+         <Font name="System Bold" size="18.0"/>
+      </font>
+   </Button>
+   <Label fx:id="lblCustModCompleteInputs" alignment="CENTER" layoutX="365.0" layoutY="442.0" prefHeight="17.0"
+          prefWidth="237.0" text="Complete Inputs to Continue" textFill="RED"/>
 </AnchorPane>
