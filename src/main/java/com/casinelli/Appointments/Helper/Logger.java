@@ -2,7 +2,9 @@ package com.casinelli.Appointments.Helper;
 
 import com.casinelli.Appointments.Main;
 import com.casinelli.Appointments.Model.ApplicationEvent;
+import com.casinelli.Appointments.Model.ExceptionEvent;
 import com.casinelli.Appointments.Model.LogEvent;
+import javafx.scene.control.Alert;
 
 import java.io.*;
 
@@ -79,11 +81,14 @@ public class Logger {
             PrintWriter loginPW = new PrintWriter(fw);
             loginPW.println(event.toString());
             loginPW.close();
-            System.out.println("File write successful");
             isSuccessful = true;
         }catch(IOException ioe){
             //dialog box
-            System.out.println("File access failure. Check file name.");
+            ExceptionEvent thisEvent = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
+                    LogEvent.AppLocation.LOGGER, ioe);
+            Main.logger.log(thisEvent);
+            AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"LoggerClassTitle", "failedLogEventHeader",
+                    "failedLogEventContent").showAndWait();
         }
         return isSuccessful;
     }

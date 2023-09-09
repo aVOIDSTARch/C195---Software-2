@@ -44,7 +44,7 @@ public class Main extends Application {
         //Initialize Data Setup
         DataMgmt.initializeApplicationData();
         //Test code to be removed
-        System.out.println(DataMgmt.getCurrentUser().getName());
+
         //Start JavaFX interface
         launch();
         //disconnect from db

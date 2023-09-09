@@ -167,6 +167,7 @@ public class CustAddController implements Initializable {
      */
     @javafx.fxml.FXML
     private void updateDivisionCbo(ActionEvent actionEvent) {
+        actionEvent.consume();
         try{
             populateDivisions(cboCustAddCustCountry.getSelectionModel().getSelectedItem());
         }catch(SQLException e){

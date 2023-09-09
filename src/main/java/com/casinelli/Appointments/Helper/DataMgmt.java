@@ -28,14 +28,14 @@ public abstract class DataMgmt {
     ///// Default Objects /////
     private static final User defaultUser = new User(9999999, "DEFAULT_BEFORE_LOGIN", "noPASS", LocalDateTime.now(),
             "DEFAULT_BEFORE_LOGIN",LocalDateTime.now(), "DEFAULT_BEFORE_LOGIN");
-    private static User currentUser;
+    private static User currentUser = defaultUser;
     private static final Customer defaultCustomer = new Customer(8888888,"DEFAULT", "ADDRESS", "POSTALCODE", "PHONE",
             LocalDateTime.now(), defaultUser.getName(), LocalDateTime.now(), defaultUser.getName(),1);
     private static Customer currentCustomer = defaultCustomer;
 
     ///// Month Names List Creation /////
     private static final String[] englishMonths = {"JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
-            "july", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"};
+            "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"};
     private static final String[] francaisMois = {"JANVIER", "FEVRIER", "MARS", "AVRIL", "MAI", "JUIN",
             "JULI", "AOUT", "SEPTEMBRE", "OCTOBRE", "NOVEMBRE", "DECEMBRE"};
     private static final ObservableList<String> englishMonthNames = FXCollections
@@ -72,7 +72,6 @@ public abstract class DataMgmt {
      */
     public static void initializeApplicationData() {
         try{
-            currentUser = defaultUser;
             populateAllAppts(DBQuery.retrieveAll(Appointment.allAppts));
             populateAllContacts(DBQuery.retrieveAll(Contact.allContacts));
             populateAllCountries(DBQuery.retrieveAll(Country.allCountries));

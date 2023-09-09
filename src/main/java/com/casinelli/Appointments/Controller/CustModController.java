@@ -76,6 +76,8 @@ public class CustModController implements Initializable {
     private Customer selectedCustomer;
     @javafx.fxml.FXML
     private Label lblCustModCompleteInputs;
+    @javafx.fxml.FXML
+    private Label lblDatabaseConstraints;
 
     /**
      * Initializes the user Interface and Populates Selected Customer Data

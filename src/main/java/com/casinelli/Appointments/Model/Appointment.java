@@ -70,7 +70,7 @@ public class Appointment extends DBObject{
         Appointment anAppt = (Appointment) thisAppt;
         //INSERT STRING
         String sql = "UPDATE APPOINTMENTS SET TITLE = ?, DESCRIPTION = ?, LOCATION = ?, TYPE = ?, START = ?, END = ?, CREATE_DATE = ?, CREATED_BY = ?, " +
-                "LAST_UPDATE = ?, LAST_UPDATED_BY = ?, CUSTOMER_ID = ?, USER_ID = ?, CONTACT_ID = ? WHERE APPOINTMENT_ID = ?";
+                "LAST_UPDATE = ?, LAST_UPDATED_BY = ?,  USER_ID = ?, CONTACT_ID = ? WHERE APPOINTMENT_ID = ?";
         //REMEMBER BIND VARS START INDEX AT 1
         PreparedStatement ps = JDBC.connection.prepareStatement(sql); // Throws SQLException
         ps.setString(1, anAppt.getName());
@@ -87,10 +87,9 @@ public class Appointment extends DBObject{
         ps.setTimestamp(9, Timestamp.valueOf(DateTimeMgmt.convertToLDTInZone(anAppt
                 .getLastUpdate(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC)));
         ps.setString(10, anAppt.getLastUpdatedBy());
-        ps.setInt(11,anAppt.getCustomerId());
-        ps.setInt(12, anAppt.getUserId());
-        ps.setInt(13,anAppt.getContactId());
-        ps.setInt(14, anAppt.getId());
+        ps.setInt(11, anAppt.getUserId());
+        ps.setInt(12,anAppt.getContactId());
+        ps.setInt(13, anAppt.getId());
         return ps.executeUpdate();
     };
     //Delete Appointment from database

@@ -67,6 +67,8 @@ public class ApptModController implements Initializable {
     private Label lblApptModHour1;
     @javafx.fxml.FXML
     private Label lblApptModMinutes1;
+    @javafx.fxml.FXML
+    private Label lblDatabaseConstraints;
     ///// Text Fields /////
     @javafx.fxml.FXML
     private TextField tfApptModApptID;
@@ -105,6 +107,7 @@ public class ApptModController implements Initializable {
     private DatePicker dateApptModEnd;
     @javafx.fxml.FXML
     private Label lblApptModCompleteInputs;
+
 
 
     ///// INITIALIZATION METHODS /////
@@ -152,6 +155,7 @@ public class ApptModController implements Initializable {
      */
     private void initializeSceneText() {
         //Initialize Labels
+        lblDatabaseConstraints.setText(I18nMgmt.translate("DBConstraints"));
         lblAppName.textProperty().setValue(I18nMgmt.translate("labelAppName"));
         lblApptModApptID.textProperty().setValue(I18nMgmt.translate("ApptIDText"));
         lblApptModTitle.textProperty().setValue(I18nMgmt.translate("ApptTitleText"));
