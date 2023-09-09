@@ -23,9 +23,6 @@ public abstract class DateTimeMgmt {
     public static final ZoneId ZONE_SYS = ZoneId.systemDefault();
     public static final ZoneId ZONE_UTC = ZoneId.of("UTC");
     public static final ZoneId ZONE_EST = ZoneId.of("America/New_York");
-
-
-
     ///// Date and Time Formatters /////
     public static final DateTimeFormatter dateAndTimeformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     public static final DateTimeFormatter dateOnlyFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

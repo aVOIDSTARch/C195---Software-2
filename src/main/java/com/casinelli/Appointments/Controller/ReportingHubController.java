@@ -5,6 +5,7 @@ import com.casinelli.Appointments.Main;
 import com.casinelli.Appointments.Model.ApplicationEvent;
 import com.casinelli.Appointments.Model.ExceptionEvent;
 import com.casinelli.Appointments.Model.LogEvent;
+
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -84,7 +85,7 @@ public class ReportingHubController implements Initializable {
     private ComboBox<String> cboReportApptMonth;
     @javafx.fxml.FXML
     private ComboBox<String> cboRptLogSelector;
-
+    ///// Binding to disable the report one button /////
     private static BooleanBinding report1BtnDisabler;
 
     /**
@@ -101,12 +102,18 @@ public class ReportingHubController implements Initializable {
         populateSelectLogCBO();
     }
 
+    /**
+     * Prevents the clicking of the Report1 Button until the user has selected the required inputs
+     * @param report1BtnDisabler BooleanBinding contains bindings for the two associated ComboBox states
+     */
     private void bindReport1Btn(BooleanBinding report1BtnDisabler) {
         report1BtnDisabler = cboReportApptMonth.valueProperty().isNull()
                 .or(cboReportApptType.valueProperty().isNull());
         btnDisplayReport1.disableProperty().bind(report1BtnDisabler);
     }
-
+    /**
+     * Populate the Log Selection ComboBox
+     */
     private void populateSelectLogCBO() {
         ObservableList<String> logList = FXCollections.observableArrayList();
         logList.add(I18nMgmt.translate("AppLogText"));
@@ -115,7 +122,6 @@ public class ReportingHubController implements Initializable {
         logList.add(I18nMgmt.translate("DBLogText"));
         cboRptLogSelector.setItems(logList);
     }
-
     /**
      * Populates translated text for user interface objects
      */
@@ -143,7 +149,6 @@ public class ReportingHubController implements Initializable {
     }
 
     ///// NAVIGATION METHODS /////
-
     /**
      * Navigates to Customer Scene
      * @param actionEvent button click event
@@ -223,6 +228,10 @@ public class ReportingHubController implements Initializable {
         thisStage.show();
     }
 
+    /**
+     * Writes a vector of texts strings to the Text Area to display the requested report to the user
+     * @param reportData Vector<String> containing report broke down by line of text to write
+     */
     ///// TEXT AREA FUNCTIONS /////
     private void displayReport(Vector<String> reportData){
         txtAreaRptOutput.clear();;
