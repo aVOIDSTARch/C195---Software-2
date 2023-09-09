@@ -34,3 +34,7 @@ EXCEPTION Username: test 2023-09-09 14:44 America/New_York in LOGIN_SCENE
 Error resolving onAction='#navToWelcomeScene', either the event handler is not in the Namespace or there is an error in the script.
 /C:/Users/ljcas/IdeaProjects/C195/target/classes/com/casinelli/Appointments/welcomehub-view.fxml:61
 
+EXCEPTION Username: test 2023-09-09 14:46 America/New_York in LOGIN_SCENE
+Error resolving onAction='#navToWelcomeScene', either the event handler is not in the Namespace or there is an error in the script.
+/C:/Users/ljcas/IdeaProjects/C195/target/classes/com/casinelli/Appointments/welcomehub-view.fxml:61
+

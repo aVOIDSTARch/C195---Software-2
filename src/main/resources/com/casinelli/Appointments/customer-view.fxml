@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="619.0" prefWidth="1331.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.casinelli.Appointments.Controller.CustomerHubController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="619.0" prefWidth="1331.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.casinelli.Appointments.Controller.CustomerHubController">
     <VBox prefHeight="614.0" prefWidth="1339.0">
         <AnchorPane prefHeight="79.0" prefWidth="1023.0">
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#fafafa00" height="60.0" layoutX="7.0" layoutY="7.0" stroke="BLACK" strokeType="INSIDE" width="1317.0" />
@@ -40,7 +40,7 @@
                 </font>
             </Label>
         </AnchorPane>
-        <HBox fx:id="tfWHSceneTitle" prefHeight="551.0" prefWidth="1023.0">
+        <HBox fx:id="tfWHSceneHBox" prefHeight="551.0" prefWidth="1023.0">
             <AnchorPane prefHeight="543.0" prefWidth="179.0">
                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="60.0" layoutX="17.0" layoutY="17.0" stroke="BLACK" strokeType="INSIDE" width="144.0" />
                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="535.0" layoutX="7.0" layoutY="4.0" stroke="BLACK" strokeType="INSIDE" width="164.0" />
@@ -49,7 +49,7 @@
                         <Font name="System Bold" size="18.0" />
                     </font>
                 </Label>
-                <Button fx:id="btnCustNavCustScene" disable="true" layoutX="18.0" layoutY="151.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#navToCustomerScene" prefHeight="39.0" prefWidth="144.0" text="Customers">
+                <Button fx:id="btnCustNavCustScene" disable="true" layoutX="18.0" layoutY="151.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="39.0" prefWidth="144.0" text="Customers">
                     <font>
                         <Font name="System Bold" size="18.0" />
                     </font>

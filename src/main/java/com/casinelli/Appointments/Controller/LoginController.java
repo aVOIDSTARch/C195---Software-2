@@ -72,7 +72,7 @@ public class LoginController implements Initializable {
      */
     @FXML
     public void onLoginClick(ActionEvent actionEvent) {
-        boolean successfulLogin = false;
+        boolean successfulLogin;
         Value<String> username = new Value<>(tfUsername.textProperty().getValue());
         String userPass = tfPassword.textProperty().getValue();
         successfulLogin = verifyPassword(username, userPass);

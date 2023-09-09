@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 
@@ -82,6 +83,8 @@ public class ReportingHubController implements Initializable {
     private ComboBox<String> cboReportApptMonth;
     @javafx.fxml.FXML
     private ComboBox<String> cboRptLogSelector;
+    @javafx.fxml.FXML
+    private HBox tfWHSceneTitle;
 
 
     /**

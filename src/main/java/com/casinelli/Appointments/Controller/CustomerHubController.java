@@ -47,7 +47,7 @@ public class CustomerHubController implements Initializable {
     @javafx.fxml.FXML
     private Label lblCustZoneID;
     @javafx.fxml.FXML
-    private HBox tfWHSceneTitle;
+    private HBox tfWHSceneHBox;
     @javafx.fxml.FXML
     private Label lblCustNavTitle;
     @javafx.fxml.FXML
@@ -156,14 +156,7 @@ public class CustomerHubController implements Initializable {
         tvColCust_CustCountry.setCellValueFactory(new PropertyValueFactory<>("countryName"));
     }
     ///// Navigation Button Click Handlers /////
-    /**
-     * Navigates to the Customer Scene but the scene is already displayed
-     * @param actionEvent Created during the button click
-     */
-    @javafx.fxml.FXML
-    public void navToCustomerScene(ActionEvent actionEvent) {
-        //Already displaying
-    }
+
     /**
      * Navigates to the Welcome Hub Scene
      * @param actionEvent button click event
@@ -344,8 +337,7 @@ public class CustomerHubController implements Initializable {
     }
     /**
      * Sets the selected Customer Object and navigates to Scheduling Scene
-     * @param actionEvent Created upon button click
-     * @exception IOException Error occurs when the FXML document is not reachable - nested NullPointerException
+     * @param actionEvent button click event
      */
     @javafx.fxml.FXML
     public void displayCustAppts(ActionEvent actionEvent) {
