@@ -166,8 +166,7 @@ public class CustomerHubController implements Initializable {
     }
     /**
      * Navigates to the Welcome Hub Scene
-     * @param actionEvent Created during the button click
-     * @exception IOException Error occurs when the FXML document is not reachable - nested NullPointerException
+     * @param actionEvent button click event
      */
     @javafx.fxml.FXML
     public void navToWelcomeScene(ActionEvent actionEvent) {
@@ -184,8 +183,7 @@ public class CustomerHubController implements Initializable {
     }
     /**
      * Navigates to the Reports Scene
-     * @param actionEvent Created during the button click
-     * @exception IOException Error occurs when the FXML document is not reachable - nested NullPointerException
+     * @param actionEvent button click event
      */
     @javafx.fxml.FXML
     public void navToReportsScene(ActionEvent actionEvent) {
@@ -202,8 +200,7 @@ public class CustomerHubController implements Initializable {
     }
     /**
      * Navigates to the Scheduling Scene
-     * @param actionEvent Created during the button click
-     * @exception IOException Error occurs when the FXML document is not reachable - nested NullPointerException
+     * @param actionEvent button click event
      */
     @javafx.fxml.FXML
     public void navToScheduleScene(ActionEvent actionEvent) {
@@ -220,8 +217,7 @@ public class CustomerHubController implements Initializable {
     }
     /**
      * Logs teh current user out and returns the user to teh login scene
-     * @param actionEvent Created during the button click
-     * @exception IOException Error occurs when the FXML document is not reachable - nested NullPointerException
+     * @param actionEvent button click event
      */
     @javafx.fxml.FXML
     public void appLogout(ActionEvent actionEvent) {
@@ -237,11 +233,12 @@ public class CustomerHubController implements Initializable {
         thisStage.setScene(new Scene(scene));
         thisStage.show();
     }
+
+    ///// Customer Scene Getters-Setters /////
     /**
      * Getter for the Customer object selected in the tableview
      * @return Customer - Current Selected Customer
      */
-    ///// Customer Scene Getters-Setters /////
     public static Customer getSelectedCustomer(){
         return selectedCustomer;
     }
@@ -265,8 +262,7 @@ public class CustomerHubController implements Initializable {
     ///// Customer Object Manipulation Button Event Handlers /////
     /**
      * Launches the Customer Add Scene
-     * @param actionEvent Created upon button click
-     * @exception IOException Error occurs when the FXML document is not reachable - nested NullPointerException
+     * @param actionEvent button click event
      */
     @javafx.fxml.FXML
     public void createNewCustomer(ActionEvent actionEvent) {
@@ -283,8 +279,7 @@ public class CustomerHubController implements Initializable {
     }
     /**
      * Sets selected Customer and Launches the Customer Modify Scene
-     * @param actionEvent Created upon button click
-     * @exception IOException Error occurs when the FXML document is not reachable - nested NullPointerException
+     * @param actionEvent button click event
      */
     @javafx.fxml.FXML
     public void updateSelectedCustomer(ActionEvent actionEvent) {
@@ -304,7 +299,6 @@ public class CustomerHubController implements Initializable {
     /**
      * Sets and Deletes selected Customer from Database
      * @param actionEvent Created upon button click
-     * @exception SQLException Error occurs when SQL command fails
      */
     @javafx.fxml.FXML
     public void deleteSelectedCustomer(ActionEvent actionEvent) {

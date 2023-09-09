@@ -14,7 +14,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 
@@ -35,9 +34,7 @@ public class ReportingHubController implements Initializable {
 
     ///// JAVAFX CONTROLS /////
 
-    ///// UI Structure Controls /////
-    @javafx.fxml.FXML
-    private HBox tfWHSceneTitle;
+
     ///// Text Labels for User Interface /////
     @javafx.fxml.FXML
     private Label lblRptSceneAppName;
@@ -85,8 +82,7 @@ public class ReportingHubController implements Initializable {
     private ComboBox<String> cboReportApptMonth;
     @javafx.fxml.FXML
     private ComboBox<String> cboRptLogSelector;
-    ///// Binding to disable the report one button /////
-    private static BooleanBinding report1BtnDisabler;
+
 
     /**
      * Initializes all User Interface components
@@ -98,16 +94,15 @@ public class ReportingHubController implements Initializable {
         populateTranslatedTextLabels();
         cboReportApptType.setItems(DataMgmt.getAllApptTypes().sorted());
         cboReportApptMonth.setItems(DataMgmt.getMonthNames(DateTimeMgmt.LOCALE_SYS));
-        bindReport1Btn(report1BtnDisabler);
+        bindReport1Btn();
         populateSelectLogCBO();
     }
 
     /**
      * Prevents the clicking of the Report1 Button until the user has selected the required inputs
-     * @param report1BtnDisabler BooleanBinding contains bindings for the two associated ComboBox states
      */
-    private void bindReport1Btn(BooleanBinding report1BtnDisabler) {
-        report1BtnDisabler = cboReportApptMonth.valueProperty().isNull()
+    private void bindReport1Btn() {
+        BooleanBinding report1BtnDisabler = cboReportApptMonth.valueProperty().isNull()
                 .or(cboReportApptType.valueProperty().isNull());
         btnDisplayReport1.disableProperty().bind(report1BtnDisabler);
     }
@@ -185,13 +180,6 @@ public class ReportingHubController implements Initializable {
     }
 
     /**
-     * This method is non-functional as the reporting Scene is already displayed and this button is disabled
-     * @param actionEvent button click event
-     */
-    @javafx.fxml.FXML
-    public void navToReportsScene(ActionEvent actionEvent) {
-    }
-    /**
      * Navigates to Scheduling Scene
      * @param actionEvent button click event
      */
@@ -234,7 +222,7 @@ public class ReportingHubController implements Initializable {
      */
     ///// TEXT AREA FUNCTIONS /////
     private void displayReport(Vector<String> reportData){
-        txtAreaRptOutput.clear();;
+        txtAreaRptOutput.clear();
         reportData.forEach(line -> {
             txtAreaRptOutput.appendText(line);
             txtAreaRptOutput.appendText("\n");

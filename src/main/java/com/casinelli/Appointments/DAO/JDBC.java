@@ -35,7 +35,6 @@ public abstract class JDBC {
             System.out.println("Error:" + e.getMessage());
         }
     }
-
     /**
      * Close Database connection
      */

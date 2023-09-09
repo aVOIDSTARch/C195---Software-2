@@ -378,8 +378,7 @@ public class SchedulingHubController implements Initializable {
     ///// Navigation Methods /////
     /**
      * Navigates to Customer Scene
-     * @param actionEvent created upon button click
-     * @exception IOException occurs when the FXML document is not reachable - nested NullPointerException
+     * @param actionEvent button click event
      */
 
     @javafx.fxml.FXML
@@ -398,8 +397,7 @@ public class SchedulingHubController implements Initializable {
 
     /**
      * Navigates to Welcome Hub Scene
-     * @param actionEvent created upon button click
-     * @exception IOException occurs when the FXML document is not reachable - nested NullPointerException
+     * @param actionEvent button click event
      */
     @javafx.fxml.FXML
     public void navToWelcomeScene(ActionEvent actionEvent) {
@@ -417,8 +415,7 @@ public class SchedulingHubController implements Initializable {
 
     /**
      * Navigates to Reports Scene
-     * @param actionEvent created upon button click
-     * @exception IOException occurs when the FXML document is not reachable - nested NullPointerException
+     * @param actionEvent button click event
      */
     @javafx.fxml.FXML
     public void navToReportsScene(ActionEvent actionEvent) {
@@ -434,19 +431,8 @@ public class SchedulingHubController implements Initializable {
     }
 
     /**
-     * Method has no function at this time
-     * @param actionEvent created upon button click
-     * @exception IOException occurs when the FXML document is not reachable - nested NullPointerException
-     */
-    @javafx.fxml.FXML
-    public void navToScheduleScene(ActionEvent actionEvent) {
-        //Scene already visible
-    }
-
-    /**
      * Logs out current user and return to the Login Scene
-     * @param actionEvent created upon button click
-     * @exception IOException occurs when the FXML document is not reachable - nested NullPointerException
+     * @param actionEvent button click event
      */
     @javafx.fxml.FXML
     public void appLogout(ActionEvent actionEvent) {
@@ -465,14 +451,14 @@ public class SchedulingHubController implements Initializable {
     ///// Button Event Methods /////
     /**
      * Navigates to Create Appointment Scene
-     * @param actionEvent created upon button click
-     * @exception IOException occurs when the FXML document is not reachable - nested NullPointerException
+     * @param actionEvent button click event
      */
     @javafx.fxml.FXML
     public void createNewAppt(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
-            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/appointment-add-view.fxml")));
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/appointment-add-view.fxml")));
         } catch (IOException e) {
             showAndLogNavErrorAlert(e);
         }
@@ -483,8 +469,7 @@ public class SchedulingHubController implements Initializable {
 
     /**
      * Launches Modify Appointment Scene and sets currently selected appointment
-     * @param actionEvent created upon button click
-     * @exception IOException occurs when the FXML document is not reachable - nested NullPointerException
+     * @param actionEvent button click event
      */
     @javafx.fxml.FXML
     public void updateSelectedAppt(ActionEvent actionEvent) {
@@ -506,8 +491,7 @@ public class SchedulingHubController implements Initializable {
 
     /**
      * Sets currently selected Appointment and deletes Appointment from Database
-     * @param actionEvent created upon button click
-     * @exception SQLException Error occurs when SQL command fails
+     * @param actionEvent button click event
      */
     @javafx.fxml.FXML
     public void deleteSelectedAppt(ActionEvent actionEvent) {

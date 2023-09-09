@@ -34,9 +34,8 @@ public class ApptModController implements Initializable {
     //Instance Variables
     Stage thisStage;
     Parent scene;
-    BooleanBinding updateButtonDisabler;
     private Appointment apptToMod;
-    private BooleanBinding modBtnDisabler;
+
     //FXML Controls
     @javafx.fxml.FXML
     private Label lblApptModApptID;
@@ -117,7 +116,7 @@ public class ApptModController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         apptToMod = SchedulingHubController.getSelectedAppt();
-        setUpdateButtonBindings(updateButtonDisabler);
+        setUpdateButtonBindings();
         initializeSceneText();
         populateCurrentAppointmentData();
         populateHoursAndMinsLists();
@@ -129,10 +128,9 @@ public class ApptModController implements Initializable {
     /**
      * Creates and binds a boolean binding that prevents the user from clicking the Update button without inputting
      * all information thus avoiding all errors for input and shows a label with instructions
-     * @param binding BooleanBinding for Update button disable property
      */
-    private void setUpdateButtonBindings(BooleanBinding binding) {
-        binding = tfApptModTitle.textProperty().isEmpty()
+    private void setUpdateButtonBindings() {
+        BooleanBinding binding = tfApptModTitle.textProperty().isEmpty()
                 .or(tfApptModDesc.textProperty().isEmpty())
                 .or(tfApptModLocation.textProperty().isEmpty())
                 .or(tfApptModType.textProperty().isEmpty())
@@ -209,6 +207,7 @@ public class ApptModController implements Initializable {
 
     /**
      * Populates the Customer ID ComboBox
+     * Lambda expression used to extract Customer property strings for a ComboBox implementation
      */
     private void populateCustomersList() {
         ObservableList<String> custList = FXCollections.observableArrayList();
@@ -220,6 +219,7 @@ public class ApptModController implements Initializable {
     }
     /**
      * Populates the Contact ID ComboBox
+     * Lambda expression used to extract Contact property strings for a ComboBox implementation
      */
     private void populateContactsList() {
         ObservableList<String> contactList = FXCollections.observableArrayList();
@@ -231,6 +231,7 @@ public class ApptModController implements Initializable {
     }
     /**
      * Populates the User ID ComboBox
+     * Lambda expression used to extract User property strings for a ComboBox implementation
      */
     private void populateUsersList() {
         ObservableList<String> userList = FXCollections.observableArrayList();

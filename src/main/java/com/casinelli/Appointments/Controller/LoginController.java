@@ -68,14 +68,15 @@ public class LoginController implements Initializable {
     /**
      * @param actionEvent Button clicked event
      * Verifies user login was successful and logs event to file
-     * Switches scene to Welcome HUb when Successful
+     * Switches scene to Welcome Hub when Successful
      */
     @FXML
     public void onLoginClick(ActionEvent actionEvent) {
         boolean successfulLogin = false;
-        Value<String> username = new Value<String>(tfUsername.textProperty().getValue());
+        Value<String> username = new Value<>(tfUsername.textProperty().getValue());
         String userPass = tfPassword.textProperty().getValue();
         successfulLogin = verifyPassword(username, userPass);
+        System.out.println(successfulLogin);
         LogEvent loginAttempt = new LoginEvent(username.getValue(), LogEvent.EventType.LOGIN_ATTEMPT,
                 successfulLogin );
         Main.logger.log(loginAttempt);
@@ -88,7 +89,7 @@ public class LoginController implements Initializable {
                         LogEvent.EventType.EXCEPTION, LogEvent.AppLocation.LOGIN_SCENE, e);
                 Main.logger.log(ioFailure);
                 AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR, "LoginSceneTitle", "failedLogEventHeader",
-                        "failedLogEventContent" + "\n" + e.getMessage()).showAndWait();
+                        "failedLogEventContent").showAndWait();
             }
         }else{
             AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR, "LoginSceneTitle", "wrongPasswordHeader",

@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public abstract class DateTimeMgmt {
     ///// Locale Variables /////
-    public static final Locale LOCALE_FR_CA = new Locale.Builder().setLanguage("fr").setScript("Latin").setRegion("CA").build();
+    public static final Locale LOCALE_FR_CA = new Locale.Builder().setLanguage("fr").setRegion("CA").build();
     public static final Locale LOCALE_SYS = Locale.getDefault();
     //public static final Locale LOCALE_SYS = LOCALE_FR_CA; //used to test language change without changing system
     public static final ZoneId ZONE_SYS = ZoneId.systemDefault();

@@ -50,6 +50,8 @@ public class CustAddController implements Initializable {
     private Label lblCustAddCustCountry;
     @javafx.fxml.FXML
     private Label lblWHAppName;
+    @javafx.fxml.FXML
+    private Label lblCustAddCompleteInputs;
     ///// Input Textfields /////
     @javafx.fxml.FXML
     private TextField tfCustAddCustID;
@@ -72,21 +74,17 @@ public class CustAddController implements Initializable {
     @javafx.fxml.FXML
     private Button btnCustAddCancel;
 
-    ///// Error Preventing Boolean Bindings /////
-    private BooleanBinding controllerBinding;
-    @javafx.fxml.FXML
-    private Label lblCustAddCompleteInputs;
+
 
 
     /**
      * Initializes User Interface for Customer Add Scene
      * @param url provided by launch method
      * @param resourceBundle provided by launch method
-     * @exception SQLException occurs when the SQL query fails to retrieve from the Database
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setBindings(controllerBinding);
+        setBindings();
 
         initializeSceneText();
         try {
@@ -100,16 +98,12 @@ public class CustAddController implements Initializable {
         }
     }
 
-
-
     /**
      * Creates and binds a boolean binding that prevents the user from clicking the Create button without inputting
      * all information thus avoiding all errors for input and shows a label with instructions
-     * @param binding BooleanBinding for Create button disable property
      */
-    private void setBindings(BooleanBinding binding) {
-        binding =
-            tfCustAddCustName.textProperty().isEmpty()
+    private void setBindings() {
+        BooleanBinding binding = tfCustAddCustName.textProperty().isEmpty()
                 .or(tfCustAddCustAddress.textProperty().isEmpty())
                 .or(tfCustAddCustPostCode.textProperty().isEmpty())
                 .or(tfCustAddCustPhone.textProperty().isEmpty())
@@ -169,7 +163,6 @@ public class CustAddController implements Initializable {
     /**
      * Updates the Divisions ComboBox whenever the Country ComboBox selection is changed
      * @param actionEvent selection changed event
-     * @throws SQLException occurs when the SQL query fails to retrieve from the Database
      */
     @javafx.fxml.FXML
     private void updateDivisionCbo(ActionEvent actionEvent) {
@@ -188,8 +181,6 @@ public class CustAddController implements Initializable {
     /**
      * Requests a new Customer object and attempts to store it in database and sends a request to update local data storage
      * @param actionEvent button click event
-     * @exception SQLException occurs when Create SQL command fails
-     * @exception IOException Occurs when FXML document cannot be found - nested NullPointerException
      */
     @javafx.fxml.FXML
     public void createNewCustomer_add_scene(ActionEvent actionEvent) {
@@ -222,7 +213,6 @@ public class CustAddController implements Initializable {
     /**
      * Cancels Create Customer process and returns to Customer Scene
      * @param actionEvent button click event
-     * @exception IOException Occurs when FXML document cannot be found - nested NullPointerException
      */
     @javafx.fxml.FXML
     public void cancelCustCreate(ActionEvent actionEvent) {

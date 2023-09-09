@@ -62,25 +62,25 @@ public class WelcomeHubController implements Initializable{
     @FXML
     private TableView<Appointment> tblVwWHUpcomingAppts;
     @FXML
-    private TableColumn colWHTVApptId;
+    private TableColumn<Appointment, Integer> colWHTVApptId;
     @FXML
-    private TableColumn colWHTVApptTitle;
+    private TableColumn<Appointment, String> colWHTVApptTitle;
     @FXML
-    private TableColumn colWHTVApptDesc;
+    private TableColumn<Appointment, String> colWHTVApptDesc;
     @FXML
-    private TableColumn colWHTVApptLocation;
+    private TableColumn<Appointment, String> colWHTVApptLocation;
     @FXML
-    private TableColumn colWHTVApptType;
+    private TableColumn<Appointment, String> colWHTVApptType;
     @FXML
-    private TableColumn colWHTVApptStart;
+    private TableColumn<Appointment, String> colWHTVApptStart;
     @FXML
-    private TableColumn colWHTVApptEnd;
+    private TableColumn<Appointment, String> colWHTVApptEnd;
     @FXML
-    private TableColumn colWHTVApptCustId;
+    private TableColumn<Appointment, String> colWHTVApptCustId;
     @FXML
-    private TableColumn colWHTVApptUserId;
+    private TableColumn<Appointment, String> colWHTVApptUserId;
     @FXML
-    private TableColumn colWHTVApptContactId;
+    private TableColumn<Appointment, String> colWHTVApptContactId;
     ///// Text Labels for Primary Window /////
     @FXML
     private Label lblWHTotalApptsText;
@@ -209,7 +209,8 @@ public class WelcomeHubController implements Initializable{
     }
 
     /**
-     * Alerts teh user of Appointments occuring in the next 15 minutes of Loggin in
+     * Alerts the user of Appointments occurring in the next 15 minutes of logging in
+     * Lambda expression in a forEach to append a string to the content of the alert
      * @param apptsList List of Appointments that occur in the next 15 minutes
      */
     private void displayUpcomingAppts(ObservableList<Appointment> apptsList) {
@@ -236,8 +237,7 @@ public class WelcomeHubController implements Initializable{
 
     /**
      * Navigates to Customer Scene
-     * @param actionEvent Created upon button click
-     * @throws IOException Error occurs when the FXML document is not reachable - nested NullPointerException
+     * @param actionEvent button click event
      */
     ///// NAVIGATION BUTTONS /////
     @javafx.fxml.FXML
@@ -255,18 +255,8 @@ public class WelcomeHubController implements Initializable{
     }
 
     /**
-     * Method does nothing at this time button disabled in user interface
-     * @param actionEvent crated upon button click
-     */
-    @javafx.fxml.FXML
-    public void navToWelcomeScene(ActionEvent actionEvent) {
-        //Scene already displayed
-    }
-
-    /**
      * Navigates to Reports Scene
      * @param actionEvent created upon button click
-     * @exception IOException Error occurs when the FXML document is not reachable - nested NullPointerException
      */
     @javafx.fxml.FXML
     public void navToReportsScene(ActionEvent actionEvent) {
@@ -284,8 +274,7 @@ public class WelcomeHubController implements Initializable{
 
     /**
      * Navigates to Scheduling Scene
-     * @param actionEvent created upon button click
-     * @exception IOException Error occurs when the FXML document is not reachable - nested NullPointerException
+     * @param actionEvent button click event
      */
     @javafx.fxml.FXML
     public void navToScheduleScene(ActionEvent actionEvent) {
@@ -303,8 +292,7 @@ public class WelcomeHubController implements Initializable{
 
     /**
      * Logs out current user and returns the user to the Login Scene
-     * @param actionEvent created upon button click
-     * @exception IOException occurs when the FXML document is not reachable - nested NullPointerException
+     * @param actionEvent button click event
      */
     @javafx.fxml.FXML
     public void appLogout(ActionEvent actionEvent) {

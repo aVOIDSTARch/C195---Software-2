@@ -72,9 +72,6 @@ public class CustModController implements Initializable {
     @javafx.fxml.FXML
     private Button btnCustModCancel;
 
-    ///// Error Preventing Boolean Bindings /////
-    private BooleanBinding updateButtonDisabler;
-
     ///// Selected Customer to Update /////
     private Customer selectedCustomer;
     @javafx.fxml.FXML
@@ -88,7 +85,7 @@ public class CustModController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         selectedCustomer = CustomerHubController.getSelectedCustomer();
-        setUpdateButtonBindings(updateButtonDisabler);
+        setUpdateButtonBindings();
         try {
             initializeSceneText();
             populateCountries();
@@ -106,16 +103,14 @@ public class CustModController implements Initializable {
     /**
      * Creates and binds a boolean binding that prevents the user from clicking the Create button without inputting
      * all information thus avoiding all errors for input and shows a label with instructions
-     * @param binding BooleanBinding for Update button disable property
      */
-    private void setUpdateButtonBindings(BooleanBinding binding) {
-        binding =
-                tfCustModCustName.textProperty().isEmpty()
-                        .or(tfCustModCustAddress.textProperty().isEmpty())
-                        .or(tfCustModCustPostCode.textProperty().isEmpty())
-                        .or(tfCustModCustPhone.textProperty().isEmpty())
-                        .or(cboCustModCustDiv.valueProperty().isNull())
-                        .or(cboCustModCustCountry.valueProperty().isNull());
+    private void setUpdateButtonBindings() {
+        BooleanBinding binding = tfCustModCustName.textProperty().isEmpty()
+                .or(tfCustModCustAddress.textProperty().isEmpty())
+                .or(tfCustModCustPostCode.textProperty().isEmpty())
+                .or(tfCustModCustPhone.textProperty().isEmpty())
+                .or(cboCustModCustDiv.valueProperty().isNull())
+                .or(cboCustModCustCountry.valueProperty().isNull());
         btnCustModUpdate.disableProperty().bind(binding);
         lblCustModCompleteInputs.visibleProperty().bind(binding);
     }
@@ -128,7 +123,7 @@ public class CustModController implements Initializable {
         //Text Labels
         lblCustModAppName.textProperty().setValue(I18nMgmt.translate("labelAppName"));
         lblCustModCustID.textProperty().setValue(I18nMgmt.translate("CustIdLabel"));
-        lblCustModAppName.textProperty().setValue(I18nMgmt.translate("CustNameLabel"));
+        lblCustModCustName.textProperty().setValue(I18nMgmt.translate("CustNameLabel"));
         lblCustModCustAddress.textProperty().setValue(I18nMgmt.translate("CustAddyLabel"));
         lblCustModCustPostCode.textProperty().setValue(I18nMgmt.translate("CustPostCodeLabel"));
         lblCustModCustPhone.textProperty().setValue(I18nMgmt.translate("CustPhoneLabel"));
@@ -166,7 +161,6 @@ public class CustModController implements Initializable {
     /**
      * Updates the Divisions ComboBox whenever the Country ComboBox selection is changed
      * @param actionEvent selection changed event
-     * @throws SQLException occurs when the SQL query fails to retrieve from the Database
      */
     @javafx.fxml.FXML
     private void updateDivisionCbo(ActionEvent actionEvent) {
@@ -198,8 +192,6 @@ public class CustModController implements Initializable {
     /**
      * Writes updated customer to database, requests local data refresh, navigates to Customer Scene
      * @param actionEvent button click event
-     * @exception SQLException occurs when SQL update command fails
-     * @exception IOException Occurs when FXML document cannot be found - nested NullPointerException
      */
     @javafx.fxml.FXML
     public void updateCustomer(ActionEvent actionEvent) {
@@ -232,7 +224,6 @@ public class CustModController implements Initializable {
     /**
      * Cancels Update Customer process and returns to Customer Scene
      * @param actionEvent utton click event
-     * @exception IOException Occurs when FXML document cannot be found - nested NullPointerException
      */
     @javafx.fxml.FXML
     public void cancelCustUpdate(ActionEvent actionEvent) {

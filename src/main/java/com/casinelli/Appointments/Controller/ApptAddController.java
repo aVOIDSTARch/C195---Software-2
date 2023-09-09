@@ -39,9 +39,6 @@ public class ApptAddController implements Initializable {
     Stage thisStage;
     Parent scene;
 
-    ///// Final Variables/////
-    private BooleanBinding addBtnDisabler;
-
     ///// FXML Controls /////
     @javafx.fxml.FXML
     private Label lblApptAddApptID;
@@ -126,7 +123,7 @@ public class ApptAddController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setCreateButtonBindings(addBtnDisabler);
+        setCreateButtonBindings();
         initializeSceneText();
         populateHoursAndMinsLists();
         populateContactsList();
@@ -138,11 +135,9 @@ public class ApptAddController implements Initializable {
     /**
      * Creates and binds a boolean binding that prevents the user from clicking the Create button without inputting
      * all information thus avoiding all errors for input and shows a label with instructions
-     * @param binding BooleanBinding for Create button disable property
      */
-    private void setCreateButtonBindings(BooleanBinding binding) {
-        binding =
-            tfApptAddTitle.textProperty().isEmpty()
+    private void setCreateButtonBindings() {
+        BooleanBinding binding = tfApptAddTitle.textProperty().isEmpty()
                 .or(tfApptAddDesc.textProperty().isEmpty())
                 .or(tfApptAddLocation.textProperty().isEmpty())
                 .or(tfApptAddType.textProperty().isEmpty())
@@ -173,6 +168,7 @@ public class ApptAddController implements Initializable {
 
     /**
      * Creates a list of Users and assigns it to the UserId ComboBox
+     * Lambda expression used to extract User property strings for a ComboBox implementation
      */
     private void populateUsersList() {
         ObservableList<String> userList = FXCollections.observableArrayList();
@@ -185,6 +181,7 @@ public class ApptAddController implements Initializable {
 
     /**
      * Creates a list of Customers and assigns it to the CustomerId ComboBox
+     * Lambda expression used to extract Customer property strings for a ComboBox implementation
      */
     private void populateCustomersList() {
         ObservableList<String> custList = FXCollections.observableArrayList();
@@ -197,6 +194,7 @@ public class ApptAddController implements Initializable {
 
     /**
      * Creates a list of Contacts and assigns it to the ContactId ComboBox
+     * Lambda expression used to extract Contact property strings for a ComboBox implementation
      */
     private void populateContactsList() {
         ObservableList<String> contactList = FXCollections.observableArrayList();
