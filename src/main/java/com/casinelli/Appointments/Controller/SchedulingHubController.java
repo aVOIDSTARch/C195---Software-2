@@ -18,7 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -40,8 +39,8 @@ public class SchedulingHubController implements Initializable {
     private static Appointment selectedAppt;
 
     ///// JAVAFX CONTROLS /////
-    @javafx.fxml.FXML
-    private HBox tfWHSceneTitle;
+
+    ///// Labels /////
     @javafx.fxml.FXML
     private Label lblApptSceneAppName;
     @javafx.fxml.FXML
@@ -495,6 +494,7 @@ public class SchedulingHubController implements Initializable {
      */
     @javafx.fxml.FXML
     public void deleteSelectedAppt(ActionEvent actionEvent) {
+        actionEvent.consume();
         //Set Selected Appt
         if(setSelectedAppt(getTableViewSelected(tabPaneApptBundle.getSelectionModel().getSelectedItem()))){
             //Confirm not null
@@ -537,6 +537,7 @@ public class SchedulingHubController implements Initializable {
      */
     @javafx.fxml.FXML
     public void changeTabText(Event event) {
+        event.consume();
         //Display Tab
         tabPaneApptBundle.getSelectionModel().select(tabThisCustsAppts1);
         //Set name to Tab
