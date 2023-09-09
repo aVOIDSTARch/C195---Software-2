@@ -77,6 +77,8 @@ public class CustModController implements Initializable {
 
     ///// Selected Customer to Update /////
     private Customer selectedCustomer;
+    @javafx.fxml.FXML
+    private Label lblCustModCompleteInputs;
 
     /**
      * Initializes the user Interface and Populates Selected Customer Data
@@ -103,7 +105,7 @@ public class CustModController implements Initializable {
 
     /**
      * Creates and binds a boolean binding that prevents the user from clicking the Create button without inputting
-     * all information thus avoiding all errors for input
+     * all information thus avoiding all errors for input and shows a label with instructions
      * @param binding BooleanBinding for Update button disable property
      */
     private void setUpdateButtonBindings(BooleanBinding binding) {
@@ -115,6 +117,7 @@ public class CustModController implements Initializable {
                         .or(cboCustModCustDiv.valueProperty().isNull())
                         .or(cboCustModCustCountry.valueProperty().isNull());
         btnCustModUpdate.disableProperty().bind(binding);
+        lblCustModCompleteInputs.visibleProperty().bind(binding);
     }
 
     /**

@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 public class Main extends Application {
     //Create Logger Instance

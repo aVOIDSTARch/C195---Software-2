@@ -22,7 +22,7 @@ public class ExceptionEvent extends LogEvent {
     }
     @Override
     public String toString(){
-        return super.toString() + "in " + scene + "\n" +
+        return super.toString() + " in " + scene + "\n" +
                 e.getMessage();
     }
 }

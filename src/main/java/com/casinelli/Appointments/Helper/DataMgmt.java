@@ -14,12 +14,12 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
 
 /**
  * Helper class to contain and manage locally stored data and application variables
@@ -32,6 +32,20 @@ public abstract class DataMgmt {
     private static final Customer defaultCustomer = new Customer(8888888,"DEFAULT", "ADDRESS", "POSTALCODE", "PHONE",
             LocalDateTime.now(), defaultUser.getName(), LocalDateTime.now(), defaultUser.getName(),1);
     private static Customer currentCustomer = defaultCustomer;
+
+    ///// Month Names List Creation /////
+    private static final String[] englishMonths = {"JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
+            "july", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"};
+    private static final String[] francaisMonths = {"JANVIER", "FEVRIER", "MARS", "AVRIL", "MAI", "JUIN",
+            "JULI", "AOUT", "SEPTEMBRE", "OCTOBRE", "NOVEMBRE", "DECEMBRE"};
+    private static final ObservableList<String> englishMonthNames = FXCollections
+            .observableArrayList(Arrays.stream(englishMonths).collect(Collectors.toList()));
+    private static final ObservableList<String> francaisMonthNames = FXCollections
+            .observableArrayList(Arrays.stream(francaisMonths).collect(Collectors.toList()));
+
+    ///// Comparator Objects /////
+    public static final AppointmentComparatorByStartDate sortApptsByStartDate = new AppointmentComparatorByStartDate();
+
 
     ///// Path to Translation Files /////
     public static final String PACKAGE_PATH = "com/casinelli/Appointments/Appts";
@@ -49,6 +63,8 @@ public abstract class DataMgmt {
     private static final ObservableList<Appointment> thisWeekAppts = FXCollections.observableArrayList();
     private static final ObservableList<Appointment> thisMonthAppts = FXCollections.observableArrayList();
     private static final ObservableList<Appointment> apptsInNext15Mins = FXCollections.observableArrayList();
+    private static final ObservableList<String> allApptTypes = FXCollections.observableArrayList();
+
 
     /////Class Specific Functions/////
     /**
@@ -67,6 +83,7 @@ public abstract class DataMgmt {
             populateThisMonthAppts();
             populateThisWeekAppts();
             populateApptsInNext15Mins();
+            populateAllApptTypes();
             System.out.println("All Observable Lists Populated");
         }catch(SQLException e){
             ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
@@ -107,7 +124,7 @@ public abstract class DataMgmt {
     public static void setCurrentCustomer(Customer thisCustomer) {
         DataMgmt.currentCustomer = thisCustomer;
     }
-    public static void setCustomerToDefault() {setCurrentCustomer(defaultCustomer);}
+    private static void setCustomerToDefault() {setCurrentCustomer(defaultCustomer);}
 
     /////List Insertion Functions/////
     //These methods add the appropriate objects to the corresponding ObservableList
@@ -162,7 +179,6 @@ public abstract class DataMgmt {
                 thisMonthAppts.add(appt);
             }
         });
-
     }
     private static void populateThisWeekAppts(){
         thisWeekAppts.clear();
@@ -172,7 +188,6 @@ public abstract class DataMgmt {
                 thisWeekAppts.add(appt);
             }
         });
-
     }
     private static void populateApptsInNext15Mins() {
         apptsInNext15Mins.clear();
@@ -182,8 +197,14 @@ public abstract class DataMgmt {
                     apptsInNext15Mins.add(appt);
                 }
             });
-
     }
+    private static void populateAllApptTypes(){
+        allApptTypes.clear();
+        Set<String> uniqueTypes = new HashSet<String>();
+        DataMgmt.allAppts.forEach(appt -> uniqueTypes.add(appt.getType().toUpperCase()));
+        allApptTypes.addAll(uniqueTypes);
+    }
+
 
     ///// ObservableList Getters /////
     //Countries and Divisions Lists are intentional not provided as they require formatting to use
@@ -193,15 +214,9 @@ public abstract class DataMgmt {
     public static ObservableList<Appointment> getAllApptsList(){
         return allAppts;
     }
-    public static ObservableList<Appointment> getMonthApptsList() {
-        return thisMonthAppts;
-    }
-    public static ObservableList<Appointment> getWeekApptsList() {
-        return thisWeekAppts;
-    }
-    public static ObservableList<Appointment> getApptsInNext15Mins() {
-        return apptsInNext15Mins;
-    }
+    public static ObservableList<Appointment> getMonthApptsList() {return thisMonthAppts;}
+    public static ObservableList<Appointment> getWeekApptsList() {return thisWeekAppts;}
+    public static ObservableList<Appointment> getApptsInNext15Mins() {return apptsInNext15Mins;}
     public static ObservableList<Contact> getAllContactsList(){
         return allContacts;
     }
@@ -212,6 +227,14 @@ public abstract class DataMgmt {
         populateThisCustsAppts(currentCustomer);
         return thisCustsAppts;
     }
+    public static ObservableList<String> getMonthNames(Locale locale){
+        if(locale == DateTimeMgmt.LOCALE_FR_CA){
+            return francaisMonthNames;
+        }else{
+            return englishMonthNames;
+        }
+    }
+    public static ObservableList<String> getAllApptTypes(){return allApptTypes;}
 
 
     ///// Class Specific Functions /////
@@ -316,6 +339,15 @@ public abstract class DataMgmt {
             }
         });
         return apptCount.get();
+    }
+    public static ObservableList<Appointment> getApptsByContact(Contact thisContact){
+        ObservableList<Appointment> thisContactsAppts = FXCollections.observableArrayList();
+        allAppts.forEach(appt -> {
+            if(appt.getContactId() == thisContact.getId()){
+                thisContactsAppts.add(appt);
+            }
+        });
+        return thisContactsAppts;
     }
 
     /**

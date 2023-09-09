@@ -12,3 +12,85 @@ APPLICATION Username: Daemon 2023-09-03 09:52 America/New_York in Location: STAR
 Logger Succesfully Initialized
 APPLICATION Username: Daemon 2023-09-03 12:19 America/New_York in Location: STARTUP
 Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 07:48 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 07:52 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 07:53 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 08:08 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 08:15 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 08:17 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 08:18 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 08:40 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 08:43 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 08:47 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 08:55 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 08:57 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 09:54 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 09:57 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 09:58 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 09:59 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 10:02 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 10:29 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: test 2023-09-04 10:29 America/New_York in Location: REPORTING
+Selection Not Made
+APPLICATION Username: Daemon 2023-09-04 11:51 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 12:49 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 12:54 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 12:56 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-04 12:58 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: test 2023-09-04 12:58 America/New_York in Location: REPORTING
+Month not selected
+APPLICATION Username: Daemon 2023-09-04 19:11 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: test 2023-09-04 19:11 America/New_York in Location: REPORTING
+Selections not made
+APPLICATION Username: test 2023-09-04 19:11 America/New_York in Location: REPORTING
+Selections not made
+APPLICATION Username: Daemon 2023-09-09 07:12 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: test 2023-09-09 07:13 America/New_York in Location: REPORTING
+Selections not made
+APPLICATION Username: Daemon 2023-09-09 07:14 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-09 07:28 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-09 07:32 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-09 07:34 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-09 07:38 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-09 07:40 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-09 07:41 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-09 07:42 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-09 07:49 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-09 08:41 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-09 08:46 America/New_York in Location: STARTUP
+Logger Successfully Initialized

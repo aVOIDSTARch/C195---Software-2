@@ -115,11 +115,13 @@ public class ApptAddController implements Initializable {
     private Button btnApptAddCreate;
     @javafx.fxml.FXML
     private Button btnApptAddCancel;
+    @javafx.fxml.FXML
+    private Label lblApptAddCompleteInputs;
 
     ///// INITIALIZATION METHODS /////
     /**
      * Initializes Appointment Add Scene User Interface
-     * @param url provided bby launch method
+     * @param url provided by launch method
      * @param resourceBundle provided bby launch method
      */
     @Override
@@ -135,7 +137,7 @@ public class ApptAddController implements Initializable {
     ///// Initialization Helper Methods
     /**
      * Creates and binds a boolean binding that prevents the user from clicking the Create button without inputting
-     * all information thus avoiding all errors for input
+     * all information thus avoiding all errors for input and shows a label with instructions
      * @param binding BooleanBinding for Create button disable property
      */
     private void setCreateButtonBindings(BooleanBinding binding) {
@@ -154,6 +156,7 @@ public class ApptAddController implements Initializable {
                 .or(cboApptAddCustID.valueProperty().isNull())
                 .or(cboApptAddUserID.valueProperty().isNull());
         btnApptAddCreate.disableProperty().bind(binding);
+        lblApptAddCompleteInputs.visibleProperty().bind(binding);
     }
 
     /**
@@ -230,11 +233,11 @@ public class ApptAddController implements Initializable {
 
     }
 
+    ///// BUTTON EVENT HANDLERS /////
     /**
      * Requests new Appointment object, writes to database, requests local data storage update, and navigates to Scheduling Scene
      * @param actionEvent button click event
      */
-    ///// BUTTON EVENT HANDLERS /////
     @javafx.fxml.FXML
     public void createNewAppointment(ActionEvent actionEvent) {
         //Build Times for Appt
@@ -247,54 +250,50 @@ public class ApptAddController implements Initializable {
         LocalDateTime thisTime = LocalDateTime.now();
 
         //Validate Start/End Dates and Times
-        if( !isBetweenBusinessHoursInEST(startTime.toLocalTime(), endTime.toLocalTime())||
-                !isInProperOrderOfTime(startTime, endTime)) {
-            System.out.println("checks failed for times");
-        }else{
-            //Build Appt from Inputs
-            Appointment newAppt = buildNewAppt(thisTime, startTime, endTime);
-
-            if(hasApptOverlaps(newAppt)){
-                System.out.println("appointment overlaps");
-            }else {
-                //Insert Appt into DB
-                try {
-                    System.out.println(DBQuery.create(Appointment.insertAppointment, newAppt));
-                } catch (SQLException e) {
-                    ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
-                            LogEvent.AppLocation.APPOINTMENT_CREATE, e);
-                    Main.logger.log(event);
-                    AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"ApptAddSceneTitle","sqlErrorHeader",
-                            "sqlRetrieveErrorContent").showAndWait();
+        if (isBetweenBusinessHoursInEST(startTime.toLocalTime(), endTime.toLocalTime()) &&
+                isInProperOrderOfTime(startTime, endTime) && isAfterNow(startTime)) {
+                    //Build Appt from Inputs
+                    Appointment newAppt = buildNewAppt(thisTime, startTime, endTime);
+                    if (!hasApptOverlaps(newAppt)) {
+                        //Insert Appt into DB
+                        try {
+                            System.out.println(DBQuery.create(Appointment.insertAppointment, newAppt));
+                        } catch (SQLException e) {
+                            ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
+                                    LogEvent.AppLocation.APPOINTMENT_CREATE, e);
+                            Main.logger.log(event);
+                            AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"ApptAddSceneTitle","sqlErrorHeader",
+                                    "sqlRetrieveErrorContent").showAndWait();
+                        }
+                        //Update ObservableLists in DataMgmt
+                        DataMgmt.initializeApplicationData();
+                        //Return Appt Scene
+                        thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
+                        try {
+                            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                                    .getResource("/com/casinelli/Appointments/scheduling-view.fxml")));
+                        } catch (IOException e) {
+                            showAndLogNavErrorAlert(e);
+                        }
+                        thisStage.setTitle(I18nMgmt.translate("SchedulingSceneTitle"));
+                        thisStage.setScene(new Scene(scene));
+                        thisStage.show();
+                    }
                 }
-                //Update ObservableLists in DataMgmt
-                DataMgmt.initializeApplicationData();
-
-                //Return Appt Scene
-                thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
-                try {
-                    scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/scheduling-view.fxml")));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                thisStage.setTitle(I18nMgmt.translate("SchedulingSceneTitle"));
-                thisStage.setScene(new Scene(scene));
-                thisStage.show();
-            }
-
-        }
-
     }
 
 
-
+    /**
+     * Cancels Appointment Creation and returns user to Scheduling Scene
+     * @param actionEvent button click event
+     */
     @javafx.fxml.FXML
     public void cancelApptCreate(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
             scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/scheduling-view.fxml")));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            showAndLogNavErrorAlert(e);
         }
         thisStage.setTitle(I18nMgmt.translate("SchedulingSceneTitle"));
         thisStage.setScene(new Scene(scene));
@@ -302,6 +301,13 @@ public class ApptAddController implements Initializable {
     }
 
     ///// SUPPORT METHODS /////
+    /**
+     * Returns a new Appointment using preverified dates and data from user input
+     * @param thisTime LocalDateTime time the Appointment is created
+     * @param startTime LocalDateTime time the Appointment starts
+     * @param endTime LocalDateTime time the Appointment ends
+     * @return Appointment from user inputs
+     */
     private Appointment buildNewAppt(LocalDateTime thisTime, LocalDateTime startTime, LocalDateTime endTime) {
         //Build and return Apptointment
         return new Appointment(7777, tfApptAddTitle.textProperty().getValue(), thisTime, DataMgmt.getCurrentUser().getName(),
@@ -312,10 +318,15 @@ public class ApptAddController implements Initializable {
                 cboApptAddContactID.getSelectionModel().getSelectedIndex() + 1);
     }
 
-
-
-
-
-
-
+    ///// Navigation Error Handler Method /////
+    /**
+     * Displays a navigation error to user and logs it to Exception Log
+     * @param e IOException passed down from parent function
+     */
+    private void showAndLogNavErrorAlert(Exception e){
+        ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
+                LogEvent.AppLocation.APPOINTMENT_CREATE, e);
+        Main.logger.log(event);
+        AlertFactory.getFXMLLoadErrorAlert("ApptAddSceneTitle").showAndWait();
+    }
 }

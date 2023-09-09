@@ -73,7 +73,9 @@ public class CustAddController implements Initializable {
     private Button btnCustAddCancel;
 
     ///// Error Preventing Boolean Bindings /////
-    private BooleanBinding createButtonDisabler;
+    private BooleanBinding controllerBinding;
+    @javafx.fxml.FXML
+    private Label lblCustAddCompleteInputs;
 
 
     /**
@@ -84,7 +86,8 @@ public class CustAddController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setCreateButtonBindings(createButtonDisabler);
+        setBindings(controllerBinding);
+
         initializeSceneText();
         try {
             populateCountries();
@@ -97,12 +100,14 @@ public class CustAddController implements Initializable {
         }
     }
 
+
+
     /**
      * Creates and binds a boolean binding that prevents the user from clicking the Create button without inputting
-     * all information thus avoiding all errors for input
+     * all information thus avoiding all errors for input and shows a label with instructions
      * @param binding BooleanBinding for Create button disable property
      */
-    private void setCreateButtonBindings(BooleanBinding binding) {
+    private void setBindings(BooleanBinding binding) {
         binding =
             tfCustAddCustName.textProperty().isEmpty()
                 .or(tfCustAddCustAddress.textProperty().isEmpty())
@@ -111,7 +116,9 @@ public class CustAddController implements Initializable {
                 .or(cboCustAddCustDiv.valueProperty().isNull())
                 .or(cboCustAddCustCountry.valueProperty().isNull());
         btnCustAddCreate.disableProperty().bind(binding);
+        lblCustAddCompleteInputs.visibleProperty().bind(binding);
     }
+
 
     /**
      * Populates all translated text for scene
@@ -251,6 +258,9 @@ public class CustAddController implements Initializable {
                 cboCustAddCustDiv.getSelectionModel().getSelectedIndex()
         );
     }
+    ///// Disabled Button Label Displayer ////
+
+
     ///// Navigation Error Handler Method /////
     /**
      * Displays a navigation error to user and logs it to Exception Log

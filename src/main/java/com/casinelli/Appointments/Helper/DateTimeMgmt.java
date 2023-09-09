@@ -17,11 +17,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public abstract class DateTimeMgmt {
     ///// Locale Variables /////
+    public static final Locale LOCALE_FR_CA = new Locale.Builder().setLanguage("fr").setScript("Latin").setRegion("CA").build();
     public static final Locale LOCALE_SYS = Locale.getDefault();
-    //public static final Locale LOCALE_SYS = new Locale("fr", "CA");
+    //public static final Locale LOCALE_SYS = LOCALE_FR_CA;
     public static final ZoneId ZONE_SYS = ZoneId.systemDefault();
     public static final ZoneId ZONE_UTC = ZoneId.of("UTC");
     public static final ZoneId ZONE_EST = ZoneId.of("America/New_York");
+
 
 
     ///// Date and Time Formatters /////
@@ -77,6 +79,20 @@ public abstract class DateTimeMgmt {
     public static boolean isSameYearMonth(LocalDateTime first, LocalDateTime second){
         return (first.getYear() == second.getYear()) && (first.getMonth() == second.getMonth());
     }
+    public static boolean isAfterNow(LocalDateTime startTime){
+        boolean isAfter = startTime.isAfter(LocalDateTime.now().minusSeconds(1));
+        if(isAfter){
+            return true;
+        }else{
+            ApplicationEvent event = new ApplicationEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.APPLICATION,
+                    LogEvent.AppLocation.DATETIMEMGMT,"Appointment times not in chronological order");
+            Main.logger.log(event);
+            AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"ApptCreationFailureTitle",
+                    "ApptInPastHeader", "ApptInPastContent").showAndWait();
+            return false;
+        }
+    }
+
 
     /**
      * Creates a LocalDateTime object from a LocalDate and two-digit Strings for hours and minutes
@@ -179,7 +195,17 @@ public abstract class DateTimeMgmt {
      * @return boolean true if start is before end
      */
     public static boolean isInProperOrderOfTime(LocalDateTime startTime, LocalDateTime endTime) {
-        return startTime.isBefore(endTime);
+        boolean isInOrder = startTime.isBefore(endTime);
+        if(isInOrder){
+            return true;
+        }else{
+            ApplicationEvent event = new ApplicationEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.APPLICATION,
+                    LogEvent.AppLocation.DATETIMEMGMT,"Appointment times not in chronological order");
+            Main.logger.log(event);
+            AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"ApptCreationFailureTitle",
+                    "StartAndEndOrderIncorrectHeader", "StartAndEndOrderIncorrectContent").showAndWait();
+            return false;
+        }
     }
 
     /**
