@@ -2,7 +2,6 @@ package com.casinelli.Appointments.Model;
 
 import com.casinelli.Appointments.DAO.JDBC;
 import com.casinelli.Appointments.DAO.RetrieveAllInterface;
-import com.casinelli.Appointments.DAO.RetrieveInterface;
 import com.casinelli.Appointments.Helper.DateTimeMgmt;
 
 import java.sql.PreparedStatement;
@@ -25,11 +24,10 @@ public class Country extends DBObject{
     public static final RetrieveAllInterface allCountries = () -> {
         String sql = "SELECT * FROM COUNTRIES";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        return rs;
+        return ps.executeQuery();
     };
 
-
+    /////CONSTRUCTORS/////
     /**
      * Constructor for Country object requiring inputs for all variables
      * @param id int country ID
@@ -39,7 +37,6 @@ public class Country extends DBObject{
      * @param lastUpdate LocalDateTime last tiem modified
      * @param lastUpdatedBy String user who last modified the object
      */
-    /////CONSTRUCTORS/////
     public Country(int id, String name, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy) {
         this.id = id;
         this.name = name;
@@ -49,7 +46,6 @@ public class Country extends DBObject{
         this.lastUpdatedBy = lastUpdatedBy;
 
     }
-
     /**
      * Constructor that accepts a ResultSet
      * @param rs ResultSet from Country table query
@@ -93,5 +89,4 @@ public class Country extends DBObject{
     public String getLastUpdatedBy() {
         return this.lastUpdatedBy;
     }
-
 }

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * Class for object that stores Contact data and methods
  */
 public class Contact extends DBObject{
-    ///// Intance Variables /////
+    ///// Instance Variables /////
     private int id;
     private String name;
     private String email;
@@ -26,8 +26,7 @@ public class Contact extends DBObject{
     public static final RetrieveAllInterface allContacts = () -> {
         String sql = "SELECT * FROM CONTACTS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        return rs;
+        return ps.executeQuery();
     };
 
     /////CONSTRUCTORS/////
@@ -43,7 +42,6 @@ public class Contact extends DBObject{
         this.email = email;
 
     }
-
     /**
      * Constructor for Contact object that accepts a ResultSet object
      * @param rs ResultSet from contact table query

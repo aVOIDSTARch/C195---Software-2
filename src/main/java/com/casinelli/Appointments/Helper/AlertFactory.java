@@ -35,7 +35,4 @@ public abstract class AlertFactory {
         newAlert.setContentText(I18nMgmt.translate("FXMLLoadErrorContent"));
         return newAlert;
     }
-
-
-
 }

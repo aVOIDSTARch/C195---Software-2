@@ -163,10 +163,10 @@ public class ApptAddController implements Initializable {
      * Creates lists of numbers and assigns then to time input ComboBoxes for minutes and hours
      */
     private void populateHoursAndMinsLists() {
-        ObservableList<Integer> hourList = FXCollections.observableList(DataMgmt.makeIntList(0,23));
+        ObservableList<Integer> hourList = FXCollections.observableList(DataMgmt.makeIntList_Inclusive(0,23));
         hourApptAddEnd.setItems(hourList);
         hourApptAddStart.setItems(hourList);
-        ObservableList<Integer> minList = FXCollections.observableList(DataMgmt.makeIntList(0,59));
+        ObservableList<Integer> minList = FXCollections.observableList(DataMgmt.makeIntList_Inclusive(0,59));
         minApptAddEnd.setItems(minList);
         minApptAddStart.setItems(minList);
     }

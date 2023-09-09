@@ -26,8 +26,7 @@ public class Division extends DBObject {
     public static final RetrieveAllInterface all1stLvlDivisions = () -> {
         String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        return rs;
+        return ps.executeQuery();
     };
     //Retrieve Divisions by Country ID
     public static final RetrieveInterface getDivisionsWithCountryId = (countryId) -> {
@@ -35,16 +34,7 @@ public class Division extends DBObject {
         String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS WHERE COUNTRY_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1,cntryID);
-        ResultSet rs = ps.executeQuery();
-        return rs;
-    };
-    //Retrieve Divisions by Division ID
-    public static final RetrieveInterface getDivisionById = (divId) -> {
-        String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS WHERE DIVISION_ID = ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1, (int) divId.getValue());
-        ResultSet rs = ps.executeQuery();
-        return rs;
+        return ps.executeQuery();
     };
 
     /////CONSTRUCTORS/////
@@ -70,7 +60,6 @@ public class Division extends DBObject {
         this.lastUpdatedBy = lastUpdatedBy;
 
     }
-
     /**
      * Constructor for a Division object using a ResultSet from the database
      * @param rs ResultSet from a first level division table query
@@ -118,5 +107,4 @@ public class Division extends DBObject {
     public String getLastUpdatedBy() {
         return this.lastUpdatedBy;
     }
-
 }

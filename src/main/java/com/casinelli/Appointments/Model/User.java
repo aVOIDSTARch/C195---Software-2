@@ -78,8 +78,6 @@ public class User extends DBObject{
     }
 
     ///// Getters and Setters /////
-
-    //NOTE: Password Access is intentionally denied
     @Override
     public int getId() {
         return id;
@@ -108,6 +106,7 @@ public class User extends DBObject{
     public String getLastUpdatedBy() {
         return this.lastUpdatedBy;
     }
+    //NOTE: Password Access is intentionally denied
     public String getPassword() {
         return "";
     }

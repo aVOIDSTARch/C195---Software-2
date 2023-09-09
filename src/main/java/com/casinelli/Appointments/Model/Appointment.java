@@ -6,7 +6,7 @@ import com.casinelli.Appointments.Helper.DateTimeMgmt;
 
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 
 /**
  * Class for object that contains Appointment data and methods
@@ -101,6 +101,7 @@ public class Appointment extends DBObject{
         return ps.executeUpdate();
     };
 
+    ///// CONSTRUCTORS /////
     /**
      * Constructor for Appointment object that requires inputs for all variables
      * @param id int Appointment ID
@@ -118,7 +119,6 @@ public class Appointment extends DBObject{
      * @param userId int user ID
      * @param contactId int  contact ID
      */
-    /////CONSTRUCTORS/////
     public Appointment(int id, String title, LocalDateTime createDate, String createdBy,
                        LocalDateTime lastUpdate, String lastUpdatedBy, String description,
                        String location, String type, LocalDateTime start, LocalDateTime end,
@@ -139,7 +139,6 @@ public class Appointment extends DBObject{
         this.contactId = contactId;
 
     }
-
     /**
      * Constructor for Appointment object that accepts a ResultSet
      * @param rs ResultSet from Appointment table query

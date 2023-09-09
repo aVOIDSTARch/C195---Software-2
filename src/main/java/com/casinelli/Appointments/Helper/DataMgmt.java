@@ -36,12 +36,12 @@ public abstract class DataMgmt {
     ///// Month Names List Creation /////
     private static final String[] englishMonths = {"JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
             "july", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"};
-    private static final String[] francaisMonths = {"JANVIER", "FEVRIER", "MARS", "AVRIL", "MAI", "JUIN",
+    private static final String[] francaisMois = {"JANVIER", "FEVRIER", "MARS", "AVRIL", "MAI", "JUIN",
             "JULI", "AOUT", "SEPTEMBRE", "OCTOBRE", "NOVEMBRE", "DECEMBRE"};
     private static final ObservableList<String> englishMonthNames = FXCollections
             .observableArrayList(Arrays.stream(englishMonths).collect(Collectors.toList()));
-    private static final ObservableList<String> francaisMonthNames = FXCollections
-            .observableArrayList(Arrays.stream(francaisMonths).collect(Collectors.toList()));
+    private static final ObservableList<String> francaisMoisNames = FXCollections
+            .observableArrayList(Arrays.stream(francaisMois).collect(Collectors.toList()));
 
     ///// Comparator Objects /////
     public static final AppointmentComparatorByStartDate sortApptsByStartDate = new AppointmentComparatorByStartDate();
@@ -84,8 +84,7 @@ public abstract class DataMgmt {
             populateThisWeekAppts();
             populateApptsInNext15Mins();
             populateAllApptTypes();
-            System.out.println("All Observable Lists Populated");
-        }catch(SQLException e){
+            }catch(SQLException e){
             ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
                     LogEvent.AppLocation.DATAMGMT, e);
             Main.logger.log(event);
@@ -102,32 +101,21 @@ public abstract class DataMgmt {
      * @param endingWith int to end with (inclusive)
      * @return List<Integer> of Integers
      */
-    public static List<Integer> makeIntList(int startingWith, int endingWith){
+    public static List<Integer> makeIntList_Inclusive(int startingWith, int endingWith){
         return IntStream.range(startingWith, endingWith + 1)
                 .boxed()
                 .collect(Collectors.toList());
     }
 
     ///// Current User Getter-Setters /////
-    public static User getCurrentUser() {
-        return currentUser;
-    }
-    public static void setCurrentUser(User thisUser) {
-        DataMgmt.currentUser = thisUser;
-    }
+    public static User getCurrentUser() {return currentUser;}
+    public static void setCurrentUser(User thisUser) {DataMgmt.currentUser = thisUser;}
     public static void setUserToDefault() {setCurrentUser(defaultUser);}
-
-    ////Current Customer Getters-Setters /////
-    public static Customer getCurrentCustomer() {
-        return currentCustomer;
-    }
-    public static void setCurrentCustomer(Customer thisCustomer) {
-        DataMgmt.currentCustomer = thisCustomer;
-    }
-    private static void setCustomerToDefault() {setCurrentCustomer(defaultCustomer);}
+    public static void setCurrentCustomer(Customer thisCustomer) {DataMgmt.currentCustomer = thisCustomer;}
 
     /////List Insertion Functions/////
-    //These methods add the appropriate objects to the corresponding ObservableList
+
+    //These methods add the appropriate objects to the corresponding ObservableList after clearing the list
     private static void populateAllUsers(ResultSet rs) throws SQLException {
         allUsers.clear();
         while (rs.next()){
@@ -164,6 +152,12 @@ public abstract class DataMgmt {
             allCustomers.add(new Customer(rs));
         }
     }
+
+    /**
+     * Creates an ObservableList containing a Specific Customer object's scheduled Appointments
+     * Lambda expression used to filter list by Customer provided
+     * @param thisCust Customer to get Appointments from
+     */
     private static void populateThisCustsAppts(Customer thisCust){
         thisCustsAppts.clear();
         allAppts.forEach(appt -> {
@@ -172,6 +166,11 @@ public abstract class DataMgmt {
             }
         });
     }
+
+    /**
+     * Populates an ObservableList with Appointment objects that occur in the current month
+     * Lambda expression used to filter the list by current month
+     */
     private static void populateThisMonthAppts(){
         thisMonthAppts.clear();
         allAppts.forEach(appt -> {
@@ -180,6 +179,11 @@ public abstract class DataMgmt {
             }
         });
     }
+
+    /**
+     * Populates an ObservableList with Appointment objects that occur in the current week
+     * Lambda expression used to filter the list by current week
+     */
     private static void populateThisWeekAppts(){
         thisWeekAppts.clear();
         allAppts.forEach(appt -> {
@@ -189,6 +193,10 @@ public abstract class DataMgmt {
             }
         });
     }
+    /**
+     * Populates an ObservableList with Appointment objects that occur in the next 15 minutes in the users local time
+     * Lambda expression used to filter the list to Appointments that occur next 15 minutes in the users local time
+     */
     private static void populateApptsInNext15Mins() {
         apptsInNext15Mins.clear();
          DataMgmt.getAllApptsList().forEach(appt -> {
@@ -200,36 +208,29 @@ public abstract class DataMgmt {
     }
     private static void populateAllApptTypes(){
         allApptTypes.clear();
-        Set<String> uniqueTypes = new HashSet<String>();
+        Set<String> uniqueTypes = new HashSet<>();
         DataMgmt.allAppts.forEach(appt -> uniqueTypes.add(appt.getType().toUpperCase()));
         allApptTypes.addAll(uniqueTypes);
     }
 
 
     ///// ObservableList Getters /////
+
     //Countries and Divisions Lists are intentional not provided as they require formatting to use
-    public static ObservableList<User> getAllUsersList(){
-        return allUsers;
-    }
-    public static ObservableList<Appointment> getAllApptsList(){
-        return allAppts;
-    }
+    public static ObservableList<User> getAllUsersList(){return allUsers;}
+    public static ObservableList<Appointment> getAllApptsList(){return allAppts;}
     public static ObservableList<Appointment> getMonthApptsList() {return thisMonthAppts;}
     public static ObservableList<Appointment> getWeekApptsList() {return thisWeekAppts;}
     public static ObservableList<Appointment> getApptsInNext15Mins() {return apptsInNext15Mins;}
-    public static ObservableList<Contact> getAllContactsList(){
-        return allContacts;
-    }
-    public static ObservableList<Customer> getAllCustomersList(){
-        return allCustomers;
-    }
+    public static ObservableList<Contact> getAllContactsList(){return allContacts;}
+    public static ObservableList<Customer> getAllCustomersList(){return allCustomers;}
     public static ObservableList<Appointment> getThisCustsAppts(){
         populateThisCustsAppts(currentCustomer);
         return thisCustsAppts;
     }
     public static ObservableList<String> getMonthNames(Locale locale){
         if(locale == DateTimeMgmt.LOCALE_FR_CA){
-            return francaisMonthNames;
+            return francaisMoisNames;
         }else{
             return englishMonthNames;
         }
@@ -239,10 +240,11 @@ public abstract class DataMgmt {
 
     ///// Class Specific Functions /////
 
-    /////USERS FUNCTIONS/////
+    ///// USERS FUNCTIONS /////
 
     /**
      * Find a User object by ID
+     * Lambda expression used to find the User object that has the matching ID
      * @param id int user id
      * @return User that matches ID
      */
@@ -258,6 +260,7 @@ public abstract class DataMgmt {
 
     /**
      * Find a User object by Name
+     * Lanbda expression used to find the User object that has the matching name
      * @param username String user name
      * @return User that matches the user name
      */
@@ -271,10 +274,11 @@ public abstract class DataMgmt {
         return aUser.get();
     }
 
-    /////APPOINTMENT FUNCTIONS/////
+    ///// APPOINTMENT FUNCTIONS /////
 
     /**
      * Gets total number of Appointments scheduled for today in local system time zone
+     * Lambda expression used to reduce the list of Appointments to an integer of the count of Appointments occurring today
      * @return int total number of Appointments found
      */
     public static int getApptCountForToday(){
@@ -296,10 +300,11 @@ public abstract class DataMgmt {
         return allAppts.size();
     }
 
-    /////COUNTRY FUNCTIONS/////
+    ///// COUNTRY FUNCTIONS /////
 
     /**
      * Compiles a list of country names and stores in an ObservableList
+     * Lambda expression used reduce Country objects to their name properties
      * @return ObservableList<String> of all country names
      */
     public static ObservableList<String> getAllCountryNames(){
@@ -311,24 +316,25 @@ public abstract class DataMgmt {
 
     /**
      * Find Country Name from the Country Id
+     * Lambda expression used to find the Country that matches the provided name
      * @param cntryName String country name
      * @return int country ID
      */
     public static int getCountryIdFromCntryName(String cntryName){
-        AtomicReference<Integer> cntryId = new AtomicReference<Integer>(0);
+        AtomicReference<Integer> cntryId = new AtomicReference<>(0);
         allCountries.forEach(cntry ->{
-            if(cntry.getName() == cntryName) {
+            if(Objects.equals(cntry.getName(), cntryName)) {
                 cntryId.set(cntry.getId());
             }
         });
         return cntryId.get();
     }
 
-    /////CONTACT FUNCTIONS/////
-
+    ///// CONTACT FUNCTIONS /////
     /**
      * Calculates number of Appointments assigned to Contact
-     * @param contactId int contact Id
+     * Lambda expression used to reduce the list of Appointments to an integer reflecting the count of Appointments assigned to the contact ID
+     * @param contactId int contact ID
      * @return int number of assigned Appointments
      */
     public static int getApptCountByContactId(int contactId){
@@ -340,6 +346,13 @@ public abstract class DataMgmt {
         });
         return apptCount.get();
     }
+
+    /**
+     * Compiles an ObservableList of Appointment objects assigned to a specific Contact object
+     * Lambda expression used to select Appointments assigned to a Contact
+     * @param thisContact Contact to match for Appointment selection
+     * @return ObservableList<Appointment> List of Appointment objects that are assigned to the Contact provided
+     */
     public static ObservableList<Appointment> getApptsByContact(Contact thisContact){
         ObservableList<Appointment> thisContactsAppts = FXCollections.observableArrayList();
         allAppts.forEach(appt -> {
@@ -351,12 +364,13 @@ public abstract class DataMgmt {
     }
 
     /**
-     * Find contact by contact Id
-     * @param id int contact Id
-     * @return Contact that matches Id
+     * Find contact by contact ID
+     * Lambda expression used to find the Contact object with the matching ID property
+     * @param id int contact ID
+     * @return Contact that matches ID
      */
     public static Contact getContactById(int id){
-        AtomicReference<Contact> thisContact = new AtomicReference<Contact>();
+        AtomicReference<Contact> thisContact = new AtomicReference<>();
         allContacts.forEach(contact ->{
             if(id == contact.getId()){
                 thisContact.set(contact);
@@ -365,15 +379,15 @@ public abstract class DataMgmt {
         return thisContact.get();
     }
 
-    /////CUSTOMER FUNCTIONS/////
-
+    ///// CUSTOMER FUNCTIONS /////
     /**
      * Find customer by customer ID
+     * Lambda expression used to find the matching Customer object in a list by its ID
      * @param id int Customer ID
      * @return Customer that matches ID
      */
     public static Customer getCustomerById(int id){
-        AtomicReference<Customer> thisCust = new AtomicReference<Customer>();
+        AtomicReference<Customer> thisCust = new AtomicReference<>();
         allCustomers.forEach(cust ->{
             if(id == cust.getId()){
                 thisCust.set(cust);
@@ -384,6 +398,7 @@ public abstract class DataMgmt {
 
     /**
      * Calculate Number of Appointments scheduled for a Customer
+     * Lambda expression used to reduce the Appointments list to an integer reflecting the number of Appointment objects assigned to Customer object
      * @param customer Customer to use
      * @return int Number of Appointments scheduled for Customer
      */
@@ -406,7 +421,7 @@ public abstract class DataMgmt {
     /////DIVISION FUNCTIONS/////
     public static ObservableList<String> getListOfDivNamesByCountryId(int countryId) throws SQLException {
         ObservableList<String> divNames = FXCollections.observableArrayList();
-        Value<Integer> queryValue = new Value<Integer>(countryId);
+        Value<Integer> queryValue = new Value<>(countryId);
         ResultSet rs = DBQuery.retrieve(Division.getDivisionsWithCountryId, queryValue);
         while(rs.next()){
             String newDivName = rs.getString(Division.DIVISION_COL_NAMES[1]);
@@ -414,7 +429,6 @@ public abstract class DataMgmt {
         }
         return divNames;
     }
-
     /**
      * Provides Country Name for a Division ID
      * @param divId int Division ID
@@ -423,6 +437,7 @@ public abstract class DataMgmt {
     public static String getCountryNameFromDivId(int divId) {
         AtomicReference<String> countryName = new AtomicReference<>("");
         AtomicInteger countryId = new AtomicInteger();
+
         allDivisions.forEach(division -> {
             if (division.getId() == divId){
                 countryId.set(division.getCountryId());
@@ -435,7 +450,6 @@ public abstract class DataMgmt {
         });
         return countryName.get();
     }
-
     /**
      * Get Division Name from Division ID
      * @param divisionId int division ID

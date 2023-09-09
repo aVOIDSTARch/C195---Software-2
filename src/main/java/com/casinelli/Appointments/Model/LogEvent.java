@@ -15,11 +15,10 @@ public class LogEvent {
     private final ZoneId systemZoneId;
     private final EventType eventType;
     //Enumeration of Evernt Types
-    public static enum EventType {LOGIN_ATTEMPT, DB_ACCESS, APPLICATION, EXCEPTION};
+    public static enum EventType {LOGIN_ATTEMPT, DB_ACCESS, APPLICATION, EXCEPTION}
     //Enumeration of Application Locations
     public static enum AppLocation {LOGIN_SCENE, WELCOME_HUB, CUSTOMERS, CUSTOMER_CREATE,
-        CUSTOMER_UPDATE, SCHEDULING, APPOINTMENT_CREATE, APPOINTMENT_UPDATE, REPORTING, STARTUP, DATETIMEMGMT, DATAMGMT};
-
+        CUSTOMER_UPDATE, SCHEDULING, APPOINTMENT_CREATE, APPOINTMENT_UPDATE, REPORTING, STARTUP, DATETIMEMGMT, DATAMGMT}
 
     /**
      * Constructor for LogEvent
@@ -34,18 +33,11 @@ public class LogEvent {
     }
 
     ///// Getters and Setters /////
-    public String getUserName() {
-        return userName;
-    }
-
+    public String getUserName() {return userName;}
     public LocalDateTime getAttemptDateTime() {
         return attemptDateTime;
     }
-
-    public ZoneId getSystemZoneId() {
-        return systemZoneId;
-    }
-
+    public ZoneId getSystemZoneId() {return systemZoneId;}
     public EventType getEventType() {
         return eventType;
     }

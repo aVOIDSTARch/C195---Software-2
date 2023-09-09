@@ -4,6 +4,7 @@ import com.casinelli.Appointments.Main;
 import com.casinelli.Appointments.Model.ApplicationEvent;
 import com.casinelli.Appointments.Model.Appointment;
 import com.casinelli.Appointments.Model.LogEvent;
+
 import javafx.scene.control.Alert;
 
 import java.time.*;
@@ -19,7 +20,7 @@ public abstract class DateTimeMgmt {
     ///// Locale Variables /////
     public static final Locale LOCALE_FR_CA = new Locale.Builder().setLanguage("fr").setScript("Latin").setRegion("CA").build();
     public static final Locale LOCALE_SYS = Locale.getDefault();
-    //public static final Locale LOCALE_SYS = LOCALE_FR_CA;
+    //public static final Locale LOCALE_SYS = LOCALE_FR_CA; //used to test language change without changing system
     public static final ZoneId ZONE_SYS = ZoneId.systemDefault();
     public static final ZoneId ZONE_UTC = ZoneId.of("UTC");
     public static final ZoneId ZONE_EST = ZoneId.of("America/New_York");
@@ -46,7 +47,6 @@ public abstract class DateTimeMgmt {
                 .withZoneSameInstant(newZone)
                 .toLocalDateTime();
     }
-
 
     ///// TIME AND DATE CREATION METHODS FOR COMBOBOX INPUTS /////
     /**

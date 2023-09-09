@@ -6,8 +6,6 @@ import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-
-import java.util.Locale;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -39,20 +37,18 @@ public abstract class ReportGenerator {
     private static void clearResults(){ reportResults.clear(); }
 
     ///// Report 1 Generation Methods /////
-
     /**
      * Creates a Vector of String Objects contains a properly formatted and translate report of Appointment count for the
      * month and date specified
      * @param allAppts ObservableList<Appointment> containing all Appointments in the Database
      * @param month String month selected by the user
      * @param type String type of Appointment selected by the user
-     * @return
+     * @return Vector<String> containing the lines of text for the report is sequential order
      */
     public static Vector<String> generateApptsByTypeAndMonthReport(ObservableList<Appointment> allAppts,
                                                                    String month, String type){
         clearResults();
         insertReport1Title();
-        final ObservableList<Appointment> apptsByMonth = FXCollections.observableArrayList();
         reportResults.add(getApptCountStringWithMonthAndType(getApptsByMonthAndType(allAppts, month, type)));
         return reportResults;
     }
@@ -66,10 +62,11 @@ public abstract class ReportGenerator {
 
     /**
      * Creates an ObservableList of Appointment objects that match the user input criteria
+     * Lambda expression used in forEach to reduce list of appointments
      * @param allApptsList ObservableList<Appointment> containing all Appointments in the Database
      * @param month String month selected by the user
      * @param type String type of Appointment selected by the user
-     * @return
+     * @return ObservableList<Appointment> a list reduced using the criteria supplied by user input
      */
    private static ObservableList<Appointment> getApptsByMonthAndType(ObservableList<Appointment> allApptsList,
                                                                      String month, String type){
@@ -94,7 +91,7 @@ public abstract class ReportGenerator {
         if(numAppt > 0){
             String month = I18nMgmt.translate(finalApptList.get(0).getStart().getMonth().toString());
             String type = finalApptList.get(0).getType();
-            return String.format(getTranslatedApptCountFormatString(DateTimeMgmt.LOCALE_SYS),
+            return String.format(getTranslatedApptCountFormatString(),
                     month, type, numAppt);
         }else{
             return I18nMgmt.translate("noApptsFound");
@@ -104,11 +101,11 @@ public abstract class ReportGenerator {
 
     /**
      * Selects the correct formatting string based on the user's system settings
-     * @param locale Locale from the user's system
+     *
      * @return String translated into the local user's preferred language
      */
-    private static String getTranslatedApptCountFormatString(Locale locale){
-        return (locale == DateTimeMgmt.LOCALE_FR_CA)
+    private static String getTranslatedApptCountFormatString(){
+        return (DateTimeMgmt.LOCALE_SYS == DateTimeMgmt.LOCALE_FR_CA)
                 ? apptCountStringFormatFrancais : apptCountStringFormatEnglish;
     }
 
@@ -135,20 +132,19 @@ public abstract class ReportGenerator {
 
     /**
      * Inserts the schedule of one Contact object
+     * Lambda expression used in forEach to write string to vector
      * @param thisContact Contact whose schedule should be written to the Report 2 Vector
      */
     private static void insertContactSection(Contact thisContact){
-        reportResults.add(String.format(getTranslatedContactFormatString(DateTimeMgmt.LOCALE_SYS),
+        reportResults.add(String.format(getTranslatedContactFormatString(),
                 thisContact.getId(), thisContact.getName(), thisContact.getEmail()));
 
         ObservableList<Appointment> apptsForThisContact = DataMgmt.getApptsByContact(thisContact);
         apptsForThisContact.sort(sortApptsByStartDate);
         if(apptsForThisContact.size() > 0){
-            apptsForThisContact.forEach(appt -> {
-                reportResults.add(String.format(getTranslatedApptFormatString(DateTimeMgmt.LOCALE_SYS),
-                        appt.getId(),appt.getName(),appt.getType(),appt.getDescription(),appt.getStartString(),
-                        appt.getEndString(),appt.getContactId()));
-            });
+            apptsForThisContact.forEach(appt -> reportResults.add(String.format(getTranslatedApptFormatString(),
+                    appt.getId(),appt.getName(),appt.getType(),appt.getDescription(),appt.getStartString(),
+                    appt.getEndString(),appt.getContactId())));
             reportResults.add("Total: " + DataMgmt.getApptsByContact(thisContact).size());
             reportResults.add("");
         }else{
@@ -158,21 +154,20 @@ public abstract class ReportGenerator {
 
     /**
      * Selects the correct formatting string based on the user's system settings
-     * @param locale Locale from the user's system
      * @return String translated into the local user's preferred language
      */
-    private static String getTranslatedApptFormatString(Locale locale){
-        return (locale == DateTimeMgmt.LOCALE_FR_CA)
+    private static String getTranslatedApptFormatString(){
+        return (DateTimeMgmt.LOCALE_SYS == DateTimeMgmt.LOCALE_FR_CA)
                 ? appointmentStringFormatFrancais : appointmentStringFormatEnglish;
     }
 
     /**
      * Selects the correct formatting string based on the user's system settings
-     * @param locale Locale from the user's system
+     *
      * @return String translated into the local user's preferred language
      */
-    private static String getTranslatedContactFormatString(Locale locale){
-        return (locale == DateTimeMgmt.LOCALE_FR_CA)
+    private static String getTranslatedContactFormatString(){
+        return (DateTimeMgmt.LOCALE_SYS == DateTimeMgmt.LOCALE_FR_CA)
                 ? contactStringFormatFrancais : contactStringFormatEnglish;
     }
 

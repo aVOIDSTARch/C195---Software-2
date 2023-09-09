@@ -6,7 +6,7 @@ import com.casinelli.Appointments.Helper.DateTimeMgmt;
 
 import java.sql.*;
 import java.time.*;
-import java.util.Vector;
+
 
 public class Customer extends DBObject{
     ///// Instance Variables /////
@@ -82,6 +82,7 @@ public class Customer extends DBObject{
         return ps.executeUpdate();
     };
 
+    ///// CONSTRUCTORS /////
     /**
      * Constructor for Customer Object requiring inputs for all variables
      * @param id int customer ID
@@ -95,7 +96,6 @@ public class Customer extends DBObject{
      * @param lastUpdatedBy String user who last updated teh object
      * @param divisionId int division ID
      */
-    /////CONSTRUCTORS/////
     public Customer(int id, String name, String address, String postalCode, String phone,
                     LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate,
                     String lastUpdatedBy, int divisionId) {
@@ -112,7 +112,6 @@ public class Customer extends DBObject{
 
 
     }
-
     /**
      * Constructor for Customer object from ResultSet
      * @param rs ResultSet from Customer table query
@@ -167,7 +166,7 @@ public class Customer extends DBObject{
     public String getPostalCode() {
         return postalCode;
     }
-    public void setPostalCode(String postalCode){this.postalCode = postalCode;};
+    public void setPostalCode(String postalCode){this.postalCode = postalCode;}
     public String getPhone() {
         return phone;
     }
@@ -176,14 +175,6 @@ public class Customer extends DBObject{
         return divisionId;
     }
     public void setDivisionId(int divisionId) {this.divisionId = divisionId;}
-
-    ///// SUPPLEMENTAL DATA PROVIDERS /////
-    public String getCountryName(){
-        return DataMgmt.getCountryNameFromDivId(this.divisionId);
-    }
-    public String getDivisionName(){
-        return DataMgmt.getDivisionNameFromDivId(this.divisionId);
-    }
 
     /**
      * Checks if this customer has any Appointments scheduled

@@ -8,6 +8,7 @@ public class ApplicationEvent extends LogEvent{
     private final AppLocation scene;
     private final String eventDescription;
 
+    ///// CONSTRUCTORS /////
     /**
      * Constructor for ApplicationEvent object
      * @param userName user name
@@ -23,7 +24,6 @@ public class ApplicationEvent extends LogEvent{
 
     ///// Getters /////
     public AppLocation getScene() { return scene; }
-
     public String getEventDescription() { return eventDescription; }
 
     @Override

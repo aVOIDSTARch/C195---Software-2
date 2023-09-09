@@ -25,7 +25,7 @@ public class Logger {
      */
     public boolean log(LogEvent event){
         boolean isSuccessful = false;
-        String logFilePath = "";
+        String logFilePath;
         //Log login attempts
         if(event.getEventType() == LogEvent.EventType.LOGIN_ATTEMPT){
             logFilePath = loginFileName;

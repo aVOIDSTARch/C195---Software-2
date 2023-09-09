@@ -199,10 +199,10 @@ public class ApptModController implements Initializable {
      * Populates the Hours and Minutes ComboBoxes
      */
     private void populateHoursAndMinsLists() {
-        ObservableList<Integer> hourList = FXCollections.observableList(DataMgmt.makeIntList(0,23));
+        ObservableList<Integer> hourList = FXCollections.observableList(DataMgmt.makeIntList_Inclusive(0,23));
         hourApptModEnd.setItems(hourList);
         hourApptModStart.setItems(hourList);
-        ObservableList<Integer> minList = FXCollections.observableList(DataMgmt.makeIntList(0,59));
+        ObservableList<Integer> minList = FXCollections.observableList(DataMgmt.makeIntList_Inclusive(0,59));
         minApptModEnd.setItems(minList);
         minApptModStart.setItems(minList);
     }

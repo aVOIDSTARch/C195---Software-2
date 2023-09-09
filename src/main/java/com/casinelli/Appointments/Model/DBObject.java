@@ -22,12 +22,6 @@ public abstract class DBObject {
     public void setName(String name) {
         this.name = name;
     }
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
     public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
@@ -41,6 +35,6 @@ public abstract class DBObject {
     abstract LocalDateTime getLastUpdate();
     abstract String getLastUpdatedBy();
     //Special Case Getter for ComboBox Strings
-    String getIdName(){return this.getId() + " " + this.getName();};
+    String getIdName(){return this.getId() + " " + this.getName();}
 
 }

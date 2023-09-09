@@ -14,7 +14,7 @@ public abstract class I18nMgmt {
      * Initializes ResourceBundle for any java program
      */
     public static void setup(String packagePath){
-        rb = ResourceBundle.getBundle(packagePath, Locale.getDefault());;
+        rb = ResourceBundle.getBundle(packagePath, Locale.getDefault());
     }
 
     /**

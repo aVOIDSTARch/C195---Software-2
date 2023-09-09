@@ -1,31 +1,21 @@
 package com.casinelli.Appointments;
 
-
-import com.casinelli.Appointments.DAO.DBQuery;
 import com.casinelli.Appointments.DAO.JDBC;
-
 import com.casinelli.Appointments.Helper.DataMgmt;
-
-import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import com.casinelli.Appointments.Helper.I18nMgmt;
 import com.casinelli.Appointments.Helper.Logger;
 
-
-import com.casinelli.Appointments.Model.Appointment;
-import com.casinelli.Appointments.Model.LogEvent;
 import javafx.application.Application;
-
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
-import java.time.LocalDateTime;
-import java.util.stream.Collectors;
 
+/**
+ * This application maintains a user interface that allows manipulation and displaying on Appointment objects and their associated objects
+ */
 public class Main extends Application {
     //Create Logger Instance
     public static final Logger logger = new Logger();
