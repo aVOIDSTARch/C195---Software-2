@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -192,7 +193,7 @@ public class CustAddController implements Initializable {
                     LogEvent.AppLocation.CUSTOMER_CREATE, e);
             Main.logger.log(event);
             AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"CustAddSceneTitle","sqlErrorHeader",
-                    "sqlCreateErrorContent").showAndWait();
+                    "sqlCreateErrorContent" + "\n" + Arrays.toString(e.getStackTrace())).showAndWait();
         }
         //Update ObservableLists in DataMgmt
         DataMgmt.initializeApplicationData();

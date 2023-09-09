@@ -126,13 +126,13 @@ public abstract class DateTimeMgmt {
         //Convert argument time objects to Eastern Standard Time Zone
         apptStartTime = DateTimeMgmt.convertToLDTInZone(LocalDateTime.of(LocalDate.now(),apptStartTime),
                 DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_EST).toLocalTime();
-        apptEndTime = DateTimeMgmt.convertToLDTInZone(LocalDateTime.of(LocalDate.now(),apptStartTime),
+        apptEndTime = DateTimeMgmt.convertToLDTInZone(LocalDateTime.of(LocalDate.now(),apptEndTime),
                 DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_EST).toLocalTime();
         //Verify both start and end time are inside the business hours in EST
-        boolean result =  (apptStartTime.isAfter(DateTimeMgmt.businessHoursStartInEST.minusMinutes(1))
-                && apptStartTime.isBefore(DateTimeMgmt.businessHoursEndInEST.plusMinutes(1)))
-                && (apptEndTime.isAfter(DateTimeMgmt.businessHoursStartInEST.minusMinutes(1))
-                && apptEndTime.isBefore(DateTimeMgmt.businessHoursEndInEST.plusMinutes(1)));
+        boolean result =  (apptStartTime.isAfter(DateTimeMgmt.businessHoursStartInEST.minusSeconds(1))
+                && apptStartTime.isBefore(DateTimeMgmt.businessHoursEndInEST.plusSeconds(1)))
+                && (apptEndTime.isAfter(DateTimeMgmt.businessHoursStartInEST.minusSeconds(1))
+                && apptEndTime.isBefore(DateTimeMgmt.businessHoursEndInEST.plusSeconds(1)));
         if(!result){
             ApplicationEvent event = new ApplicationEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.APPLICATION,
                     LogEvent.AppLocation.DATETIMEMGMT,"Appointment outside business hours");

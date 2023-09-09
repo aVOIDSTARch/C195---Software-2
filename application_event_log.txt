@@ -108,3 +108,41 @@ APPLICATION Username: Daemon 2023-09-09 14:45 America/New_York in Location: STAR
 Logger Successfully Initialized
 APPLICATION Username: Daemon 2023-09-09 14:48 America/New_York in Location: STARTUP
 Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-09 14:59 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-09 15:02 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-09 15:40 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-09 15:44 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-09 15:47 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-09 15:53 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-09 15:53 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: DEFAULT_BEFORE_LOGIN 2023-09-09 15:57 America/New_York in Location: CUSTOMERS
+Customer has Appointments. Deletion Failed
+APPLICATION Username: Daemon 2023-09-09 16:11 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: DEFAULT_BEFORE_LOGIN 2023-09-09 16:11 America/New_York in Location: CUSTOMERS
+Customer has Appointments. Deletion Failed
+APPLICATION Username: DEFAULT_BEFORE_LOGIN 2023-09-09 16:11 America/New_York in Location: CUSTOMERS
+Customer has Appointments. Deletion Failed
+APPLICATION Username: Daemon 2023-09-09 16:17 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: DEFAULT_BEFORE_LOGIN 2023-09-09 16:17 America/New_York in Location: CUSTOMERS
+Customer has Appointments. Deletion Failed
+APPLICATION Username: Daemon 2023-09-09 16:19 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-09 16:21 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: DEFAULT_BEFORE_LOGIN 2023-09-09 16:24 America/New_York in Location: DATETIMEMGMT
+Appointment times not in chronological order
+APPLICATION Username: DEFAULT_BEFORE_LOGIN 2023-09-09 16:24 America/New_York in Location: DATETIMEMGMT
+Appointment times not in chronological order
+APPLICATION Username: DEFAULT_BEFORE_LOGIN 2023-09-09 16:24 America/New_York in Location: DATETIMEMGMT
+Appointment outside business hours
+APPLICATION Username: DEFAULT_BEFORE_LOGIN 2023-09-09 16:24 America/New_York in Location: DATETIMEMGMT
+Appointment times not in chronological order

@@ -38,3 +38,15 @@ EXCEPTION Username: test 2023-09-09 14:46 America/New_York in LOGIN_SCENE
 Error resolving onAction='#navToWelcomeScene', either the event handler is not in the Namespace or there is an error in the script.
 /C:/Users/ljcas/IdeaProjects/C195/target/classes/com/casinelli/Appointments/welcomehub-view.fxml:61
 
+EXCEPTION Username: DEFAULT_BEFORE_LOGIN 2023-09-09 15:45 America/New_York in CUSTOMER_UPDATE
+Cannot add or update a child row: a foreign key constraint fails (`client_schedule`.`customers`, CONSTRAINT `fk_division_id` FOREIGN KEY (`Division_ID`) REFERENCES `first_level_divisions` (`Division_ID`) ON DELETE CASCADE ON UPDATE CASCADE)
+EXCEPTION Username: DEFAULT_BEFORE_LOGIN 2023-09-09 15:47 America/New_York in CUSTOMER_UPDATE
+Cannot add or update a child row: a foreign key constraint fails (`client_schedule`.`customers`, CONSTRAINT `fk_division_id` FOREIGN KEY (`Division_ID`) REFERENCES `first_level_divisions` (`Division_ID`) ON DELETE CASCADE ON UPDATE CASCADE)
+EXCEPTION Username: DEFAULT_BEFORE_LOGIN 2023-09-09 15:53 America/New_York in CUSTOMER_UPDATE
+Cannot add or update a child row: a foreign key constraint fails (`client_schedule`.`customers`, CONSTRAINT `fk_division_id` FOREIGN KEY (`Division_ID`) REFERENCES `first_level_divisions` (`Division_ID`) ON DELETE CASCADE ON UPDATE CASCADE)
+EXCEPTION Username: DEFAULT_BEFORE_LOGIN 2023-09-09 15:54 America/New_York in APPOINTMENT_CREATE
+Cannot add or update a child row: a foreign key constraint fails (`client_schedule`.`appointments`, CONSTRAINT `fk_customer_id` FOREIGN KEY (`Customer_ID`) REFERENCES `customers` (`Customer_ID`) ON DELETE CASCADE ON UPDATE CASCADE)
+EXCEPTION Username: DEFAULT_BEFORE_LOGIN 2023-09-09 16:06 America/New_York in CUSTOMER_UPDATE
+Cannot add or update a child row: a foreign key constraint fails (`client_schedule`.`customers`, CONSTRAINT `fk_division_id` FOREIGN KEY (`Division_ID`) REFERENCES `first_level_divisions` (`Division_ID`) ON DELETE CASCADE ON UPDATE CASCADE)
+EXCEPTION Username: DEFAULT_BEFORE_LOGIN 2023-09-09 16:17 America/New_York in CUSTOMER_UPDATE
+Cannot add or update a child row: a foreign key constraint fails (`client_schedule`.`customers`, CONSTRAINT `fk_division_id` FOREIGN KEY (`Division_ID`) REFERENCES `first_level_divisions` (`Division_ID`) ON DELETE CASCADE ON UPDATE CASCADE)

@@ -94,121 +94,75 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-                <TabPane fx:id="tabPaneApptBundle" layoutX="14.0" layoutY="84.0" prefHeight="445.0" prefWidth="1118.0"
-                         tabClosingPolicy="UNAVAILABLE">
+                <TabPane fx:id="tabPaneApptBundle" layoutX="14.0" layoutY="84.0" prefHeight="445.0" prefWidth="1118.0" tabClosingPolicy="UNAVAILABLE">
                     <Tab fx:id="tabAllAppts" closable="false" text="All Appointments">
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <TableView fx:id="tblVwAppts" layoutX="-3.0" layoutY="1.0" maxHeight="-Infinity"
-                                       maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                                       prefHeight="415.0"
-                                       prefWidth="1118.0">
+                            <TableView fx:id="tblVwAppts" layoutX="-3.0" layoutY="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0" prefWidth="1118.0">
                                 <columns>
-                                    <TableColumn fx:id="tvColAppt_ApptID" editable="false" prefWidth="29.0" text="ID"/>
-                                    <TableColumn fx:id="tvColAppt_ApptName" editable="false" prefWidth="121.0"
-                                                 text="Title"/>
-                                    <TableColumn fx:id="tvColAppt_Description" editable="false" prefWidth="253.0"
-                                                 text="Description"/>
-                                    <TableColumn fx:id="tvColAppt_Location" editable="false" minWidth="0.0"
-                                                 prefWidth="101.0" text="Location"/>
-                                    <TableColumn fx:id="tvColAppt_ApptType" editable="false" prefWidth="83.0"
-                                                 text="Type"/>
-                                    <TableColumn fx:id="tvColAppt_Start" editable="false" prefWidth="104.0"
-                                                 text="Start"/>
-                                    <TableColumn fx:id="tvColAppt_End" editable="false" prefWidth="100.0" text="End"/>
-                                    <TableColumn fx:id="tvColAppt_Customer" editable="false" prefWidth="127.0"
-                                                 text="Customer"/>
-                                    <TableColumn fx:id="tvColAppt_User" editable="false" prefWidth="100.0" text="User"/>
-                                    <TableColumn fx:id="tvColAppt_Contact" editable="false" prefWidth="105.0"
-                                                 text="Contact"/>
+                                    <TableColumn fx:id="tvColAppt_ApptID" editable="false" prefWidth="29.0" text="ID" />
+                                    <TableColumn fx:id="tvColAppt_ApptName" editable="false" prefWidth="121.0" text="Title" />
+                                    <TableColumn fx:id="tvColAppt_Description" editable="false" prefWidth="253.0" text="Description" />
+                                    <TableColumn fx:id="tvColAppt_Location" editable="false" minWidth="0.0" prefWidth="101.0" text="Location" />
+                                    <TableColumn fx:id="tvColAppt_ApptType" editable="false" prefWidth="83.0" text="Type" />
+                                    <TableColumn fx:id="tvColAppt_Start" editable="false" prefWidth="104.0" text="Start" />
+                                    <TableColumn fx:id="tvColAppt_End" editable="false" prefWidth="100.0" text="End" />
+                                    <TableColumn fx:id="tvColAppt_Customer" editable="false" prefWidth="127.0" text="Customer" />
+                                    <TableColumn fx:id="tvColAppt_User" editable="false" prefWidth="100.0" text="User" />
+                                    <TableColumn fx:id="tvColAppt_Contact" editable="false" prefWidth="105.0" text="Contact" />
                                 </columns>
                             </TableView>
                         </AnchorPane>
                     </Tab>
                     <Tab fx:id="tabThisWeeksAppts" closable="false" text="This Week">
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <TableView fx:id="tblVwThisWeekAppts" maxHeight="-Infinity" maxWidth="-Infinity"
-                                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0" prefWidth="1118.0">
+                            <TableView fx:id="tblVwThisWeekAppts" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0" prefWidth="1118.0">
                                 <columns>
-                                    <TableColumn fx:id="tvColWeekAppt_ApptID" editable="false" prefWidth="29.0"
-                                                 text="ID"/>
-                                    <TableColumn fx:id="tvColWeekAppt_ApptName" editable="false" prefWidth="121.0"
-                                                 text="Title"/>
-                                    <TableColumn fx:id="tvColWeekAppt_Description" editable="false" prefWidth="253.0"
-                                                 text="Description"/>
-                                    <TableColumn fx:id="tvColWeekAppt_Location" editable="false" minWidth="0.0"
-                                                 prefWidth="101.0" text="Location"/>
-                                    <TableColumn fx:id="tvColWeekAppt_ApptType" editable="false" prefWidth="83.0"
-                                                 text="Type"/>
-                                    <TableColumn fx:id="tvColWeekAppt_Start" editable="false" prefWidth="104.0"
-                                                 text="Start"/>
-                                    <TableColumn fx:id="tvColWeekAppt_End" editable="false" prefWidth="100.0"
-                                                 text="End"/>
-                                    <TableColumn fx:id="tvColWeekAppt_Customer" editable="false" prefWidth="127.0"
-                                                 text="Customer"/>
-                                    <TableColumn fx:id="tvColWeekAppt_User" editable="false" prefWidth="100.0"
-                                                 text="User"/>
-                                    <TableColumn fx:id="tvColWeekAppt_Contact" editable="false" prefWidth="105.0"
-                                                 text="Contact"/>
+                                    <TableColumn fx:id="tvColWeekAppt_ApptID" editable="false" prefWidth="29.0" text="ID" />
+                                    <TableColumn fx:id="tvColWeekAppt_ApptName" editable="false" prefWidth="121.0" text="Title" />
+                                    <TableColumn fx:id="tvColWeekAppt_Description" editable="false" prefWidth="253.0" text="Description" />
+                                    <TableColumn fx:id="tvColWeekAppt_Location" editable="false" minWidth="0.0" prefWidth="101.0" text="Location" />
+                                    <TableColumn fx:id="tvColWeekAppt_ApptType" editable="false" prefWidth="83.0" text="Type" />
+                                    <TableColumn fx:id="tvColWeekAppt_Start" editable="false" prefWidth="104.0" text="Start" />
+                                    <TableColumn fx:id="tvColWeekAppt_End" editable="false" prefWidth="100.0" text="End" />
+                                    <TableColumn fx:id="tvColWeekAppt_Customer" editable="false" prefWidth="127.0" text="Customer" />
+                                    <TableColumn fx:id="tvColWeekAppt_User" editable="false" prefWidth="100.0" text="User" />
+                                    <TableColumn fx:id="tvColWeekAppt_Contact" editable="false" prefWidth="105.0" text="Contact" />
                                 </columns>
                             </TableView>
                         </AnchorPane>
                     </Tab>
                     <Tab fx:id="tabThisMonthsAppts" closable="false" text="This Month">
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <TableView fx:id="tblVwThisMonthsAppts" maxHeight="-Infinity" maxWidth="-Infinity"
-                                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0" prefWidth="1118.0">
+                            <TableView fx:id="tblVwThisMonthsAppts" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0" prefWidth="1118.0">
                                 <columns>
-                                    <TableColumn fx:id="tvColMonthAppt_ApptID" editable="false" prefWidth="29.0"
-                                                 text="ID"/>
-                                    <TableColumn fx:id="tvColMonthAppt_ApptName" editable="false" prefWidth="121.0"
-                                                 text="Title"/>
-                                    <TableColumn fx:id="tvColMonthAppt_Description" editable="false" prefWidth="253.0"
-                                                 text="Description"/>
-                                    <TableColumn fx:id="tvColMonthAppt_Location" editable="false" minWidth="0.0"
-                                                 prefWidth="101.0" text="Location"/>
-                                    <TableColumn fx:id="tvColMonthAppt_ApptType" editable="false" prefWidth="83.0"
-                                                 text="Type"/>
-                                    <TableColumn fx:id="tvColMonthAppt_Start" editable="false" prefWidth="104.0"
-                                                 text="Start"/>
-                                    <TableColumn fx:id="tvColMonthAppt_End" editable="false" prefWidth="100.0"
-                                                 text="End"/>
-                                    <TableColumn fx:id="tvColMonthAppt_Customer" editable="false" prefWidth="127.0"
-                                                 text="Customer"/>
-                                    <TableColumn fx:id="tvColMonthAppt_User" editable="false" prefWidth="100.0"
-                                                 text="User"/>
-                                    <TableColumn fx:id="tvColMonthAppt_Contact" editable="false" prefWidth="105.0"
-                                                 text="Contact"/>
+                                    <TableColumn fx:id="tvColMonthAppt_ApptID" editable="false" prefWidth="29.0" text="ID" />
+                                    <TableColumn fx:id="tvColMonthAppt_ApptName" editable="false" prefWidth="121.0" text="Title" />
+                                    <TableColumn fx:id="tvColMonthAppt_Description" editable="false" prefWidth="253.0" text="Description" />
+                                    <TableColumn fx:id="tvColMonthAppt_Location" editable="false" minWidth="0.0" prefWidth="101.0" text="Location" />
+                                    <TableColumn fx:id="tvColMonthAppt_ApptType" editable="false" prefWidth="83.0" text="Type" />
+                                    <TableColumn fx:id="tvColMonthAppt_Start" editable="false" prefWidth="104.0" text="Start" />
+                                    <TableColumn fx:id="tvColMonthAppt_End" editable="false" prefWidth="100.0" text="End" />
+                                    <TableColumn fx:id="tvColMonthAppt_Customer" editable="false" prefWidth="127.0" text="Customer" />
+                                    <TableColumn fx:id="tvColMonthAppt_User" editable="false" prefWidth="100.0" text="User" />
+                                    <TableColumn fx:id="tvColMonthAppt_Contact" editable="false" prefWidth="105.0" text="Contact" />
                                 </columns>
                             </TableView>
                         </AnchorPane>
                     </Tab>
-                    <Tab fx:id="tabThisCustsAppts1" closable="false" onSelectionChanged="#changeTabText"
-                         text="Customer Appts">
+                    <Tab fx:id="tabThisCustsAppts1" closable="false" onSelectionChanged="#changeTabText" text="Customer Appts">
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <TableView fx:id="tblVwThisCustAppts" maxHeight="-Infinity" maxWidth="-Infinity"
-                                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0"
-                                       prefWidth="1118.0">
+                            <TableView fx:id="tblVwThisCustAppts" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0" prefWidth="1118.0">
                                 <columns>
-                                    <TableColumn fx:id="tvColCustAppt_ApptID" editable="false" prefWidth="29.0"
-                                                 text="ID"/>
-                                    <TableColumn fx:id="tvColCustAppt_ApptName" editable="false" prefWidth="121.0"
-                                                 text="Title"/>
-                                    <TableColumn fx:id="tvColCustAppt_Description" editable="false" prefWidth="253.0"
-                                                 text="Description"/>
-                                    <TableColumn fx:id="tvColCustAppt_Location" editable="false" minWidth="0.0"
-                                                 prefWidth="101.0" text="Location"/>
-                                    <TableColumn fx:id="tvColCustAppt_ApptType" editable="false" prefWidth="83.0"
-                                                 text="Type"/>
-                                    <TableColumn fx:id="tvColCustAppt_Start" editable="false" prefWidth="104.0"
-                                                 text="Start"/>
-                                    <TableColumn fx:id="tvColCustAppt_End" editable="false" prefWidth="100.0"
-                                                 text="End"/>
-                                    <TableColumn fx:id="tvColCustAppt_Customer" editable="false" prefWidth="127.0"
-                                                 text="Customer"/>
-                                    <TableColumn fx:id="tvColCustAppt_User" editable="false" prefWidth="100.0"
-                                                 text="User"/>
-                                    <TableColumn fx:id="tvColCustAppt_Contact" editable="false" prefWidth="105.0"
-                                                 text="Contact"/>
+                                    <TableColumn fx:id="tvColCustAppt_ApptID" editable="false" prefWidth="29.0" text="ID" />
+                                    <TableColumn fx:id="tvColCustAppt_ApptName" editable="false" prefWidth="121.0" text="Title" />
+                                    <TableColumn fx:id="tvColCustAppt_Description" editable="false" prefWidth="253.0" text="Description" />
+                                    <TableColumn fx:id="tvColCustAppt_Location" editable="false" minWidth="0.0" prefWidth="101.0" text="Location" />
+                                    <TableColumn fx:id="tvColCustAppt_ApptType" editable="false" prefWidth="83.0" text="Type" />
+                                    <TableColumn fx:id="tvColCustAppt_Start" editable="false" prefWidth="104.0" text="Start" />
+                                    <TableColumn fx:id="tvColCustAppt_End" editable="false" prefWidth="100.0" text="End" />
+                                    <TableColumn fx:id="tvColCustAppt_Customer" editable="false" prefWidth="127.0" text="Customer" />
+                                    <TableColumn fx:id="tvColCustAppt_User" editable="false" prefWidth="100.0" text="User" />
+                                    <TableColumn fx:id="tvColCustAppt_Contact" editable="false" prefWidth="105.0" text="Contact" />
                                 </columns>
                             </TableView>
                         </AnchorPane>

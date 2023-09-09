@@ -273,18 +273,19 @@ public class CustomerHubController implements Initializable {
      */
     @javafx.fxml.FXML
     public void updateSelectedCustomer(ActionEvent actionEvent) {
-        if(setSelectedCustomer()){
-            thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
-            try {
-                scene = FXMLLoader.load(Objects.requireNonNull(getClass()
-                        .getResource("/com/casinelli/Appointments/customer-mod-view.fxml")));
-            } catch (IOException e) {
-                showAndLogNavErrorAlert(e);
+        if(setSelectedCustomer()) {
+                thisStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                try {
+                    scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                            .getResource("/com/casinelli/Appointments/customer-mod-view.fxml")));
+                } catch (IOException e) {
+                    showAndLogNavErrorAlert(e);
+                }
+                thisStage.setTitle(I18nMgmt.translate("CustModSceneTitle"));
+                thisStage.setScene(new Scene(scene));
+                thisStage.show();
             }
-            thisStage.setTitle(I18nMgmt.translate("CustModSceneTitle"));
-            thisStage.setScene(new Scene(scene));
-            thisStage.show();
-        }
+
     }
     /**
      * Sets and Deletes selected Customer from Database
