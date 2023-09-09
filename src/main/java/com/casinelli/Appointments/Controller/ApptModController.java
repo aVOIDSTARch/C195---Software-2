@@ -272,7 +272,7 @@ public class ApptModController implements Initializable {
                             LogEvent.AppLocation.APPOINTMENT_UPDATE, e);
                     Main.logger.log(event);
                     AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"ApptModSceneTitle","sqlErrorHeader",
-                            "sqlRetrieveErrorContent").showAndWait();
+                            "sqlUpdateErrorContent").showAndWait();
                 }
                 //Update ObservableLists in DataMgmt
                 DataMgmt.initializeApplicationData();

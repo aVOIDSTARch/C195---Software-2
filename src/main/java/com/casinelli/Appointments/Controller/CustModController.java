@@ -177,7 +177,7 @@ public class CustModController implements Initializable {
                     LogEvent.AppLocation.CUSTOMER_UPDATE, e);
             Main.logger.log(event);
             AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"CustModSceneTitle","sqlErrorHeader",
-                    "sqlRetrieveErrorContent").showAndWait();
+                    "sqlUpdateErrorContent").showAndWait();
         }
     }
 
