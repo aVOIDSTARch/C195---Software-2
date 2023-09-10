@@ -344,7 +344,6 @@ public class SchedulingHubController implements Initializable {
      * @param visibleTab current tab displayed in tabPane
      * @return TableView with currently selected item
      */
-    @SuppressWarnings({})
     private TableView<Appointment> getTableViewSelected(Tab visibleTab){
       AnchorPane pane =  (AnchorPane)  visibleTab.getContent();
       TableView<Appointment> tv = (TableView<Appointment>) pane.getChildren().get(0);
