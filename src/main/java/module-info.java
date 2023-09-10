@@ -11,4 +11,6 @@ module com.casinelli.c195LJC {
     opens com.casinelli.Appointments.Controller to javafx.fxml;
     exports com.casinelli.Appointments.Model;
     opens com.casinelli.Appointments.Model to javafx.fxml;
+    exports com.casinelli.Appointments.Helper;
+    exports com.casinelli.Appointments.DAO;
 }
