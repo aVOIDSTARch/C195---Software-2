@@ -343,8 +343,10 @@ public class SchedulingHubController implements Initializable {
     private TableView<Appointment> getTableViewSelected(Tab visibleTab){
       AnchorPane pane =  (AnchorPane)  visibleTab.getContent();
       TableView<Appointment> tv = (TableView<Appointment>) pane.getChildren().get(0);
-        System.out.println(tv.getSelectionModel().getSelectedItem().getName());
-        return tv;
+      if(tv != null && tv.getSelectionModel().getSelectedItem() != null){
+          return tv;
+      }
+      return null;
     }
 
     /**
@@ -353,17 +355,11 @@ public class SchedulingHubController implements Initializable {
      * @return boolean true if not null
      */
     private boolean setSelectedAppt(TableView<Appointment> tv){
-        if(tv.getSelectionModel().getSelectedItem() != null){
+        if(tv != null && tv.getSelectionModel().getSelectedItem() != null){
             selectedAppt = tv.getSelectionModel().getSelectedItem();
             return true;
-        }else{
-            ApplicationEvent event = new ApplicationEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.APPLICATION,
-                    LogEvent.AppLocation.SCHEDULING, "No Appointment Selected.");
-            Main.logger.log(event);
-            AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR, "SchedulingSceneTitle", "nothingSelectedErrorHeader",
-                    "nothingSelectedErrorContent").showAndWait();
-            return false;
         }
+        return false;
     }
 
     /**
@@ -420,7 +416,8 @@ public class SchedulingHubController implements Initializable {
     public void navToReportsScene(ActionEvent actionEvent) {
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
-            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/reporting-view.fxml")));
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/reporting-view.fxml")));
         } catch (IOException e) {
             showAndLogNavErrorAlert(e);
         }
@@ -438,7 +435,8 @@ public class SchedulingHubController implements Initializable {
         DataMgmt.setCurrentUser(null);
         thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
         try {
-            scene = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/casinelli/Appointments/login-view.fxml")));
+            scene = FXMLLoader.load(Objects.requireNonNull(getClass()
+                    .getResource("/com/casinelli/Appointments/login-view.fxml")));
         } catch (IOException e) {
             showAndLogNavErrorAlert(e);
         }
@@ -473,7 +471,8 @@ public class SchedulingHubController implements Initializable {
     @javafx.fxml.FXML
     public void updateSelectedAppt(ActionEvent actionEvent) {
         //Set Selected Appt
-        if(setSelectedAppt(getTableViewSelected(tabPaneApptBundle.getSelectionModel().getSelectedItem()))){
+        if((tabPaneApptBundle.getSelectionModel().getSelectedItem() != null) &&
+                setSelectedAppt(getTableViewSelected(tabPaneApptBundle.getSelectionModel().getSelectedItem()))){
             //Launch Appt Mod Scene
             thisStage = (Stage) ((Button)actionEvent.getSource()).getScene().getWindow();
             try {
@@ -485,6 +484,12 @@ public class SchedulingHubController implements Initializable {
             thisStage.setTitle(I18nMgmt.translate("ApptModSceneTitle"));
             thisStage.setScene(new Scene(scene));
             thisStage.show();
+        }else{
+            ApplicationEvent event = new ApplicationEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.APPLICATION,
+                    LogEvent.AppLocation.SCHEDULING, "No Appointment Selected.");
+            Main.logger.log(event);
+            AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR, "SchedulingSceneTitle", "nothingSelectedErrorHeader",
+                    "nothingSelectedErrorContent").showAndWait();
         }
     }
 
@@ -496,7 +501,8 @@ public class SchedulingHubController implements Initializable {
     public void deleteSelectedAppt(ActionEvent actionEvent) {
         actionEvent.consume();
         //Set Selected Appt
-        if(setSelectedAppt(getTableViewSelected(tabPaneApptBundle.getSelectionModel().getSelectedItem()))){
+        if((tabPaneApptBundle.getSelectionModel().getSelectedItem() != null) && setSelectedAppt(
+                getTableViewSelected(tabPaneApptBundle.getSelectionModel().getSelectedItem()))){
             //Confirm not null
             if(selectedAppt != null){
                 //Present Alert to confirm deletion
@@ -528,6 +534,12 @@ public class SchedulingHubController implements Initializable {
                     }
                 }
             }
+        }else{
+            ApplicationEvent event = new ApplicationEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.APPLICATION,
+                    LogEvent.AppLocation.SCHEDULING, "No Appointment Selected.");
+            Main.logger.log(event);
+            AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR, "SchedulingSceneTitle", "nothingSelectedErrorHeader",
+                    "nothingSelectedErrorContent").showAndWait();
         }
     }
     ///// Edge Case Interface Update Methods /////

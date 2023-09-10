@@ -5,7 +5,7 @@ package com.casinelli.Appointments.Model;
  */
 public class DatabaseEvent extends LogEvent{
     ///// Enumeration of Database Event Types /////
-    public static enum DBEventType {CREATE,RETRIEVE,UPDATE,DELETE}
+    public static enum DBEventType {CREATE,RETRIEVE,UPDATE,DELETE,CONNECTION}
     private final DBEventType dbEventType;
 
     /**

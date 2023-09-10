@@ -1,5 +1,11 @@
 package com.casinelli.Appointments.DAO;
 
+import com.casinelli.Appointments.Helper.AlertFactory;
+import com.casinelli.Appointments.Main;
+import com.casinelli.Appointments.Model.DatabaseEvent;
+import com.casinelli.Appointments.Model.LogEvent;
+import javafx.scene.control.Alert;
+
 import java.sql.*;
 
 /**
@@ -32,7 +38,9 @@ public abstract class JDBC {
         }
         catch(Exception e)
         {
-            System.out.println("Error:" + e.getMessage());
+            DatabaseEvent event = new DatabaseEvent("DEFAULT_BEFORE_LOGIN", LogEvent.EventType.EXCEPTION,
+                    DatabaseEvent.DBEventType.CONNECTION);
+            Main.logger.log(event);
         }
     }
     /**
@@ -45,7 +53,9 @@ public abstract class JDBC {
         }
         catch(Exception e)
         {
-            System.out.println("Error:" + e.getMessage());
+            DatabaseEvent event = new DatabaseEvent("DEFAULT_BEFORE_LOGIN", LogEvent.EventType.EXCEPTION,
+                    DatabaseEvent.DBEventType.CONNECTION);
+            Main.logger.log(event);
         }
     }
 }

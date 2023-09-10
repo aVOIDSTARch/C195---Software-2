@@ -50,3 +50,25 @@ EXCEPTION Username: DEFAULT_BEFORE_LOGIN 2023-09-09 16:06 America/New_York in CU
 Cannot add or update a child row: a foreign key constraint fails (`client_schedule`.`customers`, CONSTRAINT `fk_division_id` FOREIGN KEY (`Division_ID`) REFERENCES `first_level_divisions` (`Division_ID`) ON DELETE CASCADE ON UPDATE CASCADE)
 EXCEPTION Username: DEFAULT_BEFORE_LOGIN 2023-09-09 16:17 America/New_York in CUSTOMER_UPDATE
 Cannot add or update a child row: a foreign key constraint fails (`client_schedule`.`customers`, CONSTRAINT `fk_division_id` FOREIGN KEY (`Division_ID`) REFERENCES `first_level_divisions` (`Division_ID`) ON DELETE CASCADE ON UPDATE CASCADE)
+EXCEPTION Username: test 2023-09-10 08:03 America/New_York in SCHEDULING
+The object referenced is null.
+EXCEPTION Username: test 2023-09-10 08:08 America/New_York in SCHEDULING
+The object referenced is null.
+EXCEPTION Username: test 2023-09-10 08:11 America/New_York in SCHEDULING
+The object referenced is null.
+EXCEPTION Username: test 2023-09-10 08:11 America/New_York in SCHEDULING
+The object referenced is null.
+EXCEPTION Username: test 2023-09-10 08:11 America/New_York in SCHEDULING
+The object referenced is null.
+EXCEPTION Username: test 2023-09-10 08:13 America/New_York in SCHEDULING
+The object referenced is null.
+EXCEPTION Username: test 2023-09-10 08:15 America/New_York in SCHEDULING
+The object referenced is null.
+EXCEPTION Username: test 2023-09-10 08:16 America/New_York in SCHEDULING
+The object referenced is null.
+EXCEPTION Username: test 2023-09-10 08:20 America/New_York in CUSTOMER_CREATE
+Cannot add or update a child row: a foreign key constraint fails (`client_schedule`.`customers`, CONSTRAINT `fk_division_id` FOREIGN KEY (`Division_ID`) REFERENCES `first_level_divisions` (`Division_ID`) ON DELETE CASCADE ON UPDATE CASCADE)
+EXCEPTION Username: test 2023-09-10 08:30 America/New_York in CUSTOMER_CREATE
+Cannot add or update a child row: a foreign key constraint fails (`client_schedule`.`customers`, CONSTRAINT `fk_division_id` FOREIGN KEY (`Division_ID`) REFERENCES `first_level_divisions` (`Division_ID`) ON DELETE CASCADE ON UPDATE CASCADE)
+EXCEPTION Username: test 2023-09-10 09:46 America/New_York in APPOINTMENT_UPDATE
+Unknown column 'CUSOMTER_ID' in 'field list'

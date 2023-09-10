@@ -76,8 +76,6 @@ public class CustModController implements Initializable {
     private Customer selectedCustomer;
     @javafx.fxml.FXML
     private Label lblCustModCompleteInputs;
-    @javafx.fxml.FXML
-    private Label lblDatabaseConstraints;
 
     /**
      * Initializes the user Interface and Populates Selected Customer Data
@@ -200,7 +198,7 @@ public class CustModController implements Initializable {
         updateSelectedCustomer();
         //Insert Customer into DB
         try {
-            System.out.println(DBQuery.update(Customer.updateCustomer, selectedCustomer));
+            DBQuery.update(Customer.updateCustomer, selectedCustomer);
         } catch (SQLException e) {
             ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
                     LogEvent.AppLocation.CUSTOMER_UPDATE, e);
@@ -250,7 +248,7 @@ public class CustModController implements Initializable {
         selectedCustomer.setAddress(tfCustModCustAddress.getText());
         selectedCustomer.setPostalCode(tfCustModCustPostCode.getText());
         selectedCustomer.setPhone(tfCustModCustPhone.getText());
-        selectedCustomer.setDivisionId(cboCustModCustDiv.getSelectionModel().getSelectedIndex());
+        selectedCustomer.setDivisionId(cboCustModCustDiv.getSelectionModel().getSelectedIndex() + 1);
         selectedCustomer.setLastUpdatedBy(DataMgmt.getCurrentUser().getName());
         selectedCustomer.setLastUpdate(thisTime);
     }

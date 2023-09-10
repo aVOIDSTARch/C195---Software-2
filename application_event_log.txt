@@ -168,3 +168,95 @@ APPLICATION Username: test 2023-09-09 16:53 America/New_York in Location: SCHEDU
 Appointment Deleted
 APPLICATION Username: test 2023-09-09 16:53 America/New_York in Location: CUSTOMERS
 Cusomter Deleted
+APPLICATION Username: Daemon 2023-09-10 07:33 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 07:34 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 07:46 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 07:50 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 07:52 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 07:56 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 07:59 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 08:03 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 08:08 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 08:11 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 08:13 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: test 2023-09-10 08:14 America/New_York in Location: SCHEDULING
+No Appointment Selected.
+APPLICATION Username: test 2023-09-10 08:14 America/New_York in Location: SCHEDULING
+No Appointment Selected.
+APPLICATION Username: Daemon 2023-09-10 08:15 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: test 2023-09-10 08:15 America/New_York in Location: SCHEDULING
+No Appointment Selected.
+APPLICATION Username: test 2023-09-10 08:16 America/New_York in Location: SCHEDULING
+No Appointment Selected.
+APPLICATION Username: Daemon 2023-09-10 08:17 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: test 2023-09-10 08:17 America/New_York in Location: SCHEDULING
+No Appointment Selected.
+APPLICATION Username: test 2023-09-10 08:17 America/New_York in Location: SCHEDULING
+No Appointment Selected.
+APPLICATION Username: test 2023-09-10 08:18 America/New_York in Location: DATETIMEMGMT
+Appointment times not in chronological order
+APPLICATION Username: test 2023-09-10 08:19 America/New_York in Location: DATETIMEMGMT
+Appointment times not in chronological order
+APPLICATION Username: test 2023-09-10 08:19 America/New_York in Location: DATETIMEMGMT
+Appointment times not in chronological order
+APPLICATION Username: test 2023-09-10 08:20 America/New_York in Location: CUSTOMERS
+No Customer Selected.
+APPLICATION Username: test 2023-09-10 08:20 America/New_York in Location: CUSTOMERS
+No Customer Selected.
+APPLICATION Username: Daemon 2023-09-10 08:29 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 08:57 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 09:09 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 09:11 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 09:14 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 09:16 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 09:17 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: test 2023-09-10 09:17 America/New_York in Location: SCHEDULING
+No Appointment Selected.
+APPLICATION Username: Daemon 2023-09-10 09:20 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 09:21 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: test 2023-09-10 09:21 America/New_York in Location: SCHEDULING
+No Appointment Selected.
+APPLICATION Username: Daemon 2023-09-10 09:26 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: test 2023-09-10 09:26 America/New_York in Location: DATETIMEMGMT
+Appointment times not in chronological order
+APPLICATION Username: test 2023-09-10 09:27 America/New_York in Location: DATETIMEMGMT
+Appointment times not in chronological order
+APPLICATION Username: Daemon 2023-09-10 09:32 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: test 2023-09-10 09:32 America/New_York in Location: DATETIMEMGMT
+Appointment times not in chronological order
+APPLICATION Username: Daemon 2023-09-10 09:46 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 09:47 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 09:56 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 09:58 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 10:03 America/New_York in Location: STARTUP
+Logger Successfully Initialized
+APPLICATION Username: Daemon 2023-09-10 10:06 America/New_York in Location: STARTUP
+Logger Successfully Initialized

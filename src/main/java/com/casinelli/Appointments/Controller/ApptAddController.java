@@ -255,7 +255,7 @@ public class ApptAddController implements Initializable {
                     if (!hasApptOverlaps(newAppt)) {
                         //Insert Appt into DB
                         try {
-                            System.out.println(DBQuery.create(Appointment.insertAppointment, newAppt));
+                            DBQuery.create(Appointment.insertAppointment, newAppt);
                         } catch (SQLException e) {
                             ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
                                     LogEvent.AppLocation.APPOINTMENT_CREATE, e);
@@ -308,10 +308,11 @@ public class ApptAddController implements Initializable {
      */
     private Appointment buildNewAppt(LocalDateTime thisTime, LocalDateTime startTime, LocalDateTime endTime) {
         //Build and return Apptointment
+        int customerID = Integer.parseInt(DataMgmt.getVectorOfWordsFromString(cboApptAddCustID.getSelectionModel().getSelectedItem()).get(0));
         return new Appointment(7777, tfApptAddTitle.textProperty().getValue(), thisTime, DataMgmt.getCurrentUser().getName(),
                 thisTime,DataMgmt.getCurrentUser().getName(),tfApptAddDesc.textProperty().getValue(),
                 tfApptAddLocation.textProperty().getValue(), tfApptAddType.textProperty().getValue(),
-                startTime,endTime, cboApptAddCustID.getSelectionModel().getSelectedIndex() + 1,
+                startTime,endTime, customerID,
                 cboApptAddUserID.getSelectionModel().getSelectedIndex() + 1,
                 cboApptAddContactID.getSelectionModel().getSelectedIndex() + 1);
     }

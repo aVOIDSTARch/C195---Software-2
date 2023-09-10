@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -105,7 +106,7 @@ public abstract class ReportGenerator {
      * @return String translated into the local user's preferred language
      */
     private static String getTranslatedApptCountFormatString(){
-        return (DateTimeMgmt.LOCALE_SYS == DateTimeMgmt.LOCALE_FR_CA)
+        return (DateTimeMgmt.LOCALE_SYS == Locale.CANADA_FRENCH)
                 ? apptCountStringFormatFrancais : apptCountStringFormatEnglish;
     }
 
@@ -157,7 +158,7 @@ public abstract class ReportGenerator {
      * @return String translated into the local user's preferred language
      */
     private static String getTranslatedApptFormatString(){
-        return (DateTimeMgmt.LOCALE_SYS == DateTimeMgmt.LOCALE_FR_CA)
+        return (DateTimeMgmt.LOCALE_SYS == Locale.CANADA_FRENCH)
                 ? appointmentStringFormatFrancais : appointmentStringFormatEnglish;
     }
 
@@ -167,7 +168,7 @@ public abstract class ReportGenerator {
      * @return String translated into the local user's preferred language
      */
     private static String getTranslatedContactFormatString(){
-        return (DateTimeMgmt.LOCALE_SYS == DateTimeMgmt.LOCALE_FR_CA)
+        return (DateTimeMgmt.LOCALE_SYS == Locale.CANADA_FRENCH)
                 ? contactStringFormatFrancais : contactStringFormatEnglish;
     }
 

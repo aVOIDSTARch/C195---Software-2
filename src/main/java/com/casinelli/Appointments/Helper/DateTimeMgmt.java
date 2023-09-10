@@ -18,9 +18,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public abstract class DateTimeMgmt {
     ///// Locale Variables /////
-    public static final Locale LOCALE_FR_CA = new Locale.Builder().setLanguage("fr").setRegion("CA").build();
     public static final Locale LOCALE_SYS = Locale.getDefault();
-    //public static final Locale LOCALE_SYS = LOCALE_FR_CA; //used to test language change without changing system
+    //public static final Locale LOCALE_SYS = new Locale("fr", "CA"); //used to test language change without changing system
     public static final ZoneId ZONE_SYS = ZoneId.systemDefault();
     public static final ZoneId ZONE_UTC = ZoneId.of("UTC");
     public static final ZoneId ZONE_EST = ZoneId.of("America/New_York");
@@ -214,16 +213,13 @@ public abstract class DateTimeMgmt {
         AtomicBoolean result = new AtomicBoolean(false);
 
         DataMgmt.getAllApptsList().forEach(appt -> {
-           if((appt.getCustomerId() == newAppt.getCustomerId())){
+           if(!(appt.getId() == newAppt.getId())){
                if (isBetweenDateTime(appt.getStart(), appt.getEnd(), newAppt.getStart(), newAppt.getEnd())){
                    result.set(true);
                }
            }
         });
-        if(result.get()){
-            AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"ApptOverLapTitle","ApptOverLapHeader",
-                    "ApptOverLapContent").showAndWait();
-        }
+
         return result.get();
     }
 }

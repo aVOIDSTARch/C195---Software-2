@@ -76,7 +76,6 @@ public class LoginController implements Initializable {
         Value<String> username = new Value<>(tfUsername.textProperty().getValue());
         String userPass = tfPassword.textProperty().getValue();
         successfulLogin = verifyPassword(username, userPass);
-        System.out.println(successfulLogin);
         LogEvent loginAttempt = new LoginEvent(username.getValue(), LogEvent.EventType.LOGIN_ATTEMPT,
                 successfulLogin );
         Main.logger.log(loginAttempt);

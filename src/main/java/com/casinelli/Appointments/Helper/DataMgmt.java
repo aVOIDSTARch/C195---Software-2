@@ -107,6 +107,21 @@ public abstract class DataMgmt {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Split string into separate words and add sequentially to a String Vector
+     * @param str String to be split
+     * @return Vector<String> that contains the ordered words of a string
+     */
+    ///// String Splitter /////
+    public static Vector<String> getVectorOfWordsFromString(String str){
+        Scanner scanner = new Scanner(str);
+        Vector<String> words = new Vector<>();
+        while (scanner.hasNext()){
+            String thisWord = scanner.next();
+            words.add(thisWord);
+        }
+        return words;
+    }
     ///// Current User Getter-Setters /////
     public static User getCurrentUser() {return currentUser;}
     public static void setCurrentUser(User thisUser) {DataMgmt.currentUser = thisUser;}
@@ -229,7 +244,7 @@ public abstract class DataMgmt {
         return thisCustsAppts;
     }
     public static ObservableList<String> getMonthNames(Locale locale){
-        if(locale == DateTimeMgmt.LOCALE_FR_CA){
+        if(locale == Locale.CANADA_FRENCH){
             return francaisMoisNames;
         }else{
             return englishMonthNames;

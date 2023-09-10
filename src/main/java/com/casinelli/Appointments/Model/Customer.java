@@ -57,7 +57,7 @@ public class Customer extends DBObject{
         Customer aCustomer = (Customer) thisCust;
         //INSERT STRING
         String sql = "UPDATE CUSTOMERS SET CUSTOMER_NAME = ?, ADDRESS = ?, POSTAL_CODE = ?, PHONE = ?, CREATE_DATE = ?, " +
-                "CREATED_BY = ?, LAST_UPDATE = ?, LAST_UPDATED_BY = ?  WHERE CUSTOMER_ID = ? ";
+                "CREATED_BY = ?, LAST_UPDATE = ?, LAST_UPDATED_BY = ?, DIVISION_ID = ?  WHERE CUSTOMER_ID = ? ";
         //REMEMBER BIND VARS START INDEX AT 1
         PreparedStatement ps = JDBC.connection.prepareStatement(sql); // Throws SQLException
         ps.setString(1, aCustomer.getName());
@@ -70,7 +70,8 @@ public class Customer extends DBObject{
         ps.setTimestamp(7, Timestamp.valueOf(DateTimeMgmt.convertToLDTInZone(aCustomer
                 .getLastUpdate(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC)));
         ps.setString(8, aCustomer.getLastUpdatedBy());
-        ps.setInt(9, aCustomer.getId());
+        ps.setInt(9, aCustomer.getDivisionId());
+        ps.setInt(10, aCustomer.getId());
         return ps.executeUpdate();
     };
     //Delete Customer from Database

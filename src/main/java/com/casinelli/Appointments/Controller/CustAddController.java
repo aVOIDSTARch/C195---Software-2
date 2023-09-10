@@ -188,13 +188,13 @@ public class CustAddController implements Initializable {
     public void createNewCustomer_add_scene(ActionEvent actionEvent) {
         Customer newCust = buildNewCustomer();
         try {
-            System.out.println(DBQuery.create(Customer.insertCustomer, newCust));
+            DBQuery.create(Customer.insertCustomer, newCust);
         } catch (SQLException e) {
             ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
                     LogEvent.AppLocation.CUSTOMER_CREATE, e);
             Main.logger.log(event);
             AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"CustAddSceneTitle","sqlErrorHeader",
-                    "sqlCreateErrorContent" + "\n" + Arrays.toString(e.getStackTrace())).showAndWait();
+                    "sqlCreateErrorContent").showAndWait();
         }
         //Update ObservableLists in DataMgmt
         DataMgmt.initializeApplicationData();
@@ -247,7 +247,7 @@ public class CustAddController implements Initializable {
                 DataMgmt.getCurrentUser().getName(),
                 thisTime,
                 DataMgmt.getCurrentUser().getName(),
-                cboCustAddCustDiv.getSelectionModel().getSelectedIndex()
+                cboCustAddCustDiv.getSelectionModel().getSelectedIndex()  + 1
         );
     }
     ///// Disabled Button Label Displayer ////

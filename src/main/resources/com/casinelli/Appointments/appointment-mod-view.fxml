@@ -51,7 +51,7 @@
    <TextField fx:id="tfApptModDesc" layoutX="200.0" layoutY="198.0" prefHeight="25.0" prefWidth="401.0" />
    <TextField fx:id="tfApptModLocation" layoutX="200.0" layoutY="240.0" prefHeight="25.0" prefWidth="401.0" />
    <TextField fx:id="tfApptModType" layoutX="200.0" layoutY="282.0" prefHeight="25.0" prefWidth="401.0" />
-   <ComboBox fx:id="cboApptModCustID" disable="true" layoutX="201.0" layoutY="455.0" prefHeight="25.0" prefWidth="401.0" />
+   <ComboBox fx:id="cboApptModCustID" layoutX="201.0" layoutY="455.0" prefHeight="25.0" prefWidth="401.0" />
    <ComboBox fx:id="cboApptModUserID" layoutX="201.0" layoutY="499.0" prefHeight="25.0" prefWidth="401.0" />
    <Button fx:id="btnApptModUpdate" defaultButton="true" layoutX="365.0" layoutY="563.0" mnemonicParsing="false" onAction="#updateAppointment" prefHeight="39.0" prefWidth="237.0" text="Update">
       <font>
@@ -87,5 +87,4 @@
    <Label fx:id="lblApptModHour1" layoutX="361.0" layoutY="371.0" text="Hour" />
    <Label fx:id="lblApptModMinutes1" layoutX="479.0" layoutY="371.0" text="Minutes" />
    <Label fx:id="lblApptModCompleteInputs" alignment="CENTER" layoutX="365.0" layoutY="611.0" prefHeight="17.0" prefWidth="237.0" text="Complete Inputs to Continue" textFill="RED" />
-   <Label fx:id="lblDatabaseConstraints" alignment="CENTER_RIGHT" layoutX="201.0" layoutY="480.0" prefHeight="17.0" prefWidth="401.0" text="Disabled Due to Database Contraints" textFill="RED" />
 </AnchorPane>

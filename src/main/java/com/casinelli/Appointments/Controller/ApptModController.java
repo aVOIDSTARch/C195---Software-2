@@ -67,8 +67,6 @@ public class ApptModController implements Initializable {
     private Label lblApptModHour1;
     @javafx.fxml.FXML
     private Label lblApptModMinutes1;
-    @javafx.fxml.FXML
-    private Label lblDatabaseConstraints;
     ///// Text Fields /////
     @javafx.fxml.FXML
     private TextField tfApptModApptID;
@@ -155,7 +153,6 @@ public class ApptModController implements Initializable {
      */
     private void initializeSceneText() {
         //Initialize Labels
-        lblDatabaseConstraints.setText(I18nMgmt.translate("DBConstraints"));
         lblAppName.textProperty().setValue(I18nMgmt.translate("labelAppName"));
         lblApptModApptID.textProperty().setValue(I18nMgmt.translate("ApptIDText"));
         lblApptModTitle.textProperty().setValue(I18nMgmt.translate("ApptTitleText"));
@@ -267,11 +264,14 @@ public class ApptModController implements Initializable {
         if (isBetweenBusinessHoursInEST(startTime.toLocalTime(), endTime.toLocalTime()) &&
                 isInProperOrderOfTime(startTime, endTime) && isAfterNow(startTime)) {
                     //Build Appt from Inputs
-                    updateApptToMod(thisTime, startTime, endTime);
-            if (!hasApptOverlaps(apptToMod)) {
+                    Appointment appt = getNewAppt(startTime, endTime, thisTime);
+            if (hasApptOverlaps(appt)) {
+                AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"ApptOverLapTitle","ApptOverLapHeader",
+                        "ApptOverLapContent").showAndWait();
+            }else{
                 //Insert Appt into DB
                 try {
-                    System.out.println(DBQuery.update(Appointment.updateAppointment, apptToMod));
+                    DBQuery.update(Appointment.updateAppointment, appt);
                 } catch (SQLException e) {
                     ExceptionEvent event = new ExceptionEvent(DataMgmt.getCurrentUser().getName(), LogEvent.EventType.EXCEPTION,
                             LogEvent.AppLocation.APPOINTMENT_UPDATE, e);
@@ -319,18 +319,22 @@ public class ApptModController implements Initializable {
      * @param endTime LocalDateTime the time the Appointment end
      * @param thisTime LocalDateTime the time the Appointment was created
      */
-    private void updateApptToMod(LocalDateTime startTime, LocalDateTime endTime, LocalDateTime thisTime) {
-        apptToMod.setName(tfApptModTitle.textProperty().getValue());
-        apptToMod.setDescription(tfApptModDesc.textProperty().getValue());
-        apptToMod.setLocation(tfApptModLocation.textProperty().getValue());
-        apptToMod.setType(tfApptModType.textProperty().getValue());
-        apptToMod.setStart(startTime);
-        apptToMod.setEnd(endTime);
-        apptToMod.setContactId(cboApptModContactID.getSelectionModel().getSelectedIndex() + 1);
-        apptToMod.setCustomerId(cboApptModCustID.getSelectionModel().getSelectedIndex() + 1);
-        apptToMod.setUserId(cboApptModUserID.getSelectionModel().getSelectedIndex() + 1);
-        apptToMod.setLastUpdate(thisTime);
-        apptToMod.setLastUpdatedBy(DataMgmt.getCurrentUser().getName());
+    private Appointment getNewAppt(LocalDateTime startTime, LocalDateTime endTime, LocalDateTime thisTime) {
+        int customerID = Integer.parseInt(DataMgmt.getVectorOfWordsFromString(cboApptModCustID.getSelectionModel().getSelectedItem()).get(0));
+        return new Appointment(apptToMod.getId(),
+                tfApptModTitle.textProperty().getValue(),
+                apptToMod.getCreateDate(),
+                apptToMod.getCreatedBy(),
+                thisTime,
+                DataMgmt.getCurrentUser().getName(),
+                tfApptModDesc.textProperty().getValue(),
+                tfApptModLocation.textProperty().getValue(),
+                tfApptModType.textProperty().getValue(),
+                startTime,
+                endTime,
+                customerID,
+                cboApptModUserID.getSelectionModel().getSelectedIndex() + 1,
+                cboApptModContactID.getSelectionModel().getSelectedIndex() + 1);
 
     }
 
