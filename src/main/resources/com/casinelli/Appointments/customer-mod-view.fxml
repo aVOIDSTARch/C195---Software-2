@@ -10,37 +10,37 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="677.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.casinelli.Appointments.Controller.CustModController">
    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="455.0" layoutX="8.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" width="661.0" />
-   <Label fx:id="lblCustModCustID" layoutX="108.0" layoutY="93.0" text="Customer ID">
+   <Label fx:id="lblCustModCustID" alignment="CENTER_RIGHT" layoutX="36.0" layoutY="93.0" prefHeight="20.0" prefWidth="150.0" text="Customer ID">
       <font>
          <Font size="14.0" />
       </font>
    </Label>
-   <Label fx:id="lblCustModCustName" layoutX="86.0" layoutY="135.0" text="Customer Name">
+   <Label fx:id="lblCustModCustName" alignment="CENTER_RIGHT" layoutX="37.0" layoutY="135.0" prefHeight="20.0" prefWidth="150.0" text="Customer Name">
       <font>
          <Font size="14.0" />
       </font>
    </Label>
-   <Label fx:id="lblCustModCustAddress" layoutX="137.0" layoutY="177.0" text="Address">
+   <Label fx:id="lblCustModCustAddress" alignment="CENTER_RIGHT" layoutX="37.0" layoutY="177.0" prefHeight="20.0" prefWidth="150.0" text="Address">
       <font>
          <Font size="14.0" />
       </font>
    </Label>
-   <Label fx:id="lblCustModCustPostCode" layoutX="113.0" layoutY="219.0" text="Postal Code">
+   <Label fx:id="lblCustModCustPostCode" alignment="CENTER_RIGHT" layoutX="37.0" layoutY="219.0" prefHeight="20.0" prefWidth="150.0" text="Postal Code">
       <font>
          <Font size="14.0" />
       </font>
    </Label>
-   <Label fx:id="lblCustModCustPhone" layoutX="92.0" layoutY="261.0" text="Phone Number">
+   <Label fx:id="lblCustModCustPhone" alignment="CENTER_RIGHT" layoutX="36.0" layoutY="261.0" prefHeight="20.0" prefWidth="150.0" text="Phone Number">
       <font>
          <Font size="14.0" />
       </font>
    </Label>
-   <Label fx:id="lblCustModCustDiv" layoutX="75.0" layoutY="304.0" text="First Level Divison">
+   <Label fx:id="lblCustModCustDiv" alignment="CENTER_RIGHT" layoutX="36.0" layoutY="304.0" prefHeight="20.0" prefWidth="150.0" text="First Level Divison">
       <font>
          <Font size="14.0" />
       </font>
    </Label>
-   <Label fx:id="lblCustModCustCountry" layoutX="137.0" layoutY="349.0" text="Country">
+   <Label fx:id="lblCustModCustCountry" alignment="CENTER_RIGHT" layoutX="37.0" layoutY="349.0" prefHeight="20.0" prefWidth="150.0" text="Country">
       <font>
          <Font size="14.0" />
       </font>

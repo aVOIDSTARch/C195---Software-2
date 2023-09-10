@@ -303,6 +303,9 @@ public class SchedulingHubController implements Initializable {
         tvColMonthAppt_Customer.setCellValueFactory(new PropertyValueFactory<>("customerNameIdCombo"));
         tvColMonthAppt_User.setCellValueFactory(new PropertyValueFactory<>("userNameIdCombo"));
         tvColMonthAppt_Contact.setCellValueFactory(new PropertyValueFactory<>("contactNameIdCombo"));
+        tabAllAppts.textProperty().setValue(I18nMgmt.translate("TabAllApptsName"));
+        tabThisMonthsAppts.textProperty().setValue(I18nMgmt.translate("TabThisMonthName"));
+        tabThisWeeksAppts.textProperty().setValue(I18nMgmt.translate("TabThisWeekName"));
     }
     /**
      * Initializes All This Week's Appointments TableView with Translated labels and data
