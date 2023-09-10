@@ -306,6 +306,7 @@ public class SchedulingHubController implements Initializable {
         tabAllAppts.textProperty().setValue(I18nMgmt.translate("TabAllApptsName"));
         tabThisMonthsAppts.textProperty().setValue(I18nMgmt.translate("TabThisMonthName"));
         tabThisWeeksAppts.textProperty().setValue(I18nMgmt.translate("TabThisWeekName"));
+        tabThisCustsAppts1.textProperty().setValue(I18nMgmt.translate("TabThisCustAppts"));
     }
     /**
      * Initializes All This Week's Appointments TableView with Translated labels and data
@@ -343,6 +344,7 @@ public class SchedulingHubController implements Initializable {
      * @param visibleTab current tab displayed in tabPane
      * @return TableView with currently selected item
      */
+    @SuppressWarnings({})
     private TableView<Appointment> getTableViewSelected(Tab visibleTab){
       AnchorPane pane =  (AnchorPane)  visibleTab.getContent();
       TableView<Appointment> tv = (TableView<Appointment>) pane.getChildren().get(0);
