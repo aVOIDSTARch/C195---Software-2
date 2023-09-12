@@ -28,6 +28,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for the Customer Hub scene
+ */
 public class CustomerHubController implements Initializable {
     ///// Controller instance variables /////
     Stage thisStage;

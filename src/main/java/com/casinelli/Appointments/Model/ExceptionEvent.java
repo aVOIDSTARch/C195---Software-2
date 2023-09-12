@@ -1,5 +1,9 @@
 package com.casinelli.Appointments.Model;
 
+/**
+ * Class to contain information and methods related to the LogEvent subclass ExeceptionEvent. This event is designed to handle event
+ * that occur as the result of an exception being thrown
+ */
 public class ExceptionEvent extends LogEvent {
     //Subclass Instance Variables
     private final Exception e;

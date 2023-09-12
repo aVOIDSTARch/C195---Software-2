@@ -15,8 +15,14 @@ public class LogEvent {
     private final ZoneId systemZoneId;
     private final EventType eventType;
     //Enumeration of Evernt Types
+    /**
+     * Enumeration of the types of events that the log event type can build
+     */
     public static enum EventType {LOGIN_ATTEMPT, DB_ACCESS, APPLICATION, EXCEPTION}
     //Enumeration of Application Locations
+    /**
+     * Enumeration of the locations that log events amy occur
+     */
     public static enum AppLocation {LOGIN_SCENE, WELCOME_HUB, CUSTOMERS, CUSTOMER_CREATE,
         CUSTOMER_UPDATE, SCHEDULING, APPOINTMENT_CREATE, APPOINTMENT_UPDATE, REPORTING, STARTUP, DATETIMEMGMT, DATAMGMT, LOGGER}
 

@@ -16,6 +16,10 @@ Created on September 10, 2023
 
 ## Development Environment
 
+### DEVELOPMENT IDE
+#### JetBrains IntelliJ IDEA 2023.2.1
+#### Build #IC-232.9559.62, built on August 23, 2023
+
 ### JAVA VERSION
 #### Oracle OpenJDK ver 20.0.1
 
@@ -26,14 +30,12 @@ Created on September 10, 2023
 #### MYSQL-CONNECTOR-J-8.0.33
 
 ## Usage
-A jar file will be included in the root directory of this repository that can be run by double-clicking the file in
-Windows or Mac with a properly configured Java Runtime Environment.
+In attempting to get this application working in the university's virtual environment, I learned that you must import
+the project using the pom.xml in the root directory. You must also be sure to select the Maven runtime bundled with
+the IntelliJ IDE is the build settings editor for the program to run properly from that environment.
 
-This application may also be run on the BASH command line in Linux with the command below.
-
-```
-java -jar jarfilename.jar
-```
+## JavaDoc Directory
+### /index-files
 
 ## Additional Report
 The third report to be designed and implemented by the student in this application is a Log File Viewer Report that
@@ -57,3 +59,4 @@ For major changes, please open an issue first to discuss what you would like to 
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
+Edited in the IntelliJ IDEA IDE

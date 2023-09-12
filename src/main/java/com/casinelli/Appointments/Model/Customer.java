@@ -8,6 +8,9 @@ import java.sql.*;
 import java.time.*;
 
 
+/**
+ * Class to contain customer objects from the database and their associated methods
+ */
 public class Customer extends DBObject{
     ///// Instance Variables /////
     private String address;

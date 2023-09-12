@@ -99,7 +99,7 @@ public abstract class DataMgmt {
      * Creates a list of integers up to and including ending number
      * @param startingWith int to start with
      * @param endingWith int to end with (inclusive)
-     * @return List<Integer> of Integers
+     * @return List of Integers
      */
     public static List<Integer> makeIntList_Inclusive(int startingWith, int endingWith){
         return IntStream.range(startingWith, endingWith + 1)
@@ -110,7 +110,7 @@ public abstract class DataMgmt {
     /**
      * Split string into separate words and add sequentially to a String Vector
      * @param str String to be split
-     * @return Vector<String> that contains the ordered words of a string
+     * @return Vector of Strings that contains the ordered words of a string
      */
     ///// String Splitter /////
     public static Vector<String> getVectorOfWordsFromString(String str){
@@ -275,9 +275,9 @@ public abstract class DataMgmt {
 
     /**
      * Find a User object by Name
-     * Lanbda expression used to find the User object that has the matching name
+     * Lambda expression used to find the User object that has the matching name
      * @param username String user name
-     * @return User that matches the user name
+     * @return User that matches the username
      */
     public static User getUserByName(String username){
         AtomicReference<User> aUser = new AtomicReference<>();
@@ -320,7 +320,7 @@ public abstract class DataMgmt {
     /**
      * Compiles a list of country names and stores in an ObservableList
      * Lambda expression used reduce Country objects to their name properties
-     * @return ObservableList<String> of all country names
+     * @return ObservableList of Strings of all country names
      */
     public static ObservableList<String> getAllCountryNames(){
         ObservableList<String> countryNames = FXCollections.observableArrayList();
@@ -330,7 +330,7 @@ public abstract class DataMgmt {
     }
 
     /**
-     * Find Country Name from the Country Id
+     * Find Country Name from the Country ID
      * Lambda expression used to find the Country that matches the provided name
      * @param cntryName String country name
      * @return int country ID
@@ -366,7 +366,7 @@ public abstract class DataMgmt {
      * Compiles an ObservableList of Appointment objects assigned to a specific Contact object
      * Lambda expression used to select Appointments assigned to a Contact
      * @param thisContact Contact to match for Appointment selection
-     * @return ObservableList<Appointment> List of Appointment objects that are assigned to the Contact provided
+     * @return ObservableList of Appointments List of Appointment objects that are assigned to the Contact provided
      */
     public static ObservableList<Appointment> getApptsByContact(Contact thisContact){
         ObservableList<Appointment> thisContactsAppts = FXCollections.observableArrayList();
@@ -430,7 +430,7 @@ public abstract class DataMgmt {
     /**
      * Builds a List of Division names based on the Country ID specified
      * @param countryId int country ID
-     * @return ObservableList<String> Division names for the country specified
+     * @return ObservableList of Strings of Division names for the country specified
      * @throws SQLException occurs when SQL retrieve command fails
      */
     /////DIVISION FUNCTIONS/////

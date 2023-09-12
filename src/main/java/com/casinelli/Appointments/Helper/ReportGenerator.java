@@ -12,6 +12,9 @@ import java.util.Vector;
 
 import static com.casinelli.Appointments.Helper.DataMgmt.sortApptsByStartDate;
 
+/**
+ * Helper Class to handle the construction of translated reports for the Report Scene controller
+ */
 public abstract class ReportGenerator {
     ///// Report Strings Vector/////
     private static final Vector<String> reportResults = new Vector<>();
@@ -41,10 +44,10 @@ public abstract class ReportGenerator {
     /**
      * Creates a Vector of String Objects contains a properly formatted and translate report of Appointment count for the
      * month and date specified
-     * @param allAppts ObservableList<Appointment> containing all Appointments in the Database
+     * @param allAppts ObservableList of Appointments containing all Appointments in the Database
      * @param month String month selected by the user
      * @param type String type of Appointment selected by the user
-     * @return Vector<String> containing the lines of text for the report is sequential order
+     * @return Vector of Strings containing the lines of text for the report is sequential order
      */
     public static Vector<String> generateApptsByTypeAndMonthReport(ObservableList<Appointment> allAppts,
                                                                    String month, String type){
@@ -114,8 +117,8 @@ public abstract class ReportGenerator {
 
     /**
      * Creates a Vector of Strings to output to the user containing all the Contact's Schedules in Chronological order
-     * @param allContacts ObservableList<Contact> containing all contacts in the Database
-     * @return Vector<String> containing all the lines of Report 2
+     * @param allContacts ObservableList of Contacts containing all contacts in the Database
+     * @return Vector of Strings containing all the lines of Report 2
      */
     public static Vector<String> generateScheduleByContactReport(ObservableList<Contact> allContacts){
         clearResults();
@@ -176,7 +179,7 @@ public abstract class ReportGenerator {
     /**
      * Creates the Vector of String objects to Display the selected log file to the user
      * @param filename String log file name
-     * @return Vector<String> containing the lines of Report 3
+     * @return Vector of Strings containing the lines of Report 3
      * @throws FileNotFoundException occurs when the report generator cannot locate the log file with the name provided
      */
     public static Vector<String> generateLogReport(String filename) throws FileNotFoundException {

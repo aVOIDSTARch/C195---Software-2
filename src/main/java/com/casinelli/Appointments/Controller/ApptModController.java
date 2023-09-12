@@ -30,6 +30,9 @@ import java.util.ResourceBundle;
 
 import static com.casinelli.Appointments.Helper.DateTimeMgmt.*;
 
+/**
+ * Controller class for the Appointment Update scene
+ */
 public class ApptModController implements Initializable {
     //Instance Variables
     Stage thisStage;
