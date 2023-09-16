@@ -513,8 +513,8 @@ public class SchedulingHubController implements Initializable {
                 Alert newAlert = new Alert(Alert.AlertType.CONFIRMATION);
                 newAlert.setTitle(I18nMgmt.translate("ConfirmText"));
                 newAlert.setHeaderText(I18nMgmt.translate("ApptDeleteConfirmHeader"));
-                newAlert.setContentText(I18nMgmt.translate("ApptDeleteConfirmContent") + "\n Appointment of Type: " +
-                        selectedAppt.getType());
+                newAlert.setContentText(I18nMgmt.translate("ApptDeleteConfirmContent") + "\n Appointment ID: " +
+                        selectedAppt.getId() + "   Appointment of Type: " + selectedAppt.getType());
                 Optional<ButtonType> result = newAlert.showAndWait();
                 //Get results of Alert Window
                 if (result.isPresent() && result.get() == ButtonType.OK) {

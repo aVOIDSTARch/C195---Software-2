@@ -276,6 +276,9 @@ public class ApptAddController implements Initializable {
                         thisStage.setTitle(I18nMgmt.translate("SchedulingSceneTitle"));
                         thisStage.setScene(new Scene(scene));
                         thisStage.show();
+                    }else{
+                        AlertFactory.getNewDialogAlert(Alert.AlertType.ERROR,"ApptOverLapTitle","ApptOverLapHeader",
+                                "ApptOverLapContent").showAndWait();
                     }
                 }
     }

@@ -42,9 +42,9 @@ public abstract class DateTimeMgmt {
      * @return LocalDateTime after conversion
      */
     public static LocalDateTime convertToLDTInZone(LocalDateTime thisLDT, ZoneId oldZone, ZoneId newZone){
-        return thisLDT.atZone(oldZone)
-                .withZoneSameInstant(newZone)
-                .toLocalDateTime();
+        ZonedDateTime originalZDT = ZonedDateTime.of(thisLDT,oldZone);
+        ZonedDateTime newZDT = originalZDT.withZoneSameInstant(newZone);
+        return newZDT.toLocalDateTime();
     }
 
     ///// TIME AND DATE CREATION METHODS FOR COMBOBOX INPUTS /////
@@ -148,8 +148,8 @@ public abstract class DateTimeMgmt {
      * @return boolean true if time is in the next 15 minutes
      */
     public static boolean isInNextFifteenMinutes(LocalTime startTime){
-        LocalTime todayNow = LocalTime.now().minusSeconds(1);
-        LocalTime todayNowPlusFifteen = LocalTime.now().plusMinutes(15).plusSeconds(1);
+        LocalTime todayNow = LocalTime.now().minusMinutes(1);
+        LocalTime todayNowPlusFifteen = todayNow.plusMinutes(17);
         return startTime.isAfter(todayNow) && startTime.isBefore(todayNowPlusFifteen);
     }
 
@@ -163,26 +163,7 @@ public abstract class DateTimeMgmt {
     }
 
 
-    /**
-     * Checks if two Appointment times spans overlap
-     * @param firstStartDateTIme  LocalDateTime start of first Appointment
-     * @param firstEndDateTime LocalDateTime end of first Appointment
-     * @param secondStartDateTIme LocalDateTime start of second Appointment
-     * @param secondEndDateTime LocalDateTime end of second Appointment
-     * @return boolean true if the Appointments overlap
-     */
-    public static boolean isBetweenDateTime(LocalDateTime firstStartDateTIme, LocalDateTime firstEndDateTime,
-                                            LocalDateTime secondStartDateTIme, LocalDateTime secondEndDateTime){
-        boolean isInsideFirstRange = (secondStartDateTIme.isAfter(firstStartDateTIme.minusMinutes(1))
-                && secondStartDateTIme.isBefore(firstEndDateTime.plusMinutes(1)))
-                || (secondEndDateTime.isAfter(firstStartDateTIme.minusMinutes(1))
-                && secondEndDateTime.isBefore(firstEndDateTime.plusMinutes(1)));
-        boolean isInsideSecondRange = (firstStartDateTIme.isAfter(secondStartDateTIme.minusMinutes(1))
-                && firstStartDateTIme.isBefore(secondEndDateTime.plusMinutes(1)))
-                || (firstEndDateTime.isAfter(secondStartDateTIme.minusMinutes(1))
-                && firstEndDateTime.isBefore(secondEndDateTime.plusMinutes(1)));
-        return (isInsideFirstRange || isInsideSecondRange);
-    }
+
 
     /**
      * Verifies chronological ordering of start and end time
@@ -219,7 +200,26 @@ public abstract class DateTimeMgmt {
                }
            }
         });
-
         return result.get();
+    }
+    /**
+     * Checks if two Appointment times spans overlap
+     * @param firstStartDateTIme  LocalDateTime start of first Appointment
+     * @param firstEndDateTime LocalDateTime end of first Appointment
+     * @param secondStartDateTIme LocalDateTime start of second Appointment
+     * @param secondEndDateTime LocalDateTime end of second Appointment
+     * @return boolean true if the Appointments overlap
+     */
+    public static boolean isBetweenDateTime(LocalDateTime firstStartDateTIme, LocalDateTime firstEndDateTime,
+                                            LocalDateTime secondStartDateTIme, LocalDateTime secondEndDateTime){
+        boolean isInsideFirstRange = (secondStartDateTIme.isAfter(firstStartDateTIme.minusMinutes(1))
+                && secondStartDateTIme.isBefore(firstEndDateTime.plusMinutes(1)))
+                || (secondEndDateTime.isAfter(firstStartDateTIme.minusMinutes(1))
+                && secondEndDateTime.isBefore(firstEndDateTime.plusMinutes(1)));
+        boolean isInsideSecondRange = (firstStartDateTIme.isAfter(secondStartDateTIme.minusMinutes(1))
+                && firstStartDateTIme.isBefore(secondEndDateTime.plusMinutes(1)))
+                || (firstEndDateTime.isAfter(secondStartDateTIme.minusMinutes(1))
+                && firstEndDateTime.isBefore(secondEndDateTime.plusMinutes(1)));
+        return (isInsideFirstRange || isInsideSecondRange);
     }
 }

@@ -258,11 +258,13 @@ public class ApptModController implements Initializable {
         LocalDateTime startTime = DateTimeMgmt.getLocalDT(dateApptModStart.getValue(),
                 hourApptModStart.getSelectionModel().getSelectedItem().toString(),
                 minApptModStart.getSelectionModel().getSelectedItem().toString());
+        System.out.println("Start Time: " + startTime.toString());
         LocalDateTime endTime = DateTimeMgmt.getLocalDT(dateApptModEnd.getValue(),
                 hourApptModEnd.getSelectionModel().getSelectedItem().toString(),
                 minApptModEnd.getSelectionModel().getSelectedItem().toString());
+        System.out.println("End Time: " + endTime.toString());
         LocalDateTime thisTime = LocalDateTime.now();
-
+        System.out.println("Now Time: " + thisTime.toString());
         //Validate Start/End Dates and Times
         if (isBetweenBusinessHoursInEST(startTime.toLocalTime(), endTime.toLocalTime()) &&
                 isInProperOrderOfTime(startTime, endTime) && isAfterNow(startTime)) {
