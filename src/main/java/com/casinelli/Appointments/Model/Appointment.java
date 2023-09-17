@@ -7,6 +7,7 @@ import com.casinelli.Appointments.Helper.DateTimeMgmt;
 import java.sql.*;
 import java.time.LocalDateTime;
 
+import com.mysql.cj.MysqlType;
 
 /**
  * Class for object that contains Appointment data and methods
@@ -49,12 +50,12 @@ public class Appointment extends DBObject{
         ps.setString(2,anAppt.getDescription());
         ps.setString(3, anAppt.getLocation());
         ps.setString(4, anAppt.getType());
-        ps.setTimestamp(5, Timestamp.valueOf(DateTimeMgmt.convertToLDTInZone(anAppt
-                .getStart(), DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC)));
-        ps.setTimestamp(6, Timestamp.valueOf(DateTimeMgmt.convertToLDTInZone(anAppt
-                .getEnd(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC)));
-        ps.setTimestamp(7, Timestamp.valueOf(DateTimeMgmt.convertToLDTInZone(anAppt
-                .getCreateDate(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC)));
+        ps.setObject(5,DateTimeMgmt.convertToLDTInZone(anAppt
+                .getStart(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC), MysqlType.DATETIME);
+        ps.setObject(6,DateTimeMgmt.convertToLDTInZone(anAppt
+                .getEnd(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC), MysqlType.DATETIME);
+        ps.setObject(7,DateTimeMgmt.convertToLDTInZone(anAppt
+                .getCreateDate(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC), MysqlType.DATETIME);
         ps.setString(8, anAppt.getCreatedBy());
         ps.setTimestamp(9, Timestamp.valueOf(DateTimeMgmt.convertToLDTInZone(anAppt
                 .getLastUpdate(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC)));
@@ -77,12 +78,12 @@ public class Appointment extends DBObject{
         ps.setString(2,anAppt.getDescription());
         ps.setString(3, anAppt.getLocation());
         ps.setString(4, anAppt.getType());
-        ps.setTimestamp(5, Timestamp.valueOf(DateTimeMgmt.convertToLDTInZone(anAppt
-                .getStart(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC)));
-        ps.setTimestamp(6, Timestamp.valueOf(DateTimeMgmt.convertToLDTInZone(anAppt
-                .getEnd(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC)));
-        ps.setTimestamp(7, Timestamp.valueOf(DateTimeMgmt.convertToLDTInZone(anAppt
-                .getCreateDate(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC)));
+        ps.setObject(5,DateTimeMgmt.convertToLDTInZone(anAppt
+                .getStart(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC), MysqlType.DATETIME);
+        ps.setObject(6,DateTimeMgmt.convertToLDTInZone(anAppt
+                .getEnd(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC), MysqlType.DATETIME);
+        ps.setObject(7,DateTimeMgmt.convertToLDTInZone(anAppt
+                .getCreateDate(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC), MysqlType.DATETIME);
         ps.setString(8, anAppt.getCreatedBy());
         ps.setTimestamp(9, Timestamp.valueOf(DateTimeMgmt.convertToLDTInZone(anAppt
                 .getLastUpdate(),DateTimeMgmt.ZONE_SYS,DateTimeMgmt.ZONE_UTC)));

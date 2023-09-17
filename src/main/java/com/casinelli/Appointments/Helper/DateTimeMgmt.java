@@ -42,8 +42,13 @@ public abstract class DateTimeMgmt {
      * @return LocalDateTime after conversion
      */
     public static LocalDateTime convertToLDTInZone(LocalDateTime thisLDT, ZoneId oldZone, ZoneId newZone){
+        System.out.println(oldZone.toString());
+        System.out.println(newZone);
+        System.out.println(thisLDT.toString());
         ZonedDateTime originalZDT = ZonedDateTime.of(thisLDT,oldZone);
+        System.out.println( originalZDT.toString() );
         ZonedDateTime newZDT = originalZDT.withZoneSameInstant(newZone);
+        System.out.println(newZDT.toString());
         return newZDT.toLocalDateTime();
     }
 
