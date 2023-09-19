@@ -21,7 +21,7 @@ Created on September 10, 2023
 #### Build #IC-232.9559.62, built on August 23, 2023
 
 ### JAVA VERSION
-#### Oracle OpenJDK ver 20.0.1
+#### Oracle OpenJDK ver 17.0.8
 
 ### JAVAFX VERSION
 #### JavaFX 17.0.6
@@ -31,8 +31,11 @@ Created on September 10, 2023
 
 ## Usage
 In attempting to get this application working in the university's virtual environment, I learned that you must import
-the project using the pom.xml in the root directory. You must also be sure to select the Maven runtime bundled with
-the IntelliJ IDE is the build settings editor for the program to run properly from that environment.
+the project using the pom.xml in the root directory. You must also be sure to select the JDK 17 in the Main Drop down
+in the IDE next to the launch button
+
+This will allow the IDE to load and build the project.
+
 
 ## JavaDoc Directory
 ### /index-files

@@ -1934,3 +1934,16 @@ DB_ACCESS Username: test 2023-09-17 07:34 America/New_York Type: RETRIEVE
 DB_ACCESS Username: test 2023-09-17 07:34 America/New_York Type: RETRIEVE
 DB_ACCESS Username: test 2023-09-17 07:34 America/New_York Type: RETRIEVE
 DB_ACCESS Username: test 2023-09-17 07:34 America/New_York Type: RETRIEVE
+DB_ACCESS Username: DEFAULT_BEFORE_LOGIN 2023-09-18 20:44 America/New_York Type: RETRIEVE
+DB_ACCESS Username: DEFAULT_BEFORE_LOGIN 2023-09-18 20:44 America/New_York Type: RETRIEVE
+DB_ACCESS Username: DEFAULT_BEFORE_LOGIN 2023-09-18 20:44 America/New_York Type: RETRIEVE
+DB_ACCESS Username: DEFAULT_BEFORE_LOGIN 2023-09-18 20:44 America/New_York Type: RETRIEVE
+DB_ACCESS Username: DEFAULT_BEFORE_LOGIN 2023-09-18 20:44 America/New_York Type: RETRIEVE
+DB_ACCESS Username: DEFAULT_BEFORE_LOGIN 2023-09-18 20:44 America/New_York Type: RETRIEVE
+DB_ACCESS Username: DEFAULT_BEFORE_LOGIN 2023-09-18 20:44 America/New_York Type: RETRIEVE
+DB_ACCESS Username: test 2023-09-18 20:44 America/New_York Type: RETRIEVE
+DB_ACCESS Username: test 2023-09-18 20:44 America/New_York Type: RETRIEVE
+DB_ACCESS Username: test 2023-09-18 20:44 America/New_York Type: RETRIEVE
+DB_ACCESS Username: test 2023-09-18 20:44 America/New_York Type: RETRIEVE
+DB_ACCESS Username: test 2023-09-18 20:44 America/New_York Type: RETRIEVE
+DB_ACCESS Username: test 2023-09-18 20:44 America/New_York Type: RETRIEVE
